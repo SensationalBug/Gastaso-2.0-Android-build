@@ -1,14 +1,15 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { useNavigation } from "@react-navigation/native";
-import Icon from "@expo/vector-icons/MaterialCommunityIcons";
-import { AppBar, IconButton } from "@react-native-material/core";
+import styles from "./subComponentes/Styles";
+import NavigationView from "./subComponentes/NavigationView";
 
 const Perfil = () => {
-  const navigator = useNavigation();
   return (
-    <View>
-      <Text>Perfil Page</Text>
+    <View style={{ flex: 1 }}>
+      <View style={styles.perfil}>
+        <Text>Perfil Page</Text>
+      </View>
+      <NavigationView />
     </View>
   );
 };

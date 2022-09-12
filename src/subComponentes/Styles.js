@@ -88,66 +88,46 @@ const styles = StyleSheet.create({
     backgroundColor: "#156794",
   },
 
-  //HOME STYLES = DRAWER CONTAINER
-  drawerContainer: {
+  //HOME STYLES
+  home: {
     flex: 1,
   },
-  imgContainer: {
-    height: "25%",
-    paddingTop: 10,
-    justifyContent: "space-between",
+
+  //CONSULTA STYLES
+  consulta: {
+    flex: 1,
   },
-  img: {
-    color: "#fff",
-    fontSize: 120,
-    textAlign: "center",
-    paddingVertical: 10,
-    // height: "75%",
-    // width: "100%",
-    // resizeMode: "contain",
+
+  //PERFIL STYLES
+  perfil: {
+    flex: 1,
   },
-  textImg: {
-    fontSize: 30,
-    color: "#fff",
-    textAlign: "center",
-    paddingVertical: 10,
+
+  //AJUSTES STYLES
+  ajustes: {
+    flex: 1,
   },
+
+  //NAVIGATIONBAR STYLES
   linksContainer: {
-    height: "60%",
+    flexDirection: "row",
+    backgroundColor: "#122e49",
   },
   linkButton: {
-    borderTopWidth: 1,
-    marginVertical: 10,
-    paddingVertical: 15,
-    borderBottomWidth: 1,
-    borderTopColor: "#999",
-    borderBottomColor: "#999",
+    width: "25%",
+    paddingVertical: 10,
   },
   linkButtonContainer: {
-    width: "50%",
     alignSelf: "center",
     alignItems: "center",
-    flexDirection: "row",
   },
   buttonDrawerTextIcon: {
-    padding: 10,
     fontSize: 20,
-    color: "#fff",
-    alignSelf: "flex-end",
+    color: "#ffffff",
   },
   buttonDrawerText: {
-    color: "#fff",
-    fontSize: 20,
-  },
-  footerDrawer: {
-    height: "15%",
-    justifyContent: "flex-end",
-  },
-  footerDrawerButton: {
-    padding: 10,
-    fontSize: 25,
-    color: "#fff",
-    alignSelf: "flex-end",
+    fontSize: 15,
+    color: "#ffffff",
   },
 });
 

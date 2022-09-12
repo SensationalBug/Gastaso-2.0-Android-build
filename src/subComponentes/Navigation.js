@@ -29,13 +29,20 @@ const Navigation = () => {
         <Stack.Screen
           name="Main"
           component={Main}
-          options={{ headerShown: false }}
+          options={{
+            title: "Gastaso",
+            headerTintColor: "#fff",
+            headerBackVisible: false,
+            headerTitleStyle: { fontSize: 30 },
+            headerStyle: { backgroundColor: "#122e49" },
+          }}
         />
         <Stack.Screen
           name="Perfil"
           component={Perfil}
           options={{
             headerTintColor: "#fff",
+            headerBackVisible: false,
             headerStyle: { backgroundColor: "#122e49" },
           }}
         />
@@ -44,6 +51,7 @@ const Navigation = () => {
           component={Ajustes}
           options={{
             headerTintColor: "#fff",
+            headerBackVisible: false,
             headerStyle: { backgroundColor: "#122e49" },
           }}
         />
@@ -52,6 +60,7 @@ const Navigation = () => {
           component={Consulta}
           options={{
             headerTintColor: "#fff",
+            headerBackVisible: false,
             headerStyle: { backgroundColor: "#122e49" },
           }}
         />
