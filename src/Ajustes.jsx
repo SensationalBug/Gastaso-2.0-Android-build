@@ -9,7 +9,6 @@ const Ajustes = () => {
       <View style={styles.ajustes}>
         <Text>Ajustes Page</Text>
       </View>
-      <NavigationView />
     </View>
   );
 };

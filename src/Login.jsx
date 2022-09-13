@@ -18,8 +18,6 @@ const Login = ({ navigation }) => {
     }
   };
 
-  console.log(user);
-
   return (
     <Formik
       initialValues={{ email: "", password: "" }}

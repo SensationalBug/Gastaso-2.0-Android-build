@@ -15,7 +15,7 @@ const styles = StyleSheet.create({
     justifyContent: "space-evenly",
   },
   formContainer: {
-    width: "80%",
+    width: "85%",
     height: "60%",
     paddingTop: 20,
     alignSelf: "center",
@@ -90,7 +90,31 @@ const styles = StyleSheet.create({
 
   //HOME STYLES
   home: {
+    // backgroundColor: "#fff",
     flex: 1,
+  },
+  welcomeUser: {
+    padding: 10,
+    alignItems: "center",
+    // backgroundColor: "pink",
+  },
+  row: {
+    // height: "30%",
+    // backgroundColor: "red",
+  },
+  col: {
+    // height: "15%",
+    flexDirection: "row",
+  },
+  surface: {
+    marginHorizontal: 10,
+    marginTop: 10,
+    width: "45%",
+    height: 100,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#20a5d8",
   },
 
   //CONSULTA STYLES

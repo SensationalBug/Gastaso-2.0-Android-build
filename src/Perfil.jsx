@@ -9,7 +9,6 @@ const Perfil = () => {
       <View style={styles.perfil}>
         <Text>Perfil Page</Text>
       </View>
-      <NavigationView />
     </View>
   );
 };

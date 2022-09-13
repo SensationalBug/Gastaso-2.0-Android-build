@@ -6,6 +6,7 @@ import { Text, TouchableOpacity, View } from "react-native";
 
 const TouchableButton = (props) => {
   const navigation = useNavigation();
+  console.log(props.id);
   return (
     <TouchableOpacity
       style={styles.linkButton}

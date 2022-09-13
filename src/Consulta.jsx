@@ -9,7 +9,6 @@ const Consulta = () => {
       <View style={styles.consulta}>
         <Text>Consulta Page</Text>
       </View>
-      <NavigationView />
     </View>
   );
 };
