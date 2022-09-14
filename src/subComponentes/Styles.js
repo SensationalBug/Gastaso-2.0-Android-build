@@ -43,7 +43,6 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     paddingVertical: 15,
     backgroundColor: "#156794",
-    // backgroundColor: "#eeefff",
   },
   googleButton: {
     width: "20%",
@@ -98,6 +97,7 @@ const styles = StyleSheet.create({
   },
   row: {},
   col: {
+    marginTop: 10,
     flexDirection: "row",
     justifyContent: "space-evenly",
   },
@@ -117,13 +117,20 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#20a5d8",
   },
-  FAB: {
-    marginVertical: 10,
-    width: 50,
-    height: 50,
-    alignSelf: "center",
+  modalView: {
+    position: "absolute",
+    top: 40,
+    width: "100%",
+  },
+  openModalButtonStyle: {
+    flex: 1,
+    justifyContent: "flex-end",
+  },
+  openModalButton: {
+    padding: 10,
     alignItems: "center",
-    justifyContent: "center",
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
     backgroundColor: "#20a5d8",
   },
 

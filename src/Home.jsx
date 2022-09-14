@@ -1,19 +1,14 @@
-import { ScrollView, View } from "react-native";
 import React, { useState } from "react";
 import styles from "./subComponentes/Styles";
 import Icon from "react-native-vector-icons/Entypo";
 import StyledText from "./subComponentes/StyledText";
-import {
-  FAB,
-  Surface,
-  Backdrop,
-  BackdropSubheader,
-} from "@react-native-material/core";
-import TableData from "./subComponentes/Table";
+import { useNavigation } from "@react-navigation/native";
+import { FAB, Surface } from "@react-native-material/core";
+import { ScrollView, View, Text, TouchableOpacity } from "react-native";
 
 const Home = () => {
-  const [revealed, setRevealed] = useState(true);
   const [icon, setIcon] = useState("triangle-up");
+  const navigation = useNavigation();
   return (
     <View style={styles.home}>
       <View style={styles.welcomeUser}>
@@ -42,42 +37,26 @@ const Home = () => {
             />
           </View>
         </View>
+        <View style={styles.col}>
+          <Surface style={styles.surface}>
+            <StyledText surfaceTitle>Total de Ingresos</StyledText>
+            <StyledText surfaceContent>RD$000,000.00</StyledText>
+          </Surface>
+          <Surface style={styles.surface}>
+            <StyledText surfaceTitle>Restante Mensual</StyledText>
+            <StyledText surfaceContent>RD$000,000.00</StyledText>
+          </Surface>
+        </View>
       </View>
-      <Backdrop
-        revealed={revealed}
-        header={
-          <FAB
-            style={styles.FAB}
-            onPress={() => {
-              setRevealed(!revealed);
-              icon === "triangle-up"
-                ? setIcon("triangle-down")
-                : setIcon("triangle-up");
-            }}
-            icon={(props) => <Icon name={icon} {...props} />}
-          />
-        }
-        style={{ backgroundColor: "#fff" }}
-        backLayer={
-          <View style={{ height: "100%" }}>
-            <View style={styles.col}>
-              <Surface style={styles.surface}>
-                <StyledText surfaceTitle>Total de Ingresos</StyledText>
-                <StyledText surfaceContent>RD$000,000.00</StyledText>
-              </Surface>
-              <Surface style={styles.surface}>
-                <StyledText surfaceTitle>Restante Mensual</StyledText>
-                <StyledText surfaceContent>RD$000,000.00</StyledText>
-              </Surface>
-            </View>
-          </View>
-        }
-      >
-        
-        <ScrollView>
-          <TableData />
-        </ScrollView>
-      </Backdrop>
+      <View style={styles.openModalButtonStyle}>
+        <TouchableOpacity
+          style={styles.openModalButton}
+          onPress={() => navigation.navigate("Detalles")}
+        >
+          <Icon name={icon} />
+          <Text>Detalles</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
