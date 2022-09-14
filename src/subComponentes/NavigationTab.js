@@ -15,11 +15,9 @@ const NavigationView = () => {
         tabBarInactiveTintColor: "gray",
         tabBarStyle: {
           height: 60,
-          // marginVertical: 5,
-          // borderRadius: 100,
-          // marginHorizontal: 10,
+          margin: 10,
+          borderRadius: 100,
           backgroundColor: "#122e49",
-          shadowColor: "red",
         },
         tabBarIconStyle: {
           marginTop: 5,
@@ -35,44 +33,44 @@ const NavigationView = () => {
         component={Home}
         options={{
           headerShown: false,
+          headerTintColor: "#fff",
+          headerStyle: { backgroundColor: "#122e49" },
           tabBarIcon: ({ color }) => (
             <Icon name="home" color={color} size={30} />
           ),
-          headerTintColor: "#fff",
-          headerStyle: { backgroundColor: "#122e49" },
         }}
       />
       <Tab.Screen
         name="Consulta"
         component={Consulta}
         options={{
+          headerTintColor: "#fff",
+          headerStyle: { backgroundColor: "#122e49" },
           tabBarIcon: ({ color }) => (
             <Icon name="bar-graph" color={color} size={30} />
           ),
-          headerTintColor: "#fff",
-          headerStyle: { backgroundColor: "#122e49" },
         }}
       />
       <Tab.Screen
         name="Perfil"
         component={Perfil}
         options={{
+          headerTintColor: "#fff",
+          headerStyle: { backgroundColor: "#122e49" },
           tabBarIcon: ({ color }) => (
             <Icon name="user" color={color} size={30} />
           ),
-          headerTintColor: "#fff",
-          headerStyle: { backgroundColor: "#122e49" },
         }}
       />
       <Tab.Screen
         name="Ajustes"
         component={Ajustes}
         options={{
+          headerTintColor: "#fff",
+          headerStyle: { backgroundColor: "#122e49" },
           tabBarIcon: ({ color }) => (
             <Icon name="tools" color={color} size={30} />
           ),
-          headerTintColor: "#fff",
-          headerStyle: { backgroundColor: "#122e49" },
         }}
       />
     </Tab.Navigator>
