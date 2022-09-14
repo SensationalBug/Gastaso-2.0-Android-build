@@ -5,7 +5,6 @@ const styles = StyleSheet.create({
   // {color: #122e49;} Header Color
   // {color: #156794;} Login and Signup Button Color
   // {color: #20a5d8;} BackGround Color Login and SignUp
-  // {color: #20dbd8;}
   container: {
     height: "100%",
     backgroundColor: "#20a5d8",
@@ -90,28 +89,39 @@ const styles = StyleSheet.create({
 
   //HOME STYLES
   home: {
-    // backgroundColor: "#fff",
     flex: 1,
+    backgroundColor: "#fff",
   },
   welcomeUser: {
     padding: 10,
     alignItems: "center",
-    // backgroundColor: "pink",
   },
-  row: {
-    // height: "30%",
-    // backgroundColor: "red",
-  },
+  row: {},
   col: {
-    // height: "15%",
     flexDirection: "row",
+    justifyContent: "space-evenly",
   },
   surface: {
-    marginHorizontal: 10,
-    marginTop: 10,
-    width: "45%",
     height: 100,
+    width: "48%",
     borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#20a5d8",
+  },
+  surfaceFake: {
+    height: 100,
+    width: "48%",
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#20a5d8",
+  },
+  FAB: {
+    marginVertical: 10,
+    width: 50,
+    height: 50,
+    alignSelf: "center",
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#20a5d8",
