@@ -109,14 +109,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#20a5d8",
   },
-  surfaceFake: {
-    height: 100,
-    width: "48%",
-    borderRadius: 10,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#20a5d8",
-  },
   modalView: {
     position: "absolute",
     top: 40,
@@ -126,14 +118,21 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "flex-end",
   },
+  modalButtons: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
   openModalButton: {
-    padding: 10,
+    width: "80%",
     alignItems: "center",
     borderTopLeftRadius: 10,
+    justifyContent: "center",
     borderTopRightRadius: 10,
+    backgroundColor: "#122e49",
+  },
+  addButton: {
     backgroundColor: "#20a5d8",
   },
-
   //CONSULTA STYLES
   consulta: {
     flex: 1,
@@ -169,6 +168,42 @@ const styles = StyleSheet.create({
   buttonDrawerText: {
     fontSize: 15,
     color: "#ffffff",
+  },
+
+  // TABLEDATA STYLES
+  tableHead: {
+    fontSize: 20,
+    width: "30%",
+    color: "#fff",
+    textAlign: "center",
+    paddingVertical: 10,
+    backgroundColor: "#122e49",
+  },
+  delHeadButton: {
+    width: "10%",
+    backgroundColor: "#122e49",
+  },
+  tableBody: {
+    fontSize: 18,
+    width: "30%",
+    color: "#fff",
+    borderWidth: 1,
+    paddingVertical: 8,
+    textAlign: "center",
+    borderColor: "#122e49",
+    backgroundColor: "#20a5d8",
+  },
+  delBodyButton: {
+    width: "10%",
+    borderWidth: 1,
+    paddingVertical: 8,
+    borderColor: "#122e49",
+    backgroundColor: "#20a5d8",
+  },
+  delBodyButtonIcon: {
+    fontSize: 20,
+    color: "#fff",
+    textAlign: "center",
   },
 });
 

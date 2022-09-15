@@ -67,7 +67,7 @@ const Login = ({ navigation }) => {
             <View style={styles.footerContainer}>
               <Text style={styles.textFooterContainer}>
                 © 2022 Gastaso por Pedro Luis De Leon Alejo. Todos los derechos
-                reservados.
+                reservados. v1.0.0
               </Text>
             </View>
           </View>

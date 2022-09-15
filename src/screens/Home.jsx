@@ -1,13 +1,12 @@
-import React, { useState } from "react";
-import styles from "./subComponentes/Styles";
+import React from "react";
+import styles from "../subComponentes/Styles";
 import Icon from "react-native-vector-icons/Entypo";
-import StyledText from "./subComponentes/StyledText";
+import StyledText from "../subComponentes/StyledText";
+import { View, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { FAB, Surface } from "@react-native-material/core";
-import { ScrollView, View, Text, TouchableOpacity } from "react-native";
 
 const Home = () => {
-  const [icon, setIcon] = useState("triangle-up");
   const navigation = useNavigation();
   return (
     <View style={styles.home}>
@@ -18,23 +17,12 @@ const Home = () => {
       <View style={styles.row}>
         <View style={styles.col}>
           <Surface style={styles.surface}>
-            <StyledText surfaceTitle>Ultimo Gasto</StyledText>
+            <StyledText surfaceTitle>Último Gasto</StyledText>
             <StyledText surfaceContent>RD$000,000.00</StyledText>
           </Surface>
-          <View style={styles.surfaceFake}>
-            <FAB
-              color="primary"
-              variant="extended"
-              label="Añadir Gasto"
-              onPress={() => console.log("me excita")}
-              style={{
-                width: "90%",
-                borderRadius: 10,
-                alignItems: "center",
-                backgroundColor: "#122e49",
-              }}
-              icon={(props) => <Icon name="plus" {...props} />}
-            />
+          <View style={styles.surface}>
+            <StyledText surfaceTitle>Promedio de Gastos</StyledText>
+            <StyledText surfaceContent>RD$000,000.00</StyledText>
           </View>
         </View>
         <View style={styles.col}>
@@ -49,13 +37,19 @@ const Home = () => {
         </View>
       </View>
       <View style={styles.openModalButtonStyle}>
-        <TouchableOpacity
-          style={styles.openModalButton}
-          onPress={() => navigation.navigate("Detalles")}
-        >
-          <Icon name={icon} />
-          <Text>Detalles</Text>
-        </TouchableOpacity>
+        <View style={styles.modalButtons}>
+          <TouchableOpacity
+            style={styles.openModalButton}
+            onPress={() => navigation.navigate("Detalles")}
+          >
+            <StyledText buttonText>Detalles</StyledText>
+          </TouchableOpacity>
+          <FAB
+            style={styles.addButton}
+            onPress={() => console.log("me excita")}
+            icon={(props) => <Icon name="plus" {...props} />}
+          />
+        </View>
       </View>
     </View>
   );

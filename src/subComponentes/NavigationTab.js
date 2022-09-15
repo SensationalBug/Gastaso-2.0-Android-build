@@ -1,8 +1,8 @@
 import React from "react";
-import Home from "../Home";
-import Perfil from "../Perfil";
-import Ajustes from "../Ajustes";
-import Consulta from "../Consulta";
+import Home from "../screens/Home";
+import Perfil from "../screens/Perfil";
+import Ajustes from "../screens/Ajustes";
+import Consulta from "../screens/Consulta";
 import Icon from "react-native-vector-icons/Entypo";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
@@ -15,8 +15,6 @@ const NavigationView = () => {
         tabBarInactiveTintColor: "gray",
         tabBarStyle: {
           height: 60,
-          margin: 10,
-          borderRadius: 100,
           backgroundColor: "#122e49",
         },
         tabBarIconStyle: {
@@ -33,8 +31,6 @@ const NavigationView = () => {
         component={Home}
         options={{
           headerShown: false,
-          headerTintColor: "#fff",
-          headerStyle: { backgroundColor: "#122e49" },
           tabBarIcon: ({ color }) => (
             <Icon name="home" color={color} size={30} />
           ),

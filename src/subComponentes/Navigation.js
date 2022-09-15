@@ -2,7 +2,7 @@ import React from "react";
 import Main from "../Main";
 import Login from "../Login";
 import SignUp from "../SignUp";
-import Details from "../Details";
+import Details from "../screens/Details";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -36,10 +36,9 @@ const Navigation = () => {
           component={Details}
           options={{
             headerTintColor: "#fff",
-            // headerBackVisible: false,
+            headerTitleAlign: "center",
             animation: "slide_from_bottom",
             headerStyle: { backgroundColor: "#122e49" },
-            headerTitleAlign: "center",
           }}
         />
       </Stack.Navigator>
