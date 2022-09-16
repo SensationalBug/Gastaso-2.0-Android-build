@@ -9,7 +9,6 @@ const Consulta = () => {
         Esta página se encuentra en mantenimiento para la versión 1.1.0 de la
         app
       </Text>
-      </Text>
     </View>
   );
 };
