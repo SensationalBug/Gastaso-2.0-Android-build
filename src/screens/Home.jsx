@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import styles from "../subComponentes/Styles";
 import Icon from "react-native-vector-icons/Entypo";
 import StyledText from "../subComponentes/StyledText";

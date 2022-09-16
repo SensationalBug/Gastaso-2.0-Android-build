@@ -136,6 +136,7 @@ const styles = StyleSheet.create({
   //CONSULTA STYLES
   consulta: {
     flex: 1,
+    justifyContent: "center",
   },
 
   //PERFIL STYLES
@@ -146,6 +147,7 @@ const styles = StyleSheet.create({
   //AJUSTES STYLES
   ajustes: {
     flex: 1,
+    justifyContent: "center",
   },
 
   //NAVIGATIONBAR STYLES
