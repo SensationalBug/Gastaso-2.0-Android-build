@@ -150,6 +150,7 @@ const styles = StyleSheet.create({
   //AJUSTES STYLES
   ajustes: {
     flex: 1,
+    justifyContent: "center",
   },
 
   //NAVIGATIONBAR STYLES

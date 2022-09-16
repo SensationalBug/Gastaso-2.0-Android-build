@@ -1,12 +1,15 @@
 import Navigation from "./src/subComponentes/Navigation";
 import { StyleSheet, StatusBar, View } from "react-native";
+import UserProvider from "./src/context/userContext";
 
 const App = () => {
   return (
-    <View style={styles.container}>
-      <StatusBar barStyle="default" />
-      <Navigation />
-    </View>
+    <UserProvider>
+      <View style={styles.container}>
+        <StatusBar barStyle="default" />
+        <Navigation />
+      </View>
+    </UserProvider>
   );
 };
 
