@@ -136,11 +136,15 @@ const styles = StyleSheet.create({
   //CONSULTA STYLES
   consulta: {
     flex: 1,
+    justifyContent: "center",
+    marginHorizontal: 30,
   },
+  texto: { fontSize: 30, textAlign: "justify" },
 
   //PERFIL STYLES
   perfil: {
     flex: 1,
+    marginHorizontal: 10,
   },
 
   //AJUSTES STYLES
