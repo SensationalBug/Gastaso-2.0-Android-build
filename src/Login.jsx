@@ -1,22 +1,27 @@
 import { Formik } from "formik";
-import React, { useState } from "react";
 import styles from "./subComponentes/Styles";
+import React, { useContext, useState } from "react";
+import { UserContext } from "./context/userContext";
 import Icon from "react-native-vector-icons/AntDesign";
 import FormikInput from "./subComponentes/FormikInput";
 import { View, Text, TouchableOpacity } from "react-native";
 
 const Login = ({ navigation }) => {
   const [credentials, setCredentials] = useState({});
-  const [user, setUser] = useState(false);
+  const { user, toggleUser, signIn } = useContext(UserContext);
+
+  const { email, password } = credentials;
 
   const validate = () => {
     if (!user) {
-      setUser(true);
-      navigation.navigate("Main");
+      toggleUser();
+      // navigation.navigate("Main");
     } else {
-      setUser(false);
+      toggleUser();
     }
   };
+
+  // signIn(email, password);
 
   return (
     <Formik
@@ -36,7 +41,7 @@ const Login = ({ navigation }) => {
             <View style={styles.formContainer}>
               <FormikInput name="email" placeholder="Email" />
               <FormikInput
-                name="pwd"
+                name="password"
                 secureTextEntry
                 placeholder="Contraseña"
               />

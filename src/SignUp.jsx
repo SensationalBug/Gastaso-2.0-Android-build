@@ -1,23 +1,34 @@
 import { Formik } from "formik";
-import React, { useState } from "react";
 import styles from "./subComponentes/Styles";
+import { UserContext } from "./context/userContext";
 import FormikInput from "./subComponentes/FormikInput";
-import { View, Text, TouchableOpacity } from "react-native";
+import React, { useContext, useEffect, useState } from "react";
+import { View, Text, TouchableOpacity, ScrollView } from "react-native";
+import { signUpValidationSchema } from "./validationSchema/formikSchema";
+import { Snackbar } from "@react-native-material/core";
 
 const SignUp = () => {
   const [credentials, setCredentials] = useState({});
+  const { name, lastName, email, password, repeatPassword } = credentials;
+
+  const { signUp } = useContext(UserContext);
+
+  initialValues = { name: "", lastName: "", email: "", password: "" };
+
+  // const registrar = () => {
+  //   signUp(email, password);
+  // };
 
   return (
     <Formik
-      initialValues={{ name: "", lastName: "", email: "", password: "" }}
       onSubmit={(values) => {
-        // setCredentials(values);
-        console.log(values);
+        setCredentials(values);
+        registrar();
       }}
     >
       {({ handleSubmit }) => {
         return (
-          <View style={styles.container}>
+          <ScrollView style={styles.container}>
             <View style={styles.headerContainer}>
               <Text style={styles.logo}>APP LOGO</Text>
               <Text style={styles.welcome}>
@@ -29,9 +40,14 @@ const SignUp = () => {
               <FormikInput name="lastName" placeholder="Apellido" />
               <FormikInput name="email" placeholder="Email" />
               <FormikInput
-                name="pwd"
+                name="password"
                 secureTextEntry
                 placeholder="Contraseña"
+              />
+              <FormikInput
+                secureTextEntry
+                name="repeatPassword"
+                placeholder="Repita su Contraseña"
               />
               <View style={styles.buttonContainer}>
                 <TouchableOpacity
@@ -42,7 +58,7 @@ const SignUp = () => {
                 </TouchableOpacity>
               </View>
             </View>
-          </View>
+          </ScrollView>
         );
       }}
     </Formik>
