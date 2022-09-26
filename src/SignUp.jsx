@@ -3,27 +3,33 @@ import styles from "./subComponentes/Styles";
 import { UserContext } from "./context/userContext";
 import FormikInput from "./subComponentes/FormikInput";
 import React, { useContext, useEffect, useState } from "react";
-import { View, Text, TouchableOpacity, ScrollView } from "react-native";
 import { signUpValidationSchema } from "./validationSchema/formikSchema";
-import { Snackbar } from "@react-native-material/core";
+import { View, Text, TouchableOpacity, ScrollView, Alert } from "react-native";
 
 const SignUp = () => {
-  const [credentials, setCredentials] = useState({});
-  const { name, lastName, email, password, repeatPassword } = credentials;
-
   const { signUp } = useContext(UserContext);
+  const [alert, setAlert] = useState(false);
 
   initialValues = { name: "", lastName: "", email: "", password: "" };
 
-  // const registrar = () => {
-  //   signUp(email, password);
-  // };
+  const toggle = () => (alert ? setAlert(false) : setAlert(true));
 
   return (
     <Formik
+      initialValues={initialValues}
       onSubmit={(values) => {
-        setCredentials(values);
-        registrar();
+        const { name, lastName, email, password, repeatPassword } = values;
+        if (name && lastName && email && password && repeatPassword) {
+          if (password === repeatPassword) {
+            signUp(email, password);
+          } else {
+            Alert.alert("Error", "Las contraseñas no coinciden", [
+              { text: "OK" },
+            ]);
+          }
+        } else {
+          Alert.alert("Error", "Completa todos los campos", [{ text: "OK" }]);
+        }
       }}
     >
       {({ handleSubmit }) => {

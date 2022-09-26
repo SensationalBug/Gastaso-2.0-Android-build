@@ -7,10 +7,7 @@ import FormikInput from "./subComponentes/FormikInput";
 import { View, Text, TouchableOpacity } from "react-native";
 
 const Login = ({ navigation }) => {
-  const [credentials, setCredentials] = useState({});
   const { user, toggleUser, signIn } = useContext(UserContext);
-
-  const { email, password } = credentials;
 
   const validate = () => {
     if (!user) {
@@ -27,8 +24,10 @@ const Login = ({ navigation }) => {
     <Formik
       initialValues={{ email: "", password: "" }}
       onSubmit={(values) => {
-        setCredentials(values);
-        validate();
+        const { email, password } = values;
+        signIn(email, password);
+
+        // validate();
       }}
     >
       {({ handleSubmit }) => {

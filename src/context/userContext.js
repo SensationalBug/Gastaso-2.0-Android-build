@@ -6,6 +6,7 @@ import {
   createUserWithEmailAndPassword,
 } from "firebase/auth";
 import firebaseConfig from "../firebaseConfig/firebaseConfig";
+import { Alert } from "react-native";
 
 export const UserContext = createContext();
 
@@ -24,16 +25,23 @@ const UserProvider = ({ children }) => {
       .then((res) => {
         console.log(res);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        Alert.alert("Error", err.code);
+      });
   };
 
-  const signUp = () => {
+  const signUp = (email, password) => {
     createUserWithEmailAndPassword(auth, email, password)
       .then((res) => {
-        console.log(res);
+        Alert.alert(
+          "Registro correcto",
+          "El usuario se ha agregado de manera correcta"
+        );
       })
-      .catch((err) => console.log(err));
-  }
+      .catch((err) => {
+        Alert.alert("Error", err.code);
+      });
+  };
 
   return (
     <UserContext.Provider value={{ user, toggleUser, signIn, signUp }}>

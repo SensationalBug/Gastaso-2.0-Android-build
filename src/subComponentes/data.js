@@ -1,4 +1,4 @@
-export default data = [
+export default [
   { id: 1, fecha: "2022/09/1", monto: 3000, concepto: "Gato" },
   { id: 2, fecha: "2022/09/1", monto: 3000, concepto: "Gato" },
   { id: 3, fecha: "2022/09/1", monto: 3000, concepto: "Gato" },
