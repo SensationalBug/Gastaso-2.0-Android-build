@@ -5,14 +5,16 @@ import {
   signInWithEmailAndPassword,
   createUserWithEmailAndPassword,
 } from "firebase/auth";
-import firebaseConfig from "../firebaseConfig/firebaseConfig";
 import { Alert } from "react-native";
+import database from "../db/connection";
+import firebaseConfig from "../firebaseConfig/firebaseConfig";
 
 export const UserContext = createContext();
 
 const UserProvider = ({ children }) => {
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
+  console.log(database);
 
   const [user, setUser] = useState(false);
 
@@ -32,7 +34,7 @@ const UserProvider = ({ children }) => {
 
   const signUp = (email, password) => {
     createUserWithEmailAndPassword(auth, email, password)
-      .then((res) => {
+      .then(() => {
         Alert.alert(
           "Registro correcto",
           "El usuario se ha agregado de manera correcta"

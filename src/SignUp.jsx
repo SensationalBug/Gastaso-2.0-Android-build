@@ -3,8 +3,8 @@ import styles from "./subComponentes/Styles";
 import { UserContext } from "./context/userContext";
 import FormikInput from "./subComponentes/FormikInput";
 import React, { useContext, useEffect, useState } from "react";
-import { signUpValidationSchema } from "./validationSchema/formikSchema";
 import { View, Text, TouchableOpacity, ScrollView, Alert } from "react-native";
+import database from "./db/connection";
 
 const SignUp = () => {
   const { signUp } = useContext(UserContext);
