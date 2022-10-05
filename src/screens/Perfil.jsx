@@ -1,12 +1,15 @@
-import React from "react";
-import { View, Text, Image, TouchableOpacity } from "react-native";
-import styles from "../subComponentes/Styles";
+import React, { useContext } from "react";
 import img from "../../assets/user.png";
+import styles from "../subComponentes/Styles";
+import Icon from "react-native-vector-icons/Entypo";
+import { UserContext } from "../context/userContext";
 import StyledText from "../subComponentes/StyledText";
 import { FAB, Surface } from "@react-native-material/core";
-import Icon from "react-native-vector-icons/Entypo";
+import { View, Text, Image, TouchableOpacity } from "react-native";
 
-const Perfil = () => {
+const Perfil = ({navigation}) => {
+  const { setUser, closeSession } = useContext(UserContext);
+
   return (
     <View style={styles.perfil}>
       <View
@@ -66,12 +69,27 @@ const Perfil = () => {
         </View>
         <View style={{ marginVertical: 20 }}>
           <Text
-            style={{ fontSize: 25, textAlign: "justify", marginHorizontal: 10 }}
+            style={{ fontSize: 23, textAlign: "justify", marginHorizontal: 10 }}
           >
             Porque la nota ya está haciendo efecto Mi mundo está jodío y me
             siento perfecto Porque estás tú aquí, moviéndote así, no pare' Baby,
             tú eres mi droga, esta noche no le baje'
           </Text>
+        </View>
+        <View style={{ alignItems: "flex-end" }}>
+          <FAB
+            onPress={() => {
+              setUser(false);
+              closeSession(navigation.navigate("Login"));
+            }}
+            icon={(props) => <Icon name="log-out" {...props} />}
+            style={{
+              width: 50,
+              height: 50,
+              justifyContent: "center",
+              backgroundColor: "#20a5d8",
+            }}
+          />
         </View>
       </View>
     </View>

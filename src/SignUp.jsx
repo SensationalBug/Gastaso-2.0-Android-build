@@ -1,23 +1,18 @@
 import { Formik } from "formik";
+import React, { useContext, useEffect } from "react";
 import styles from "./subComponentes/Styles";
 import { UserContext } from "./context/userContext";
 import FormikInput from "./subComponentes/FormikInput";
-import React, { useContext, useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, ScrollView, Alert } from "react-native";
-import database from "./db/connection";
 
 const SignUp = () => {
   const { signUp } = useContext(UserContext);
-  const [alert, setAlert] = useState(false);
-
   initialValues = { name: "", lastName: "", email: "", password: "" };
-
-  const toggle = () => (alert ? setAlert(false) : setAlert(true));
-
+  
   return (
     <Formik
-      initialValues={initialValues}
-      onSubmit={(values) => {
+    initialValues={initialValues}
+    onSubmit={(values) => {
         const { name, lastName, email, password, repeatPassword } = values;
         if (name && lastName && email && password && repeatPassword) {
           if (password === repeatPassword) {
