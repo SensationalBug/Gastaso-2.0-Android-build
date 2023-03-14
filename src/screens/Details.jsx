@@ -1,32 +1,17 @@
 import React from "react";
-import data from "../subComponentes/data";
-import styles from "../subComponentes/Styles";
+import datos from "../subComponentes/data";
+import { View, FlatList } from "react-native";
 import TableData from "../subComponentes/TableData";
-import Icon from "react-native-vector-icons/Entypo";
-import StyledText from "../subComponentes/StyledText";
-import { ScrollView, TouchableOpacity, View } from "react-native";
+import TableContent from "../subComponentes/TableContent";
 
 const Details = () => {
   const dataView = () => {
     return (
-      <ScrollView>
-        {data.map((item) => {
-          const { id, fecha, concepto, monto } = item;
-          return (
-            <View key={id} style={{ flexDirection: "row" }}>
-              <StyledText style={styles.tableBody}>{fecha}</StyledText>
-              <StyledText style={styles.tableBody}>{concepto}</StyledText>
-              <StyledText style={styles.tableBody}>{monto}</StyledText>
-              <TouchableOpacity
-                style={styles.delBodyButton}
-                onPress={() => console.log(id)}
-              >
-                <Icon style={styles.delBodyButtonIcon} name="trash" />
-              </TouchableOpacity>
-            </View>
-          );
-        })}
-      </ScrollView>
+      <FlatList
+        data={datos}
+        renderItem={({ item }) => <TableContent {...item}/>}
+        keyExtractor={(item) => item.id}
+      />
     );
   };
 

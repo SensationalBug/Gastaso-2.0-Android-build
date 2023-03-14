@@ -95,7 +95,6 @@ const styles = StyleSheet.create({
     padding: 10,
     alignItems: "center",
   },
-  row: {},
   col: {
     marginTop: 10,
     flexDirection: "row",
@@ -133,6 +132,30 @@ const styles = StyleSheet.create({
   addButton: {
     backgroundColor: "#20a5d8",
   },
+
+  //MODAL WINDOW STYLES
+  centeredView: {
+    flex: 1,
+    justifyContent: "flex-end",
+  },
+  modalWindow: {
+    backgroundColor: "red",
+    height: "55%",
+  },
+  modalHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+  },
+  modalTitle: {
+    width: "80%",
+    fontSize: 22,
+    textAlign: "center",
+  },
+  modalBody: {
+    
+  },
+
   //CONSULTA STYLES
   consulta: {
     flex: 1,
@@ -183,6 +206,8 @@ const styles = StyleSheet.create({
     textAlign: "center",
     paddingVertical: 10,
     backgroundColor: "#122e49",
+    borderRightColor: "gray",
+    borderRightWidth: 2,
   },
   delHeadButton: {
     width: "10%",

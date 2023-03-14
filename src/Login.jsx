@@ -10,7 +10,8 @@ const Login = ({ navigation }) => {
   const { user, signIn } = useContext(UserContext);
 
   const validate = () => {
-    if (user) navigation.navigate("Main");
+    // if (user) navigation.navigate("Main");
+    navigation.navigate("Main");
   };
 
   return (
@@ -18,7 +19,7 @@ const Login = ({ navigation }) => {
       initialValues={{ email: "", password: "" }}
       onSubmit={(values) => {
         const { email, password } = values;
-        signIn(email, password);
+        // signIn(email, password);
         validate();
       }}
     >

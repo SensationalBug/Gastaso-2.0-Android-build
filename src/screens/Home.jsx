@@ -1,4 +1,5 @@
-import React, { useContext } from "react";
+import ModalWindow from "./Modal";
+import React, { useState } from "react";
 import styles from "../subComponentes/Styles";
 import Icon from "react-native-vector-icons/Entypo";
 import StyledText from "../subComponentes/StyledText";
@@ -8,6 +9,8 @@ import { FAB, Surface } from "@react-native-material/core";
 
 const Home = () => {
   const navigation = useNavigation();
+  const [showModal, setShowModal] = useState(true);
+  const toggleModal = () => setShowModal(!showModal);
   return (
     <View style={styles.home}>
       <View style={styles.welcomeUser}>
@@ -46,9 +49,10 @@ const Home = () => {
           </TouchableOpacity>
           <FAB
             style={styles.addButton}
-            onPress={() => console.log("me excita")}
+            onPress={() => toggleModal()}
             icon={(props) => <Icon name="plus" {...props} />}
           />
+          <ModalWindow showModal={showModal} toggleModal={toggleModal} />
         </View>
       </View>
     </View>
