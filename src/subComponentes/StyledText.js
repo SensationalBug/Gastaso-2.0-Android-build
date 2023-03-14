@@ -2,16 +2,19 @@ import React from "react";
 import { StyleSheet, Text } from "react-native";
 
 const StyledText = ({
+  style,
   children,
   userName,
   mainTitle,
+  buttonText,
   surfaceTitle,
   surfaceContent,
 }) => {
   const textStyles = [
-    styles,
+    style,
     userName && styles.userName,
     mainTitle && styles.mainTitle,
+    buttonText && styles.buttonText,
     surfaceTitle && styles.surfaceTitle,
     surfaceContent && styles.surfaceContent,
   ];
@@ -36,6 +39,10 @@ const styles = StyleSheet.create({
   },
   surfaceContent: {
     fontSize: 25,
+  },
+  buttonText: {
+    fontSize: 20,
+    color: "#fff",
   },
 });
 

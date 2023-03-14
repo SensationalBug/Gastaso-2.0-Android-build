@@ -5,7 +5,6 @@ const styles = StyleSheet.create({
   // {color: #122e49;} Header Color
   // {color: #156794;} Login and Signup Button Color
   // {color: #20a5d8;} BackGround Color Login and SignUp
-  // {color: #20dbd8;}
   container: {
     height: "100%",
     backgroundColor: "#20a5d8",
@@ -44,7 +43,6 @@ const styles = StyleSheet.create({
     borderRadius: 3,
     paddingVertical: 15,
     backgroundColor: "#156794",
-    // backgroundColor: "#eeefff",
   },
   googleButton: {
     width: "20%",
@@ -90,46 +88,92 @@ const styles = StyleSheet.create({
 
   //HOME STYLES
   home: {
-    // backgroundColor: "#fff",
     flex: 1,
+    backgroundColor: "#fff",
   },
   welcomeUser: {
     padding: 10,
     alignItems: "center",
-    // backgroundColor: "pink",
-  },
-  row: {
-    // height: "30%",
-    // backgroundColor: "red",
   },
   col: {
-    // height: "15%",
+    marginTop: 10,
     flexDirection: "row",
+    justifyContent: "space-evenly",
   },
   surface: {
-    marginHorizontal: 10,
-    marginTop: 10,
-    width: "45%",
     height: 100,
+    width: "48%",
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#20a5d8",
   },
+  modalView: {
+    position: "absolute",
+    top: 40,
+    width: "100%",
+  },
+  openModalButtonStyle: {
+    flex: 1,
+    justifyContent: "flex-end",
+  },
+  modalButtons: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
+  openModalButton: {
+    width: "80%",
+    alignItems: "center",
+    borderTopLeftRadius: 10,
+    justifyContent: "center",
+    borderTopRightRadius: 10,
+    backgroundColor: "#122e49",
+  },
+  addButton: {
+    backgroundColor: "#20a5d8",
+  },
+
+  //MODAL WINDOW STYLES
+  centeredView: {
+    flex: 1,
+    justifyContent: "flex-end",
+  },
+  modalWindow: {
+    backgroundColor: "red",
+    height: "55%",
+  },
+  modalHeader: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-evenly",
+  },
+  modalTitle: {
+    width: "80%",
+    fontSize: 22,
+    textAlign: "center",
+  },
+  modalBody: {
+    
+  },
 
   //CONSULTA STYLES
   consulta: {
     flex: 1,
+    justifyContent: "center",
+    marginHorizontal: 30,
   },
+  texto: { fontSize: 30, textAlign: "justify" },
 
   //PERFIL STYLES
   perfil: {
     flex: 1,
+    marginHorizontal: 10,
   },
 
   //AJUSTES STYLES
   ajustes: {
     flex: 1,
+    justifyContent: "center",
   },
 
   //NAVIGATIONBAR STYLES
@@ -152,6 +196,44 @@ const styles = StyleSheet.create({
   buttonDrawerText: {
     fontSize: 15,
     color: "#ffffff",
+  },
+
+  // TABLEDATA STYLES
+  tableHead: {
+    fontSize: 20,
+    width: "30%",
+    color: "#fff",
+    textAlign: "center",
+    paddingVertical: 10,
+    backgroundColor: "#122e49",
+    borderRightColor: "gray",
+    borderRightWidth: 2,
+  },
+  delHeadButton: {
+    width: "10%",
+    backgroundColor: "#122e49",
+  },
+  tableBody: {
+    fontSize: 18,
+    width: "30%",
+    color: "#fff",
+    borderWidth: 1,
+    paddingVertical: 8,
+    textAlign: "center",
+    borderColor: "#122e49",
+    backgroundColor: "#20a5d8",
+  },
+  delBodyButton: {
+    width: "10%",
+    borderWidth: 1,
+    paddingVertical: 8,
+    borderColor: "#122e49",
+    backgroundColor: "#20a5d8",
+  },
+  delBodyButtonIcon: {
+    fontSize: 20,
+    color: "#fff",
+    textAlign: "center",
   },
 });
 

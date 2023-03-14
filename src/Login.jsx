@@ -1,28 +1,25 @@
 import { Formik } from "formik";
-import React, { useState } from "react";
+import React, { useContext } from "react";
 import styles from "./subComponentes/Styles";
+import { UserContext } from "./context/userContext";
 import Icon from "react-native-vector-icons/AntDesign";
 import FormikInput from "./subComponentes/FormikInput";
 import { View, Text, TouchableOpacity } from "react-native";
 
 const Login = ({ navigation }) => {
-  const [credentials, setCredentials] = useState({});
-  const [user, setUser] = useState(false);
+  const { user, signIn } = useContext(UserContext);
 
   const validate = () => {
-    if (!user) {
-      setUser(true);
-      navigation.navigate("Main");
-    } else {
-      setUser(false);
-    }
+    // if (user) navigation.navigate("Main");
+    navigation.navigate("Main");
   };
 
   return (
     <Formik
       initialValues={{ email: "", password: "" }}
       onSubmit={(values) => {
-        setCredentials(values);
+        const { email, password } = values;
+        // signIn(email, password);
         validate();
       }}
     >
@@ -36,7 +33,7 @@ const Login = ({ navigation }) => {
             <View style={styles.formContainer}>
               <FormikInput name="email" placeholder="Email" />
               <FormikInput
-                name="pwd"
+                name="password"
                 secureTextEntry
                 placeholder="Contraseña"
               />
@@ -67,7 +64,7 @@ const Login = ({ navigation }) => {
             <View style={styles.footerContainer}>
               <Text style={styles.textFooterContainer}>
                 © 2022 Gastaso por Pedro Luis De Leon Alejo. Todos los derechos
-                reservados.
+                reservados. v1.0.0
               </Text>
             </View>
           </View>

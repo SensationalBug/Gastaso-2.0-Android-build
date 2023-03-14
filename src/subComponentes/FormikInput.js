@@ -1,6 +1,6 @@
 import React from "react";
-import { StyleSheet, TextInput } from "react-native";
 import { useField } from "formik";
+import { StyleSheet, TextInput } from "react-native";
 
 const FormikInput = ({ name, ...props }) => {
   const [field, meta, helpers] = useField(name);
@@ -13,7 +13,6 @@ const FormikInput = ({ name, ...props }) => {
         style={styles.textInput}
         onChangeText={(value) => helpers.setValue(value)}
       />
-      {meta.error && <Text style={styles.textError}>{meta.error}</Text>}
     </>
   );
 };
