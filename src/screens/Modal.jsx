@@ -1,58 +1,42 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "../subComponentes/Styles";
-import { FAB } from "@react-native-material/core";
-import Icon from "react-native-vector-icons/Entypo";
-import { Text, View, Modal, TextInput, TouchableOpacity } from "react-native";
-import { RadioGroup } from "react-native-radio-buttons-group";
+import StyledText from "../subComponentes/StyledText";
+import { RadioButton, RadioGroup } from "react-native-flexi-radio-button";
+import { View, TextInput, TouchableOpacity, Animated } from "react-native";
 
 const ModalWindow = (props) => {
-  const { showModal, toggleModal } = props;
-  const [radioButtons, setRadioButtons] = useState([
-    { id: 1, label: "Débito (-)", value: "debito" },
-    { id: 2, label: "Crédito (+)", value: "credito" },
-  ]);
-
-  const onPressRadioButtons = (options) => {
-    setRadioButtons(options);
-  };
-
+  const { fadeAnim } = props;
   return (
-    <View>
-      <Modal visible={showModal} animationType="slide" transparent={true}>
-        <View style={styles.centeredView}>
-          <View style={styles.modalWindow}>
-            <View style={styles.modalHeader}>
-              <Text style={styles.modalTitle}>Agregua un nuevo movimiento</Text>
-              <FAB
-                style={styles.addButton}
-                onPress={() => toggleModal()}
-                icon={(props) => <Icon name="chevron-down" {...props} />}
-              />
-            </View>
-            <View style={styles.modalBody}>
-              <TextInput
-                placeholder="Concepto"
-                style={{ backgroundColor: "white", color: "black" }}
-              />
-              <TextInput
-                placeholder="Monto"
-                style={{ backgroundColor: "white", color: "black" }}
-              />
-              <View>
-                <RadioGroup
-                  radioButtons={radioButtons}
-                  onPress={onPressRadioButtons}
-                  layout="row"
-                />
-              </View>
-              <TouchableOpacity>
-                <Text>Agregar button</Text>
-              </TouchableOpacity>
-            </View>
+    <Animated.View
+      style={{
+        flex: 1,
+        opacity: fadeAnim,
+        justifyContent: "space-evenly",
+      }}
+    >
+      <View style={styles.modalTitle}>
+        <StyledText buttonModalTitle>Agrega un nuevo movimiento</StyledText>
+      </View>
+      <View style={styles.modalBody}>
+        <TextInput placeholder="Concepto" style={styles.modalInput} />
+        <TextInput placeholder="Monto" style={styles.modalInput} />
+        <View style={styles.radioModalButtonContainer}>
+          <RadioGroup color="#122e49">
+            <RadioButton value="debito" style={{ alignItems: "center" }}>
+              <StyledText style={{ color: "#122e49" }}>Débito</StyledText>
+            </RadioButton>
+            <RadioButton value="credito" style={{ alignItems: "center" }}>
+              <StyledText style={{ color: "#122e49" }}>Crédito</StyledText>
+            </RadioButton>
+          </RadioGroup>
+          <View style={styles.radioModal}>
+            <TouchableOpacity style={styles.addModalButton}>
+              <StyledText buttonText>Agregar</StyledText>
+            </TouchableOpacity>
           </View>
         </View>
-      </Modal>
-    </View>
+      </View>
+    </Animated.View>
   );
 };
 
