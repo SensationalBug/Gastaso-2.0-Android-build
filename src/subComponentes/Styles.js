@@ -89,7 +89,7 @@ const styles = StyleSheet.create({
   //HOME STYLES
   home: {
     flex: 1,
-    backgroundColor: "#fff",
+    justifyContent: "space-between",
   },
   welcomeUser: {
     padding: 10,
@@ -102,20 +102,11 @@ const styles = StyleSheet.create({
   },
   surface: {
     height: 100,
-    width: "48%",
+    width: "100%",
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#20a5d8",
-  },
-  modalView: {
-    position: "absolute",
-    top: 40,
-    width: "100%",
-  },
-  openModalButtonStyle: {
-    flex: 1,
-    justifyContent: "flex-end",
   },
   modalButtons: {
     flexDirection: "row",
@@ -134,26 +125,48 @@ const styles = StyleSheet.create({
   },
 
   //MODAL WINDOW STYLES
-  centeredView: {
-    flex: 1,
-    justifyContent: "flex-end",
-  },
-  modalWindow: {
-    backgroundColor: "red",
-    height: "55%",
-  },
   modalHeader: {
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-evenly",
   },
   modalTitle: {
-    width: "80%",
-    fontSize: 22,
-    textAlign: "center",
+    // flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
   },
   modalBody: {
-    
+    height: "80%",
+    alignItems: "center",
+    paddingHorizontal: 10,
+    justifyContent: "space-evenly",
+  },
+  modalInput: {
+    padding: 18,
+    width: "90%",
+    fontSize: 20,
+    color: "black",
+    borderWidth: 1,
+    borderRadius: 10,
+    backgroundColor: "#f8f8ff",
+    borderBottomColor: "#122e49",
+  },
+  radioModalButtonContainer: {
+    width: "90%",
+    flexDirection: "row",
+  },
+  radioModal: {
+    flex: 1,
+    alignItems: "flex-end",
+    justifyContent: "center",
+  },
+  addModalButton: {
+    width: "80%",
+    padding: 20,
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#20a5d8",
   },
 
   //CONSULTA STYLES
@@ -165,9 +178,9 @@ const styles = StyleSheet.create({
   texto: { fontSize: 30, textAlign: "justify" },
 
   //PERFIL STYLES
-  perfil: {
+  cuentas: {
     flex: 1,
-    marginHorizontal: 10,
+    marginHorizontal: 5,
   },
 
   //AJUSTES STYLES
