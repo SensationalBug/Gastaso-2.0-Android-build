@@ -1,4 +1,3 @@
-import ModalWindow from "./Modal";
 import styles from "../subComponentes/Styles";
 import Icon from "react-native-vector-icons/Entypo";
 import StyledText from "../subComponentes/StyledText";
@@ -46,7 +45,6 @@ const Home = () => {
           <StyledText surfaceContent>RD$000,000.00</StyledText>
         </Surface>
       </View>
-      <ModalWindow fadeAnim={fadeAnim} />
       <View style={styles.openModalButtonStyle}>
         <View style={styles.modalButtons}>
           <FAB

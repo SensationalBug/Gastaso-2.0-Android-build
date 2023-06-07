@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
   },
   surface: {
     height: 100,
-    width: "48%",
+    width: "100%",
     borderRadius: 10,
     alignItems: "center",
     justifyContent: "center",
@@ -178,9 +178,9 @@ const styles = StyleSheet.create({
   texto: { fontSize: 30, textAlign: "justify" },
 
   //PERFIL STYLES
-  perfil: {
+  cuentas: {
     flex: 1,
-    marginHorizontal: 10,
+    marginHorizontal: 5,
   },
 
   //AJUSTES STYLES
