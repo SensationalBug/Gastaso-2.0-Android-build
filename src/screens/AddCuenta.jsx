@@ -1,21 +1,24 @@
 import {
   View,
   Text,
-  ScrollView,
+  FlatList,
   TextInput,
-  KeyboardAvoidingView,
-  TouchableOpacity,
+  TouchableHighlight,
 } from "react-native";
 import React, { useState } from "react";
+import StyledText from "../subComponentes/StyledText";
+import Categories from "../subComponentes/Categories";
+import data from "../subComponentes/data";
 
 const AddCuenta = () => {
+  const [numColumns] = useState(4);
   const [activeButton, setActiveButton] = useState({
     active: false,
-    color: "#20a5d8",
+    opacity: 1,
     value: "Efectivo",
   });
   return (
-    <KeyboardAvoidingView keyboardVerticalOffset={10}>
+    <View style={{ flex: 1 }}>
       <View
         style={{
           justifyContent: "center",
@@ -27,73 +30,92 @@ const AddCuenta = () => {
           style={{
             fontSize: 30,
             width: "100%",
-            borderBottomColor: "red",
             borderBottomWidth: 1,
+            borderBottomColor: "gray",
+            paddingLeft: 10,
           }}
         />
       </View>
-      <View
-        style={{ backgroundColor: "green", padding: 15, flexDirection: "row" }}
-      >
+      <View style={{ padding: 15, flexDirection: "row", alignItems: "center" }}>
         <View style={{ width: "50%" }}>
-          <Text style={{ fontSize: 15 }}>Monto inicial</Text>
+          <Text style={{ fontSize: 20 }}>Monto inicial</Text>
           <TextInput
+            keyboardType="numeric"
+            maxLength={7}
             style={{
               fontSize: 30,
               borderBottomWidth: 1,
-              borderBottomColor: "red",
+              borderBottomColor: "gray",
               width: "90%",
+              paddingLeft: 10,
             }}
           />
         </View>
         <View
           style={{
             width: "50%",
+            alignItems: "center",
             flexDirection: "row",
             justifyContent: "space-evenly",
-            alignItems: "center",
           }}
         >
-          <TouchableOpacity
+          <TouchableHighlight
+            onPress={() => {
+              if (activeButton.active) {
+                setActiveButton({ active: false });
+              }
+            }}
             disabled={!activeButton.active}
             style={{
-              backgroundColor: activeButton.active ? activeButton.color : "red",
-              height: 50,
+              height: 60,
               width: "50%",
-              justifyContent: "center",
               alignItems: "center",
-              borderTopLeftRadius: 50,
-              borderBottomLeftRadius: 50,
+              justifyContent: "center",
+              borderTopLeftRadius: 10,
+              backgroundColor: "#1F9FD0",
+              borderBottomLeftRadius: 10,
+              opacity: activeButton.active ? activeButton.opacity : 0.5,
             }}
           >
-            <Text>Efectivo</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
+            <Text style={{ fontWeight: "bold", fontSize: 20 }}>Efectivo</Text>
+          </TouchableHighlight>
+          <TouchableHighlight
+            onPress={() => {
+              if (!activeButton.active) {
+                setActiveButton({ active: true });
+              }
+            }}
             disabled={activeButton.active}
             style={{
-              backgroundColor: activeButton.color,
-              height: 50,
+              height: 60,
               width: "50%",
-              justifyContent: "center",
               alignItems: "center",
-              borderTopRightRadius: 50,
-              borderBottomRightRadius: 50,
+              justifyContent: "center",
+              borderTopRightRadius: 10,
+              backgroundColor: "#1F9FD0",
+              borderBottomRightRadius: 10,
+              opacity: !activeButton.active ? activeButton.opacity : 0.5,
             }}
           >
-            <Text>Tarjeta</Text>
-          </TouchableOpacity>
-          {/* <RadioGroup color="#122e49" selectedIndex={0}>
-            <RadioButton value="debito" style={{ alignItems: "center" }}>
-              <StyledText style={{ color: "#122e49" }}>Efectivo</StyledText>
-            </RadioButton>
-            <RadioButton value="credito" style={{ alignItems: "center" }}>
-              <StyledText style={{ color: "#122e49" }}>Tarjeta</StyledText>
-            </RadioButton>
-          </RadioGroup> */}
+            <Text style={{ fontWeight: "bold", fontSize: 20 }}>Tarjeta</Text>
+          </TouchableHighlight>
         </View>
       </View>
-      <ScrollView style={{ backgroundColor: "blue" }}></ScrollView>
-    </KeyboardAvoidingView>
+      <View style={{ flex: 1, padding: 10 }}>
+        <StyledText mainTitle style={{ padding: 10 }}>
+          Categorias
+        </StyledText>
+        <View style={{ flex: 1 }}>
+          <FlatList
+            data={data}
+            key={`${numColumns}`}
+            numColumns={numColumns}
+            keyExtractor={(elem) => elem.id}
+            renderItem={(elem) => <Categories elem={elem.item} />}
+          />
+        </View>
+      </View>
+    </View>
   );
 };
 
