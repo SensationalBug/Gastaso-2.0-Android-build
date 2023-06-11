@@ -1,8 +1,7 @@
 import React from "react";
 import Main from "../Main";
-import Login from "../Login";
-import SignUp from "../SignUp";
 import Details from "../screens/Details";
+import AddCuenta from "../screens/AddCuenta";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -11,19 +10,6 @@ const Navigation = () => {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen
-          name="Login"
-          component={Login}
-          options={{ headerShown: false }}
-        />
-        <Stack.Screen
-          name="Signup"
-          component={SignUp}
-          options={{
-            headerTintColor: "#fff",
-            headerStyle: { backgroundColor: "#122e49" },
-          }}
-        />
         <Stack.Screen
           name="Main"
           component={Main}
@@ -38,6 +24,16 @@ const Navigation = () => {
             headerTintColor: "#fff",
             headerTitleAlign: "center",
             animation: "slide_from_bottom",
+            headerStyle: { backgroundColor: "#122e49" },
+          }}
+        />
+        <Stack.Screen
+          name="Añadir cuenta"
+          component={AddCuenta}
+          options={{
+            headerTintColor: "#fff",
+            animation: "slide_from_bottom",
+            push: { enabled: true },
             headerStyle: { backgroundColor: "#122e49" },
           }}
         />

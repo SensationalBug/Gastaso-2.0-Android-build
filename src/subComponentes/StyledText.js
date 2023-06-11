@@ -9,6 +9,7 @@ const StyledText = ({
   buttonText,
   surfaceTitle,
   surfaceContent,
+  buttonModalTitle,
 }) => {
   const textStyles = [
     style,
@@ -17,6 +18,7 @@ const StyledText = ({
     buttonText && styles.buttonText,
     surfaceTitle && styles.surfaceTitle,
     surfaceContent && styles.surfaceContent,
+    buttonModalTitle && styles.buttonModalTitle,
   ];
   return (
     <Text adjustsFontSizeToFit={true} style={textStyles}>
@@ -43,6 +45,11 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 20,
     color: "#fff",
+  },
+  buttonModalTitle: {
+    fontSize: 25,
+    color: "#122e49",
+    fontWeight:"600",
   },
 });
 

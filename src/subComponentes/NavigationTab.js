@@ -1,6 +1,6 @@
 import React from "react";
 import Home from "../screens/Home";
-import Perfil from "../screens/Perfil";
+import Cuentas from "../screens/Cuentas";
 import Ajustes from "../screens/Ajustes";
 import Consulta from "../screens/Consulta";
 import Icon from "react-native-vector-icons/Entypo";
@@ -26,7 +26,7 @@ const NavigationView = () => {
         },
       })}
     >
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Inicio"
         component={Home}
         options={{
@@ -46,10 +46,10 @@ const NavigationView = () => {
             <Icon name="bar-graph" color={color} size={30} />
           ),
         }}
-      />
+      /> */}
       <Tab.Screen
-        name="Perfil"
-        component={Perfil}
+        name="Cuentas"
+        component={Cuentas}
         options={{
           headerTintColor: "#fff",
           headerStyle: { backgroundColor: "#122e49" },
