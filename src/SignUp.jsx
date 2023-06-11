@@ -1,5 +1,5 @@
 import { Formik } from "formik";
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import styles from "./subComponentes/Styles";
 import { UserContext } from "./context/userContext";
 import FormikInput from "./subComponentes/FormikInput";
