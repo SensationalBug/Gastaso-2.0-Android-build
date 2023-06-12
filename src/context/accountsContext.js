@@ -13,16 +13,26 @@ const AccountsProvider = ({ children }) => {
   useEffect(() => {
     db.transaction((tx) => {
       tx.executeSql(
-        "CREATE TABLE IF NOT EXISTS cuentas (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(10), monto VARCHAR(15), tipo VARCHAR(10), tipoTarjeta VARCHAR(10))"
+        "CREATE TABLE IF NOT EXISTS cuentas (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(10), monto VARCHAR(15), tipo VARCHAR(10), tipoTarjeta VARCHAR(10), fecha DATE)"
       );
     });
-  }, []);
+  });
 
   const selectCuenta = () => {
     db.transaction((tx) => {
       tx.executeSql(
         "SELECT * FROM cuentas",
         [],
+        (txObj, queryResult) => console.log(queryResult.rows._array),
+        (txObj, queryError) => console.log(queryError)
+      );
+    });
+  };
+
+  const createCuenta = () => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "CREATE TABLE IF NOT EXISTS cuentas (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(10), monto VARCHAR(15), tipo VARCHAR(10), tipoTarjeta VARCHAR(10), fecha DATE)",
         (txObj, queryResult) => console.log(queryResult),
         (txObj, queryError) => console.log(queryError)
       );
@@ -30,23 +40,22 @@ const AccountsProvider = ({ children }) => {
   };
 
   const deleteTable = () => {
-    // db.transaction((tx) => {
-    //   tx.executeSql(
-    //     "DROP TABLE cuentas",
-    //     [],
-    //     (txObj, queryResult) => console.log(queryResult),
-    //     (txObj, queryError) => console.log(queryError)
-    //   );
-    // });
+    db.transaction((tx) => {
+      tx.executeSql(
+        "DROP TABLE cuentas",
+        [],
+        (txObj, queryResult) => console.log(queryResult),
+        (txObj, queryError) => console.log(queryError)
+      );
+    });
   };
 
   const addCuenta = (accountData) => {
-    const { nombre, monto, tipo, tipoTarjeta } = accountData;
-    console.log(accountData);
+    const { nombre, monto, tipo, tipoTarjeta, fecha } = accountData;
     db.transaction((tx) => {
       tx.executeSql(
-        "INSERT INTO cuentas (nombre, monto, tipo, tipoTarjeta) values (?,?,?,?)",
-        [nombre, monto, tipo, tipoTarjeta],
+        "INSERT INTO cuentas (nombre, monto, tipo, tipoTarjeta ,fecha) values (?,?,?,?,?)",
+        [nombre, monto, tipo, tipoTarjeta, fecha],
         (txObj, queryResult) => console.log(queryResult),
         (txObj, queryError) => console.log(queryError)
       );
@@ -55,7 +64,7 @@ const AccountsProvider = ({ children }) => {
 
   return (
     <AccountsContext.Provider
-      value={{ accounts, addCuenta, selectCuenta, deleteTable }}
+      value={{ accounts, addCuenta, selectCuenta, deleteTable, createCuenta }}
     >
       {children}
     </AccountsContext.Provider>

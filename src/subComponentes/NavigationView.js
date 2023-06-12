@@ -5,10 +5,10 @@ import Ajustes from "../screens/Ajustes";
 import Consulta from "../screens/Consulta";
 import Recordatorios from "../screens/Recordatorios";
 import Icon from "react-native-vector-icons/Entypo";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import * as bottomTabs from "@react-navigation/bottom-tabs";
 
 const NavigationView = () => {
-  const Tab = createBottomTabNavigator();
+  const Tab = bottomTabs.createBottomTabNavigator();
   return (
     <Tab.Navigator
       screenOptions={() => ({
@@ -59,7 +59,7 @@ const NavigationView = () => {
           ),
         }}
       />
-         <Tab.Screen
+      <Tab.Screen
         name="Recordatorios"
         component={Recordatorios}
         options={{
@@ -70,7 +70,7 @@ const NavigationView = () => {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="Ajustes"
         component={Ajustes}
         options={{
@@ -80,7 +80,7 @@ const NavigationView = () => {
             <Icon name="tools" color={color} size={30} />
           ),
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 };
