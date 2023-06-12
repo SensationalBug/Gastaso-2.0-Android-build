@@ -4,7 +4,7 @@ const styles = StyleSheet.create({
   //LOGIN STYLES
   // {color: #122e49;} Header Color
   // {color: #156794;} Login and Signup Button Color
-  // {color: #20a5d8;} BackGround Color Login and SignUp
+  // {color: ;} BackGround Color Login and SignUp
   container: {
     height: "100%",
     backgroundColor: "#20a5d8",

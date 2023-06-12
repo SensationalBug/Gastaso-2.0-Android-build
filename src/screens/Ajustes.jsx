@@ -1,7 +1,6 @@
 import React from "react";
 import { View, Text } from "react-native";
 import styles from "../subComponentes/Styles";
-import FormikInput from "../subComponentes/FormikInput";
 
 const Ajustes = () => {
   return (

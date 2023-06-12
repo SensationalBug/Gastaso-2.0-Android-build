@@ -3,6 +3,7 @@ import Home from "../screens/Home";
 import Cuentas from "../screens/Cuentas";
 import Ajustes from "../screens/Ajustes";
 import Consulta from "../screens/Consulta";
+import Recordatorios from "../screens/Recordatorios";
 import Icon from "react-native-vector-icons/Entypo";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 
@@ -55,6 +56,17 @@ const NavigationView = () => {
           headerStyle: { backgroundColor: "#122e49" },
           tabBarIcon: ({ color }) => (
             <Icon name="user" color={color} size={30} />
+          ),
+        }}
+      />
+         <Tab.Screen
+        name="Recordatorios"
+        component={Recordatorios}
+        options={{
+          headerTintColor: "#fff",
+          headerStyle: { backgroundColor: "#122e49" },
+          tabBarIcon: ({ color }) => (
+            <Icon name="bar-graph" color={color} size={30} />
           ),
         }}
       />
