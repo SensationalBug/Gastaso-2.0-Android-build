@@ -1,6 +1,7 @@
 import {
   View,
   Text,
+  Animated,
   TextInput,
   TouchableOpacity,
   TouchableHighlight,
@@ -8,17 +9,19 @@ import {
 import React, { useState, useContext } from "react";
 import Icon from "react-native-vector-icons/FontAwesome";
 import RadioForm from "react-native-simple-radio-button";
-import { AccountsContext } from "../../src/context/AccountsContext";
+import { AccountsContext } from "../context/AccountsContext";
 
 const AddCuenta = () => {
-  const { addCuenta, selectCuenta, deleteTable } = useContext(AccountsContext);
+  const { addCuenta, selectCuenta, deleteTable, createCuenta } =
+    useContext(AccountsContext);
   const [accountData, setAccountData] = useState({
     nombre: "",
     monto: "",
     tipo: "Efectivo",
     tipoTarjeta: "",
+    fecha: "",
   });
-  const [numColumns] = useState(4);
+  const [completeFieldOpacity, setCompleteFieldOpacity] = useState(0);
   const [activeButton, setActiveButton] = useState({
     index: 0,
     active: false,
@@ -26,7 +29,9 @@ const AddCuenta = () => {
   });
 
   const updData = (value, fieldName) => {
-    setAccountData((prevState) => ({ ...prevState, [fieldName]: value }));
+    const fecha = new Date();
+    console.log(fecha);
+    // setAccountData((prevState) => ({ ...prevState, [fieldName]: value }));
   };
 
   const radio_props = [
@@ -70,7 +75,16 @@ const AddCuenta = () => {
             }}
           >
             <TouchableOpacity
-              onPress={() => addCuenta(accountData)}
+              onPress={() => {
+                if (accountData.nombre && accountData.monto) {
+                  // addCuenta(accountData);
+                  console.log(accountData);
+                  setCompleteFieldOpacity(0);
+                } else {
+                  setCompleteFieldOpacity(1);
+                  setTimeout(() => setCompleteFieldOpacity(0), 1500);
+                }
+              }}
               style={{
                 width: 50,
                 height: 50,
@@ -133,6 +147,7 @@ const AddCuenta = () => {
             >
               <Text style={{ fontWeight: "bold", fontSize: 20 }}>Efectivo</Text>
             </TouchableHighlight>
+
             <TouchableHighlight
               onPress={() => {
                 if (!activeButton.active) {
@@ -156,9 +171,10 @@ const AddCuenta = () => {
               <Text style={{ fontWeight: "bold", fontSize: 20 }}>Tarjeta</Text>
             </TouchableHighlight>
           </View>
+
           <View
             style={{
-              marginVertical: 40,
+              marginTop: 40,
               left: activeButton.index ? "0%" : "110%",
             }}
           >
@@ -173,18 +189,58 @@ const AddCuenta = () => {
           </View>
         </View>
       </View>
+      <Animated.View>
+        <Text
+          style={{
+            fontSize: 20,
+            color: "red",
+            textAlign: "center",
+            opacity: completeFieldOpacity,
+          }}
+        >
+          Rellena todos los campos.
+        </Text>
+      </Animated.View>
+
       <TouchableOpacity
         onPress={() => selectCuenta()}
-        style={{ backgroundColor: "green", paddingVertical: 10 }}
+        style={{
+          backgroundColor: "green",
+          paddingVertical: 20,
+          width: 100,
+          margin: 30,
+          alignItems: "center",
+        }}
       >
         <Text>SELECT</Text>
       </TouchableOpacity>
+
       <TouchableOpacity
         onPress={() => deleteTable()}
-        style={{ backgroundColor: "red", paddingVertical: 10 }}
+        style={{
+          backgroundColor: "red",
+          paddingVertical: 20,
+          width: 100,
+          margin: 30,
+          alignItems: "center",
+        }}
       >
         <Text>DELETE</Text>
       </TouchableOpacity>
+
+      <TouchableOpacity
+        onPress={() => createCuenta()}
+        style={{
+          backgroundColor: "blue",
+          paddingVertical: 20,
+          width: 100,
+          margin: 30,
+          alignItems: "center",
+        }}
+      >
+        <Text>CREATE</Text>
+      </TouchableOpacity>
+
       {/* <View style={{ flex: 1, padding: 10 }}>
         <StyledText mainTitle style={{ padding: 10 }}>
           Categorias
