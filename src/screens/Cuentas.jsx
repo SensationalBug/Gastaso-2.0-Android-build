@@ -4,10 +4,8 @@ import Icon from "react-native-vector-icons/Entypo";
 import StyledText from "../subComponentes/StyledText";
 import { FAB, Surface } from "@react-native-material/core";
 import { View, Text, StyleSheet } from "react-native";
-import { useNavigation } from "@react-navigation/native";
 
 const Cuentas = ({ navigation }) => {
-  // const navitate = useNavigation
   return (
     <View style={styles.cuentas}>
       <View style={{ height: "80%" }}>

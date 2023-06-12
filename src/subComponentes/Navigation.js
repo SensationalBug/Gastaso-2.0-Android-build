@@ -23,7 +23,7 @@ const Navigation = () => {
           options={{
             headerTintColor: "#fff",
             headerTitleAlign: "center",
-            animation: "slide_from_bottom",
+            // animation: "slide_from_bottom",
             headerStyle: { backgroundColor: "#122e49" },
           }}
         />
@@ -32,8 +32,8 @@ const Navigation = () => {
           component={AddCuenta}
           options={{
             headerTintColor: "#fff",
-            animation: "slide_from_bottom",
-            push: { enabled: true },
+            // push: { enabled: false },
+            // animation: "slide_from_bottom",
             headerStyle: { backgroundColor: "#122e49" },
           }}
         />
