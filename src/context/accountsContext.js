@@ -4,9 +4,7 @@ import * as SQLite from "expo-sqlite";
 export const AccountsContext = createContext();
 
 const AccountsProvider = ({ children }) => {
-  const [accounts, setAccounts] = useState([
-    { accountName: "Predeterminada", amount: 0 },
-  ]);
+  const [accounts, setAccounts] = useState([]);
 
   const db = SQLite.openDatabase("GASTASO.db");
 
@@ -16,14 +14,61 @@ const AccountsProvider = ({ children }) => {
         "CREATE TABLE IF NOT EXISTS cuentas (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(10), monto VARCHAR(15), tipo VARCHAR(10), tipoTarjeta VARCHAR(10), fecha DATE)"
       );
     });
-  });
+    db.transaction((tx) => {
+      tx.executeSql(
+        "SELECT * FROM cuentas",
+        null,
+        (txObj, queryResult) => setAccounts(queryResult.rows._array),
+        (txObj, queryError) => console.log(queryError)
+      );
+    });
+  }, []);
 
   const selectCuenta = () => {
     db.transaction((tx) => {
       tx.executeSql(
         "SELECT * FROM cuentas",
         [],
-        (txObj, queryResult) => console.log(queryResult.rows._array),
+        (txObj, queryResult) => {
+          setAccounts(queryResult.rows._array);
+        },
+        (txObj, queryError) => console.log(queryError)
+      );
+    });
+  };
+
+  const deleteCuenta = (id) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "DELETE FROM cuentas WHERE id = ?",
+        [id],
+        (txObj, queryResult) => {
+          // accounts.splice(id - 1, 1);
+          console.log(id);
+        },
+        (txObj, queryError) => console.log(queryError)
+      );
+    });
+  };
+
+  const deleteTable = () => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "DROP TABLE cuentas",
+        [],
+        (txObj, queryResult) => setAccounts(queryResult.rows._array),
+        (txObj, queryError) => console.log(queryError)
+      );
+    });
+  };
+
+  const addCuenta = (accountData) => {
+    const { nombre, monto, tipo, tipoTarjeta, fecha } = accountData;
+    db.transaction((tx) => {
+      tx.executeSql(
+        "INSERT INTO cuentas (nombre, monto, tipo, tipoTarjeta ,fecha) values (?,?,?,?,?)",
+        [nombre, monto, tipo, tipoTarjeta, fecha],
+        (txObj, queryResult) => selectCuenta(),
         (txObj, queryError) => console.log(queryError)
       );
     });
@@ -39,32 +84,16 @@ const AccountsProvider = ({ children }) => {
     });
   };
 
-  const deleteTable = () => {
-    db.transaction((tx) => {
-      tx.executeSql(
-        "DROP TABLE cuentas",
-        [],
-        (txObj, queryResult) => console.log(queryResult),
-        (txObj, queryError) => console.log(queryError)
-      );
-    });
-  };
-
-  const addCuenta = (accountData) => {
-    const { nombre, monto, tipo, tipoTarjeta, fecha } = accountData;
-    db.transaction((tx) => {
-      tx.executeSql(
-        "INSERT INTO cuentas (nombre, monto, tipo, tipoTarjeta ,fecha) values (?,?,?,?,?)",
-        [nombre, monto, tipo, tipoTarjeta, fecha],
-        (txObj, queryResult) => console.log(queryResult),
-        (txObj, queryError) => console.log(queryError)
-      );
-    });
-  };
-
   return (
     <AccountsContext.Provider
-      value={{ accounts, addCuenta, selectCuenta, deleteTable, createCuenta }}
+      value={{
+        accounts,
+        addCuenta,
+        selectCuenta,
+        deleteTable,
+        createCuenta,
+        deleteCuenta,
+      }}
     >
       {children}
     </AccountsContext.Provider>
