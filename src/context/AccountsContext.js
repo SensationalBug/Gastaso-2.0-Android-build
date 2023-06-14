@@ -61,6 +61,15 @@ const AccountsProvider = ({ children }) => {
     });
   };
 
+  const updateCuenta = (producto, monto, id) => {
+    db.transaction((tx) => {
+      tx.executeSql("UPDATE cuentas SET producto = (?) , monto = (?) WHERE id = (?)"),
+        [producto, monto, id],
+        (txObj, queryResult) => console.log(queryResult),
+        (txObj, queryError) => console.log(queryError);
+    });
+  };
+
   const deleteTable = () => {
     db.transaction((tx) => {
       tx.executeSql(
@@ -99,11 +108,12 @@ const AccountsProvider = ({ children }) => {
       value={{
         accounts,
         addCuenta,
-        selectCuenta,
         deleteTable,
-        createCuenta,
         setAccounts,
+        selectCuenta,
+        createCuenta,
         deleteCuenta,
+        updateCuenta,
         selectCuentaId,
       }}
     >

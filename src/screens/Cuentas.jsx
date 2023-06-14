@@ -10,31 +10,78 @@ import { View, Text, StyleSheet, useWindowDimensions } from "react-native";
 const Cuentas = () => {
   const navigation = useNavigation();
   const layout = useWindowDimensions();
-  const [edit, setEdit] = useState(true);
-  const { accounts, selectCuenta } = useContext(AccountsContext);
+  const [edit, setEdit] = useState(false);
+  const { accounts, selectCuenta, updateCuenta } = useContext(AccountsContext);
+  const [editedAccountData, setEditedAccountData] = useState({
+    producto: "",
+    monto: "",
+  });
+
+  const toggleEdit = () => {
+    if (edit) {
+      setEdit(false);
+      selectCuenta();
+      console.log(accounts);
+    } else {
+      setEdit(true);
+      selectCuenta();
+      console.log(accounts);
+    }
+  };
+
+  const getItemData = (producto, monto, id) => {
+    // if (!producto && !monto) {
+    //   toggleEdit();
+    // } else if (!producto) {
+    //   updateCuenta(accounts[0].producto, monto, accounts[0].id);
+    // } else {
+    //   updateCuenta(producto, accounts[0].monto, accounts[0].id);
+    // }
+    updateCuenta(producto, monto, id);
+  };
 
   return (
     <View style={cuentasStyles.cuentas}>
-      {edit ? (
+      {!edit ? (
         <View style={cuentasStyles.cuentaPage}>
           <Text style={cuentasStyles.addCuenta}>Agregar producto</Text>
           <FAB
             color="#122e49"
-            onPress={() => navigation.navigate("Añadir cuenta")}
+            onPress={() => {
+              console.log(accounts); // navigation.navigate("Añadir cuenta");
+            }}
             icon={(props) => <Icon name="plus" {...props} color="#ffffff" />}
           />
         </View>
       ) : (
         <View style={cuentasStyles.cuentaPage}>
           <Text style={cuentasStyles.addCuenta}>Editar producto</Text>
-          <FAB
-            color="#F24C3D"
-            onPress={() => {
-              setEdit(true);
-              selectCuenta();
+          <View
+            style={{
+              width: 150,
+              width: "40%",
+              alignItems: "center",
+              flexDirection: "row",
+              justifyContent: "space-evenly",
             }}
-            icon={(props) => <Icon name="cross" {...props} color="#ffffff" />}
-          />
+          >
+            <FAB
+              color="#22A699"
+              onPress={() =>
+                getItemData(
+                  editedAccountData.producto,
+                  editedAccountData.monto,
+                  accounts[0].id
+                )
+              }
+              icon={(props) => <Icon name="check" {...props} color="#ffffff" />}
+            />
+            <FAB
+              color="#F24C3D"
+              onPress={() => toggleEdit()}
+              icon={(props) => <Icon name="cross" {...props} color="#ffffff" />}
+            />
+          </View>
         </View>
       )}
       <View style={{ paddingVertical: 10 }}>
@@ -43,7 +90,13 @@ const Cuentas = () => {
           keyExtractor={(item) => item.id}
           style={{ height: layout.height - 145 }}
           renderItem={(item) => (
-            <CuentaSurface item={item} edit={edit} setEdit={setEdit} />
+            <CuentaSurface
+              item={item}
+              edit={edit}
+              setEdit={setEdit}
+              editedAccountData={editedAccountData}
+              setEditedAccountData={setEditedAccountData}
+            />
           )}
         />
       </View>
