@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { FAB } from "@react-native-material/core";
 import Icon from "react-native-vector-icons/Entypo";
 import { FlatList } from "react-native-gesture-handler";
@@ -10,23 +10,41 @@ import { View, Text, StyleSheet, useWindowDimensions } from "react-native";
 const Cuentas = () => {
   const navigation = useNavigation();
   const layout = useWindowDimensions();
-  const { accounts } = useContext(AccountsContext);
+  const [edit, setEdit] = useState(true);
+  const { accounts, selectCuenta } = useContext(AccountsContext);
+
   return (
     <View style={cuentasStyles.cuentas}>
-      <View style={cuentasStyles.cuentaPage}>
-        <Text style={cuentasStyles.addCuenta}>Agregar cuenta</Text>
-        <FAB
-          color="#122e49"
-          onPress={() => navigation.navigate("Añadir cuenta")}
-          icon={(props) => <Icon name="plus" {...props} color="#ffffff" />}
-        />
-      </View>
+      {edit ? (
+        <View style={cuentasStyles.cuentaPage}>
+          <Text style={cuentasStyles.addCuenta}>Agregar producto</Text>
+          <FAB
+            color="#122e49"
+            onPress={() => navigation.navigate("Añadir cuenta")}
+            icon={(props) => <Icon name="plus" {...props} color="#ffffff" />}
+          />
+        </View>
+      ) : (
+        <View style={cuentasStyles.cuentaPage}>
+          <Text style={cuentasStyles.addCuenta}>Editar producto</Text>
+          <FAB
+            color="#F24C3D"
+            onPress={() => {
+              setEdit(true);
+              selectCuenta();
+            }}
+            icon={(props) => <Icon name="cross" {...props} color="#ffffff" />}
+          />
+        </View>
+      )}
       <View style={{ paddingVertical: 10 }}>
         <FlatList
           data={accounts}
           keyExtractor={(item) => item.id}
           style={{ height: layout.height - 145 }}
-          renderItem={(item) => <CuentaSurface item={item} />}
+          renderItem={(item) => (
+            <CuentaSurface item={item} edit={edit} setEdit={setEdit} />
+          )}
         />
       </View>
     </View>

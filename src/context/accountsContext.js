@@ -24,6 +24,19 @@ const AccountsProvider = ({ children }) => {
     });
   }, []);
 
+  const selectCuentaId = (id) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "SELECT * FROM cuentas WHERE id = ?",
+        [id],
+        (txObj, queryResult) => {
+          setAccounts(queryResult.rows._array);
+        },
+        (txObj, queryError) => console.log(queryError)
+      );
+    });
+  };
+
   const selectCuenta = () => {
     db.transaction((tx) => {
       tx.executeSql(
@@ -91,6 +104,7 @@ const AccountsProvider = ({ children }) => {
         createCuenta,
         setAccounts,
         deleteCuenta,
+        selectCuentaId,
       }}
     >
       {children}
