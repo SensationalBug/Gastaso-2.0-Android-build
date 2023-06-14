@@ -15,7 +15,7 @@ const AddCuenta = () => {
   const { addCuenta, selectCuenta, deleteTable, createCuenta } =
     useContext(AccountsContext);
   const [accountData, setAccountData] = useState({
-    nombre: "",
+    producto: "",
     monto: "",
     tipo: "Efectivo",
     tipoTarjeta: "",
@@ -58,11 +58,11 @@ const AddCuenta = () => {
           }}
         >
           <View style={{ width: "80%" }}>
-            <Text style={{ fontSize: 20 }}>Nombre</Text>
+            <Text style={{ fontSize: 20 }}>Producto</Text>
             <TextInput
               maxLength={15}
-              value={accountData.nombre}
-              onChangeText={(value) => updData(value, "nombre")}
+              value={accountData.producto}
+              onChangeText={(value) => updData(value, "producto")}
               style={{
                 fontSize: 30,
                 width: "100%",
@@ -70,6 +70,7 @@ const AddCuenta = () => {
                 paddingLeft: 10,
                 borderBottomWidth: 1,
                 borderBottomColor: "gray",
+                // textTransform: "uppercase",
               }}
             />
           </View>
@@ -84,7 +85,7 @@ const AddCuenta = () => {
               style={{ padding: 5, borderRadius: 50 }}
               icon={(props) => <Icon name="plus" {...props} />}
               onPress={() => {
-                if (accountData.nombre && accountData.monto) {
+                if (accountData.producto && accountData.monto) {
                   addCuenta(accountData);
                   setCompleteFieldOpacity(0);
                 } else {
@@ -107,7 +108,7 @@ const AddCuenta = () => {
               borderBottomWidth: 1,
               borderBottomColor: "gray",
             }}
-            maxLength={7}
+            maxLength={9}
             keyboardType="numeric"
             value={accountData.monto}
             onChangeText={(value) => updData(value, "monto")}

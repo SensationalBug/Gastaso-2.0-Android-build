@@ -11,7 +11,7 @@ const AccountsProvider = ({ children }) => {
   useEffect(() => {
     db.transaction((tx) => {
       tx.executeSql(
-        "CREATE TABLE IF NOT EXISTS cuentas (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(10), monto VARCHAR(15), tipo VARCHAR(10), tipoTarjeta VARCHAR(10), fecha DATE)"
+        "CREATE TABLE IF NOT EXISTS cuentas (id INTEGER PRIMARY KEY AUTOINCREMENT, producto VARCHAR(10), monto VARCHAR(15), tipo VARCHAR(10), tipoTarjeta VARCHAR(10), fecha DATE)"
       );
     });
     db.transaction((tx) => {
@@ -42,10 +42,7 @@ const AccountsProvider = ({ children }) => {
       tx.executeSql(
         "DELETE FROM cuentas WHERE id = ?",
         [id],
-        (txObj, queryResult) => {
-          // accounts.splice(id - 1, 1);
-          console.log(id);
-        },
+        (txObj, queryResult) => selectCuenta(),
         (txObj, queryError) => console.log(queryError)
       );
     });
@@ -63,11 +60,11 @@ const AccountsProvider = ({ children }) => {
   };
 
   const addCuenta = (accountData) => {
-    const { nombre, monto, tipo, tipoTarjeta, fecha } = accountData;
+    const { producto, monto, tipo, tipoTarjeta, fecha } = accountData;
     db.transaction((tx) => {
       tx.executeSql(
-        "INSERT INTO cuentas (nombre, monto, tipo, tipoTarjeta ,fecha) values (?,?,?,?,?)",
-        [nombre, monto, tipo, tipoTarjeta, fecha],
+        "INSERT INTO cuentas (producto, monto, tipo, tipoTarjeta ,fecha) values (?,?,?,?,?)",
+        [producto, monto, tipo, tipoTarjeta, fecha],
         (txObj, queryResult) => selectCuenta(),
         (txObj, queryError) => console.log(queryError)
       );
@@ -77,7 +74,7 @@ const AccountsProvider = ({ children }) => {
   const createCuenta = () => {
     db.transaction((tx) => {
       tx.executeSql(
-        "CREATE TABLE IF NOT EXISTS cuentas (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(10), monto VARCHAR(15), tipo VARCHAR(10), tipoTarjeta VARCHAR(10), fecha DATE)",
+        "CREATE TABLE IF NOT EXISTS cuentas (id INTEGER PRIMARY KEY AUTOINCREMENT, producto VARCHAR(10), monto VARCHAR(15), tipo VARCHAR(10), tipoTarjeta VARCHAR(10), fecha DATE)",
         (txObj, queryResult) => console.log(queryResult),
         (txObj, queryError) => console.log(queryError)
       );
@@ -92,6 +89,7 @@ const AccountsProvider = ({ children }) => {
         selectCuenta,
         deleteTable,
         createCuenta,
+        setAccounts,
         deleteCuenta,
       }}
     >
