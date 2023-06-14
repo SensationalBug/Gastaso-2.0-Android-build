@@ -1,28 +1,51 @@
-import React, { useContext } from "react";
-import styles from "../subComponentes/Styles";
+import React, { useContext, useState } from "react";
+import { FAB } from "@react-native-material/core";
 import Icon from "react-native-vector-icons/Entypo";
-import StyledText from "../subComponentes/StyledText";
-import { FAB, Surface } from "@react-native-material/core";
-import { View, Text, StyleSheet } from "react-native";
+import { FlatList } from "react-native-gesture-handler";
+import { useNavigation } from "@react-navigation/native";
+import { AccountsContext } from "../context/AccountsContext";
+import { CuentaSurface } from "../subComponentes/CuentaSurface";
+import { View, Text, StyleSheet, useWindowDimensions } from "react-native";
 
-const Cuentas = ({ navigation }) => {
+const Cuentas = () => {
+  const navigation = useNavigation();
+  const layout = useWindowDimensions();
+  const [edit, setEdit] = useState(true);
+  const { accounts, selectCuenta } = useContext(AccountsContext);
+
   return (
-    <View style={styles.cuentas}>
-      <View style={{ height: "80%" }}>
+    <View style={cuentasStyles.cuentas}>
+      {edit ? (
         <View style={cuentasStyles.cuentaPage}>
-          <Text style={cuentasStyles.addCuenta}>Agregar cuenta</Text>
+          <Text style={cuentasStyles.addCuenta}>Agregar producto</Text>
           <FAB
+            color="#122e49"
             onPress={() => navigation.navigate("Añadir cuenta")}
-            icon={(props) => <Icon name="plus" {...props} />}
-            color="#20a5d8"
+            icon={(props) => <Icon name="plus" {...props} color="#ffffff" />}
           />
         </View>
-        <View style={cuentasStyles.cuentasRow}>
-          <Surface style={styles.surface}>
-            <StyledText surfaceTitle>Total de Ingresos</StyledText>
-            <StyledText surfaceContent>RD$000,000.00</StyledText>
-          </Surface>
+      ) : (
+        <View style={cuentasStyles.cuentaPage}>
+          <Text style={cuentasStyles.addCuenta}>Editar producto</Text>
+          <FAB
+            color="#F24C3D"
+            onPress={() => {
+              setEdit(true);
+              selectCuenta();
+            }}
+            icon={(props) => <Icon name="cross" {...props} color="#ffffff" />}
+          />
         </View>
+      )}
+      <View style={{ paddingVertical: 10 }}>
+        <FlatList
+          data={accounts}
+          keyExtractor={(item) => item.id}
+          style={{ height: layout.height - 145 }}
+          renderItem={(item) => (
+            <CuentaSurface item={item} edit={edit} setEdit={setEdit} />
+          )}
+        />
       </View>
     </View>
   );
@@ -31,20 +54,31 @@ const Cuentas = ({ navigation }) => {
 export default Cuentas;
 
 const cuentasStyles = StyleSheet.create({
+  cuentas: {
+    flex: 1,
+    marginHorizontal: 5,
+  },
   cuentaPage: {
-    paddingVertical: 10,
+    paddingTop: 10,
     flexDirection: "row",
-    justifyContent: "center",
     alignItems: "center",
+    justifyContent: "center",
   },
   addCuenta: {
-    fontSize: 30,
+    fontSize: 25,
     textAlign: "center",
-    marginHorizontal: 5,
+    marginHorizontal: 10,
   },
   cuentasRow: {
     paddingVertical: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
+    backgroundColor: "red",
+  },
+  surface: {
+    height: 100,
+    width: "100%",
+    borderRadius: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#20a5d8",
   },
 });

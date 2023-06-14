@@ -1,21 +1,21 @@
 import {
   View,
   Text,
-  Animated,
   TextInput,
   TouchableOpacity,
   TouchableHighlight,
 } from "react-native";
 import React, { useState, useContext } from "react";
-import Icon from "react-native-vector-icons/FontAwesome";
 import RadioForm from "react-native-simple-radio-button";
+import Icon from "react-native-vector-icons/FontAwesome";
 import { AccountsContext } from "../context/AccountsContext";
+import { FAB } from "@react-native-material/core";
 
 const AddCuenta = () => {
   const { addCuenta, selectCuenta, deleteTable, createCuenta } =
     useContext(AccountsContext);
   const [accountData, setAccountData] = useState({
-    nombre: "",
+    producto: "",
     monto: "",
     tipo: "Efectivo",
     tipoTarjeta: "",
@@ -30,8 +30,11 @@ const AddCuenta = () => {
 
   const updData = (value, fieldName) => {
     const fecha = new Date();
-    console.log(fecha);
-    // setAccountData((prevState) => ({ ...prevState, [fieldName]: value }));
+    const fullDate = `${fecha.getFullYear()}-${
+      fecha.getMonth() + 1
+    }-${fecha.getDay()}T${fecha.getHours()}:${fecha.getMinutes()}`;
+    setAccountData((prevState) => ({ ...prevState, fecha: fullDate }));
+    setAccountData((prevState) => ({ ...prevState, [fieldName]: value }));
   };
 
   const radio_props = [
@@ -43,8 +46,8 @@ const AddCuenta = () => {
     <View style={{ flex: 1 }}>
       <View
         style={{
-          justifyContent: "center",
           padding: 15,
+          justifyContent: "center",
         }}
       >
         <View
@@ -55,16 +58,19 @@ const AddCuenta = () => {
           }}
         >
           <View style={{ width: "80%" }}>
-            <Text style={{ fontSize: 20 }}>Nombre</Text>
+            <Text style={{ fontSize: 20 }}>Producto</Text>
             <TextInput
-              value={accountData.nombre}
-              onChangeText={(value) => updData(value, "nombre")}
+              maxLength={15}
+              value={accountData.producto}
+              onChangeText={(value) => updData(value, "producto")}
               style={{
                 fontSize: 30,
                 width: "100%",
+                paddingTop: 2,
                 paddingLeft: 10,
                 borderBottomWidth: 1,
                 borderBottomColor: "gray",
+                // textTransform: "uppercase",
               }}
             />
           </View>
@@ -74,28 +80,20 @@ const AddCuenta = () => {
               alignItems: "flex-end",
             }}
           >
-            <TouchableOpacity
+            <FAB
+              color="#20a5d8"
+              style={{ padding: 5, borderRadius: 50 }}
+              icon={(props) => <Icon name="plus" {...props} />}
               onPress={() => {
-                if (accountData.nombre && accountData.monto) {
-                  // addCuenta(accountData);
-                  console.log(accountData);
+                if (accountData.producto && accountData.monto) {
+                  addCuenta(accountData);
                   setCompleteFieldOpacity(0);
                 } else {
                   setCompleteFieldOpacity(1);
                   setTimeout(() => setCompleteFieldOpacity(0), 1500);
                 }
               }}
-              style={{
-                width: 50,
-                height: 50,
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: "#1F9FD0",
-                borderRadius: 10,
-              }}
-            >
-              <Icon name="plus" size={30} />
-            </TouchableOpacity>
+            />
           </View>
         </View>
       </View>
@@ -110,7 +108,7 @@ const AddCuenta = () => {
               borderBottomWidth: 1,
               borderBottomColor: "gray",
             }}
-            maxLength={7}
+            maxLength={9}
             keyboardType="numeric"
             value={accountData.monto}
             onChangeText={(value) => updData(value, "monto")}
@@ -189,7 +187,7 @@ const AddCuenta = () => {
           </View>
         </View>
       </View>
-      <Animated.View>
+      <View>
         <Text
           style={{
             fontSize: 20,
@@ -200,7 +198,7 @@ const AddCuenta = () => {
         >
           Rellena todos los campos.
         </Text>
-      </Animated.View>
+      </View>
 
       <TouchableOpacity
         onPress={() => selectCuenta()}
@@ -240,23 +238,6 @@ const AddCuenta = () => {
       >
         <Text>CREATE</Text>
       </TouchableOpacity>
-
-      {/* <View style={{ flex: 1, padding: 10 }}>
-        <StyledText mainTitle style={{ padding: 10 }}>
-          Categorias
-        </StyledText>
-        <View style={{ flex: 1 }}>
-          <FlatList
-            data={data}
-            key={`${numColumns}`}
-            numColumns={numColumns}
-            keyExtractor={(elem) => elem.id}
-            renderItem={(elem) => (
-              <Categories elem={elem.item} updData={updData} />
-            )}
-          />
-        </View>
-      </View> */}
     </View>
   );
 };

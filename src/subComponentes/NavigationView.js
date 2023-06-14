@@ -1,87 +1,47 @@
-import React from "react";
+import React, { useState } from "react";
 import Home from "../screens/Home";
 import Cuentas from "../screens/Cuentas";
-import Ajustes from "../screens/Ajustes";
 import Consulta from "../screens/Consulta";
+import { useWindowDimensions } from "react-native";
 import Recordatorios from "../screens/Recordatorios";
-import Icon from "react-native-vector-icons/Entypo";
-import * as bottomTabs from "@react-navigation/bottom-tabs";
+import { TabView, SceneMap, TabBar } from "react-native-tab-view";
+
+const renderScene = SceneMap({
+  first: Home,
+  second: Cuentas,
+  third: Recordatorios,
+  fourth: Consulta,
+});
 
 const NavigationView = () => {
-  const Tab = bottomTabs.createBottomTabNavigator();
+  const layout = useWindowDimensions();
+  const [index, setIndex] = useState(0);
+  const [routes] = useState([
+    // { key: "first", title: "Inicio" },
+    { key: "second", title: "Cuentas" },
+    // { key: "third", title: "Categorias" },
+    // { key: "fourth", title: "Histórico" },
+  ]);
+
+  const renderTabBar = (props) => (
+    <TabBar
+      {...props}
+      inactiveColor="#666666"
+      labelStyle={{ fontSize: 12 }}
+      indicatorStyle={{ backgroundColor: "#ffffff" }}
+      style={{ backgroundColor: "#122e49", paddingVertical: 10 }}
+    />
+  );
+
   return (
-    <Tab.Navigator
-      screenOptions={() => ({
-        tabBarActiveTintColor: "#20a5d8",
-        tabBarInactiveTintColor: "gray",
-        tabBarStyle: {
-          height: 60,
-          backgroundColor: "#122e49",
-        },
-        tabBarIconStyle: {
-          marginTop: 5,
-        },
-        tabBarLabelStyle: {
-          fontSize: 15,
-          marginBottom: 5,
-        },
-      })}
-    >
-      {/* <Tab.Screen
-        name="Inicio"
-        component={Home}
-        options={{
-          headerShown: false,
-          tabBarIcon: ({ color }) => (
-            <Icon name="home" color={color} size={30} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Consulta"
-        component={Consulta}
-        options={{
-          headerTintColor: "#fff",
-          headerStyle: { backgroundColor: "#122e49" },
-          tabBarIcon: ({ color }) => (
-            <Icon name="bar-graph" color={color} size={30} />
-          ),
-        }}
-      /> */}
-      <Tab.Screen
-        name="Cuentas"
-        component={Cuentas}
-        options={{
-          headerTintColor: "#fff",
-          headerStyle: { backgroundColor: "#122e49" },
-          tabBarIcon: ({ color }) => (
-            <Icon name="user" color={color} size={30} />
-          ),
-        }}
-      />
-      <Tab.Screen
-        name="Recordatorios"
-        component={Recordatorios}
-        options={{
-          headerTintColor: "#fff",
-          headerStyle: { backgroundColor: "#122e49" },
-          tabBarIcon: ({ color }) => (
-            <Icon name="bar-graph" color={color} size={30} />
-          ),
-        }}
-      />
-      {/* <Tab.Screen
-        name="Ajustes"
-        component={Ajustes}
-        options={{
-          headerTintColor: "#fff",
-          headerStyle: { backgroundColor: "#122e49" },
-          tabBarIcon: ({ color }) => (
-            <Icon name="tools" color={color} size={30} />
-          ),
-        }}
-      /> */}
-    </Tab.Navigator>
+    <TabView
+      tabBarPosition="bottom"
+      renderTabBar={renderTabBar}
+      onIndexChange={setIndex}
+      renderScene={renderScene}
+      navigationState={{ index, routes }}
+      initialLayout={{ width: layout.width }}
+    />
   );
 };
 

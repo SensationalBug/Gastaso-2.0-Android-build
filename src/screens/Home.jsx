@@ -1,62 +1,31 @@
-import styles from "../subComponentes/Styles";
+import React, { useContext } from "react";
+import { FAB } from "@react-native-material/core";
 import Icon from "react-native-vector-icons/Entypo";
-import StyledText from "../subComponentes/StyledText";
 import { useNavigation } from "@react-navigation/native";
-import { FAB, Surface } from "@react-native-material/core";
-import React, { useState, useRef, useEffect } from "react";
-import { View, TouchableOpacity, Animated } from "react-native";
+import { AccountsContext } from "../context/AccountsContext";
+import { Text, View, StyleSheet, TouchableOpacity } from "react-native";
 
 const Home = () => {
   const navigation = useNavigation();
-  const [opacity, setOpacity] = useState(false);
-  const toggleOpacity = () => setOpacity((prevState) => !prevState);
-  const fadeAnim = useRef(new Animated.Value(0)).current;
-  useEffect(() => {
-    Animated.timing(fadeAnim, {
-      toValue: opacity ? 1 : 0,
-      duration: 200,
-      useNativeDriver: true,
-    }).start();
-  }, [opacity]);
+  const { accounts } = useContext(AccountsContext);
 
   return (
     <View style={styles.home}>
       <View style={styles.welcomeUser}>
-        <StyledText mainTitle>Bienvenido.</StyledText>
-        <StyledText userName>Nombre del usuario</StyledText>
-      </View>
-      <View style={styles.col}>
-        <Surface style={styles.surface}>
-          <StyledText surfaceTitle>Último Gasto</StyledText>
-          <StyledText surfaceContent>RD$000,000.00</StyledText>
-        </Surface>
-        <View style={styles.surface}>
-          <StyledText surfaceTitle>Promedio de Gastos</StyledText>
-          <StyledText surfaceContent>RD$000,000.00</StyledText>
-        </View>
-      </View>
-      <View style={styles.col}>
-        <Surface style={styles.surface}>
-          <StyledText surfaceTitle>Total de Ingresos</StyledText>
-          <StyledText surfaceContent>RD$000,000.00</StyledText>
-        </Surface>
-        <Surface style={styles.surface}>
-          <StyledText surfaceTitle>Restante Mensual</StyledText>
-          <StyledText surfaceContent>RD$000,000.00</StyledText>
-        </Surface>
+        <Text style={styles.mainTitle}>Bienvenido.</Text>
       </View>
       <View style={styles.openModalButtonStyle}>
         <View style={styles.modalButtons}>
           <FAB
             style={styles.addButton}
-            onPress={() => toggleOpacity()}
-            icon={(props) => <Icon name="plus" {...props} />}
+            onPress={() => console.log(accounts)}
+            icon={(props) => <Icon name="plus" {...props} color="#ffffff" />}
           />
           <TouchableOpacity
             style={styles.openModalButton}
             onPress={() => navigation.navigate("Detalles")}
           >
-            <StyledText buttonText>Detalles</StyledText>
+            <Text style={styles.openModalButtonText}>Detalles</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -65,3 +34,36 @@ const Home = () => {
 };
 
 export default Home;
+
+const styles = StyleSheet.create({
+  home: {
+    flex: 1,
+    justifyContent: "space-between",
+  },
+  welcomeUser: {
+    padding: 10,
+    alignItems: "center",
+  },
+  mainTitle: {
+    fontSize: 40,
+  },
+  col: {
+    marginTop: 10,
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
+  modalButtons: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+  },
+  openModalButton: {
+    width: "80%",
+    alignItems: "center",
+    borderTopLeftRadius: 10,
+    justifyContent: "center",
+    borderTopRightRadius: 10,
+    backgroundColor: "#122e49",
+  },
+  openModalButtonText: { color: "#ffffff", fontSize: 20 },
+  addButton: { backgroundColor: "#20a5d8" },
+});
