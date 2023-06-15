@@ -42,9 +42,7 @@ const AccountsProvider = ({ children }) => {
       tx.executeSql(
         "SELECT * FROM cuentas",
         [],
-        (txObj, queryResult) => {
-          setAccounts(queryResult.rows._array);
-        },
+        (txObj, queryResult) => setAccounts(queryResult.rows._array),
         (txObj, queryError) => console.log(queryError)
       );
     });
@@ -61,12 +59,12 @@ const AccountsProvider = ({ children }) => {
     });
   };
 
-  const deleteTable = () => {
+  const updateCuenta = (producto, monto, id) => {
     db.transaction((tx) => {
       tx.executeSql(
-        "DROP TABLE cuentas",
-        [],
-        (txObj, queryResult) => setAccounts(queryResult.rows._array),
+        "UPDATE cuentas SET producto = ?, monto = ? WHERE id = ?",
+        [producto, monto, id],
+        (txObj, queryResult) => selectCuenta(),
         (txObj, queryError) => console.log(queryError)
       );
     });
@@ -84,26 +82,15 @@ const AccountsProvider = ({ children }) => {
     });
   };
 
-  const createCuenta = () => {
-    db.transaction((tx) => {
-      tx.executeSql(
-        "CREATE TABLE IF NOT EXISTS cuentas (id INTEGER PRIMARY KEY AUTOINCREMENT, producto VARCHAR(10), monto VARCHAR(15), tipo VARCHAR(10), tipoTarjeta VARCHAR(10), fecha DATE)",
-        (txObj, queryResult) => console.log(queryResult),
-        (txObj, queryError) => console.log(queryError)
-      );
-    });
-  };
-
   return (
     <AccountsContext.Provider
       value={{
         accounts,
         addCuenta,
-        selectCuenta,
-        deleteTable,
-        createCuenta,
         setAccounts,
+        selectCuenta,
         deleteCuenta,
+        updateCuenta,
         selectCuentaId,
       }}
     >

@@ -1,21 +1,69 @@
-import React, { useContext, useState } from "react";
 import { FAB } from "@react-native-material/core";
 import Icon from "react-native-vector-icons/Entypo";
 import { FlatList } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { AccountsContext } from "../context/AccountsContext";
-import { CuentaSurface } from "../subComponentes/CuentaSurface";
+import { LocationContext } from "../context/LocationContext";
+import React, { useContext, useEffect, useState } from "react";
+import { AddCuentaSurface } from "../subComponentes/AddCuentaSurface";
 import { View, Text, StyleSheet, useWindowDimensions } from "react-native";
 
 const Cuentas = () => {
   const navigation = useNavigation();
   const layout = useWindowDimensions();
-  const [edit, setEdit] = useState(true);
-  const { accounts, selectCuenta } = useContext(AccountsContext);
+  const [edit, setEdit] = useState(false);
+  const { location } = useContext(LocationContext);
+  const { accounts, selectCuenta, updateCuenta } = useContext(AccountsContext);
+  const [editedAccountData, setEditedAccountData] = useState({
+    producto: "",
+    monto: "",
+    disabled: true,
+  });
+
+  useEffect(() => {
+    if (location === "Cuentas") {
+      setEdit(false);
+      selectCuenta();
+    }
+  }, [location]);
+
+  edtData = (value, fieldName) => {
+    setEditedAccountData((prevData) => ({ ...prevData, [fieldName]: value }));
+  };
+
+  const clearFields = () => {
+    setEditedAccountData({
+      producto: "",
+      monto: "",
+      disabled: true,
+    });
+  };
+
+  const toggleEdit = () => {
+    if (edit) {
+      setEdit(false);
+      selectCuenta();
+    } else {
+      setEdit(true);
+      selectCuenta();
+    }
+  };
+
+  const getItemData = (producto, monto) => {
+    if (!producto && !monto) {
+    } else if (producto && monto) {
+      updateCuenta(producto, monto, accounts[0].id);
+    } else if (!producto) {
+      updateCuenta(accounts[0].producto, monto, accounts[0].id);
+    } else if (!monto) {
+      updateCuenta(producto, accounts[0].monto, accounts[0].id);
+    }
+    toggleEdit();
+  };
 
   return (
     <View style={cuentasStyles.cuentas}>
-      {edit ? (
+      {!edit ? (
         <View style={cuentasStyles.cuentaPage}>
           <Text style={cuentasStyles.addCuenta}>Agregar producto</Text>
           <FAB
@@ -27,14 +75,34 @@ const Cuentas = () => {
       ) : (
         <View style={cuentasStyles.cuentaPage}>
           <Text style={cuentasStyles.addCuenta}>Editar producto</Text>
-          <FAB
-            color="#F24C3D"
-            onPress={() => {
-              setEdit(true);
-              selectCuenta();
+          <View
+            style={{
+              width: 150,
+              width: "40%",
+              alignItems: "center",
+              flexDirection: "row",
+              justifyContent: "space-evenly",
             }}
-            icon={(props) => <Icon name="cross" {...props} color="#ffffff" />}
-          />
+          >
+            <FAB
+              style={{ opacity: editedAccountData.disabled ? 0.3 : 1 }}
+              disabled={editedAccountData.disabled}
+              color="#22A699"
+              onPress={() =>
+                getItemData(
+                  editedAccountData.producto,
+                  editedAccountData.monto,
+                  accounts[0].id
+                )
+              }
+              icon={(props) => <Icon name="check" {...props} color="#ffffff" />}
+            />
+            <FAB
+              color="#F24C3D"
+              onPress={() => toggleEdit()}
+              icon={(props) => <Icon name="cross" {...props} color="#ffffff" />}
+            />
+          </View>
         </View>
       )}
       <View style={{ paddingVertical: 10 }}>
@@ -43,7 +111,15 @@ const Cuentas = () => {
           keyExtractor={(item) => item.id}
           style={{ height: layout.height - 145 }}
           renderItem={(item) => (
-            <CuentaSurface item={item} edit={edit} setEdit={setEdit} />
+            <AddCuentaSurface
+              item={item}
+              edit={edit}
+              edtData={edtData}
+              setEdit={setEdit}
+              clearFields={clearFields}
+              editedAccountData={editedAccountData}
+              setEditedAccountData={setEditedAccountData}
+            />
           )}
         />
       </View>

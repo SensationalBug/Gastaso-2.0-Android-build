@@ -1,19 +1,12 @@
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  TouchableHighlight,
-} from "react-native";
+import { FAB } from "@react-native-material/core";
 import React, { useState, useContext } from "react";
 import RadioForm from "react-native-simple-radio-button";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { AccountsContext } from "../context/AccountsContext";
-import { FAB } from "@react-native-material/core";
+import { View, Text, TextInput, TouchableHighlight } from "react-native";
 
 const AddCuenta = () => {
-  const { addCuenta, selectCuenta, deleteTable, createCuenta } =
-    useContext(AccountsContext);
+  const { addCuenta } = useContext(AccountsContext);
   const [accountData, setAccountData] = useState({
     producto: "",
     monto: "",
@@ -27,6 +20,16 @@ const AddCuenta = () => {
     active: false,
     radioButton: "0%",
   });
+
+  const clearFields = () => {
+    setAccountData({
+      producto: "",
+      monto: "",
+      tipo: "Efectivo",
+      tipoTarjeta: "",
+      fecha: "",
+    });
+  };
 
   const updData = (value, fieldName) => {
     const fecha = new Date();
@@ -70,7 +73,6 @@ const AddCuenta = () => {
                 paddingLeft: 10,
                 borderBottomWidth: 1,
                 borderBottomColor: "gray",
-                // textTransform: "uppercase",
               }}
             />
           </View>
@@ -86,8 +88,10 @@ const AddCuenta = () => {
               icon={(props) => <Icon name="plus" {...props} />}
               onPress={() => {
                 if (accountData.producto && accountData.monto) {
+                  clearFields();
                   addCuenta(accountData);
                   setCompleteFieldOpacity(0);
+                  setActiveButton({ active: false, index: 0 });
                 } else {
                   setCompleteFieldOpacity(1);
                   setTimeout(() => setCompleteFieldOpacity(0), 1500);
@@ -199,45 +203,6 @@ const AddCuenta = () => {
           Rellena todos los campos.
         </Text>
       </View>
-
-      <TouchableOpacity
-        onPress={() => selectCuenta()}
-        style={{
-          backgroundColor: "green",
-          paddingVertical: 20,
-          width: 100,
-          margin: 30,
-          alignItems: "center",
-        }}
-      >
-        <Text>SELECT</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        onPress={() => deleteTable()}
-        style={{
-          backgroundColor: "red",
-          paddingVertical: 20,
-          width: 100,
-          margin: 30,
-          alignItems: "center",
-        }}
-      >
-        <Text>DELETE</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        onPress={() => createCuenta()}
-        style={{
-          backgroundColor: "blue",
-          paddingVertical: 20,
-          width: 100,
-          margin: 30,
-          alignItems: "center",
-        }}
-      >
-        <Text>CREATE</Text>
-      </TouchableOpacity>
     </View>
   );
 };
