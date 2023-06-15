@@ -1,43 +1,64 @@
-import React, { useContext, useState } from "react";
 import { FAB } from "@react-native-material/core";
 import Icon from "react-native-vector-icons/Entypo";
 import { FlatList } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { AccountsContext } from "../context/AccountsContext";
-import { CuentaSurface } from "../subComponentes/CuentaSurface";
+import { LocationContext } from "../context/LocationContext";
+import React, { useContext, useEffect, useState } from "react";
+import { AddCuentaSurface } from "../subComponentes/AddCuentaSurface";
 import { View, Text, StyleSheet, useWindowDimensions } from "react-native";
 
 const Cuentas = () => {
   const navigation = useNavigation();
   const layout = useWindowDimensions();
   const [edit, setEdit] = useState(false);
+  const { location } = useContext(LocationContext);
   const { accounts, selectCuenta, updateCuenta } = useContext(AccountsContext);
   const [editedAccountData, setEditedAccountData] = useState({
     producto: "",
     monto: "",
+    disabled: true,
   });
+
+  useEffect(() => {
+    if (location === "Cuentas") {
+      setEdit(false);
+      selectCuenta();
+    }
+  }, [location]);
+
+  edtData = (value, fieldName) => {
+    setEditedAccountData((prevData) => ({ ...prevData, [fieldName]: value }));
+  };
+
+  const clearFields = () => {
+    setEditedAccountData({
+      producto: "",
+      monto: "",
+      disabled: true,
+    });
+  };
 
   const toggleEdit = () => {
     if (edit) {
       setEdit(false);
       selectCuenta();
-      console.log(accounts);
     } else {
       setEdit(true);
       selectCuenta();
-      console.log(accounts);
     }
   };
 
-  const getItemData = (producto, monto, id) => {
-    // if (!producto && !monto) {
-    //   toggleEdit();
-    // } else if (!producto) {
-    //   updateCuenta(accounts[0].producto, monto, accounts[0].id);
-    // } else {
-    //   updateCuenta(producto, accounts[0].monto, accounts[0].id);
-    // }
-    updateCuenta(producto, monto, id);
+  const getItemData = (producto, monto) => {
+    if (!producto && !monto) {
+    } else if (producto && monto) {
+      updateCuenta(producto, monto, accounts[0].id);
+    } else if (!producto) {
+      updateCuenta(accounts[0].producto, monto, accounts[0].id);
+    } else if (!monto) {
+      updateCuenta(producto, accounts[0].monto, accounts[0].id);
+    }
+    toggleEdit();
   };
 
   return (
@@ -47,9 +68,7 @@ const Cuentas = () => {
           <Text style={cuentasStyles.addCuenta}>Agregar producto</Text>
           <FAB
             color="#122e49"
-            onPress={() => {
-              console.log(accounts); // navigation.navigate("Añadir cuenta");
-            }}
+            onPress={() => navigation.navigate("Añadir cuenta")}
             icon={(props) => <Icon name="plus" {...props} color="#ffffff" />}
           />
         </View>
@@ -66,6 +85,8 @@ const Cuentas = () => {
             }}
           >
             <FAB
+              style={{ opacity: editedAccountData.disabled ? 0.3 : 1 }}
+              disabled={editedAccountData.disabled}
               color="#22A699"
               onPress={() =>
                 getItemData(
@@ -90,10 +111,12 @@ const Cuentas = () => {
           keyExtractor={(item) => item.id}
           style={{ height: layout.height - 145 }}
           renderItem={(item) => (
-            <CuentaSurface
+            <AddCuentaSurface
               item={item}
               edit={edit}
+              edtData={edtData}
               setEdit={setEdit}
+              clearFields={clearFields}
               editedAccountData={editedAccountData}
               setEditedAccountData={setEditedAccountData}
             />

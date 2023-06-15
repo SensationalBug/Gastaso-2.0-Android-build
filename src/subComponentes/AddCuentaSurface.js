@@ -1,23 +1,20 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import Icon from "react-native-vector-icons/Entypo";
-import { View, Text, Alert, TextInput, TouchableOpacity } from "react-native";
-import { AccountsContext } from "../context/AccountsContext";
 import { Pressable } from "@react-native-material/core";
+import { AccountsContext } from "../context/AccountsContext";
+import { View, Text, Alert, TextInput, TouchableOpacity } from "react-native";
 
-export const CuentaSurface = ({
+export const AddCuentaSurface = ({
   item,
   edit,
   setEdit,
+  edtData,
+  clearFields,
   editedAccountData,
-  setEditedAccountData,
 }) => {
   const { deleteCuenta, selectCuenta, selectCuentaId } =
     useContext(AccountsContext);
   const { id, monto, producto, tipo, tipoTarjeta } = item.item;
-
-  edtData = (value, fieldName) => {
-    setEditedAccountData((prevData) => ({ ...prevData, [fieldName]: value }));
-  };
 
   const toggleEdit = () => {
     if (!edit) {
@@ -27,22 +24,24 @@ export const CuentaSurface = ({
       selectCuenta();
       setEdit(false);
     }
+    clearFields();
   };
 
   const showAlert = () => {
-    // Alert.alert(
-    //   "ADVERTENCIA",
-    //   `Seguro que quieres eliminar el producto ${producto} ?`,
-    //   [
-    //     {
-    //       text: "Si",
-    //       onPress: () => deleteCuenta(id),
-    //     },
-    //     { text: "No", style: "destructive" },
-    //   ]
-    // );
-    console.log(editedAccountData, monto, producto);
-    // getItem(producto, monto, id);
+    Alert.alert(
+      "ADVERTENCIA",
+      `Seguro que quieres eliminar el producto ${producto} ?`,
+      [
+        {
+          text: "Si",
+          onPress: () => {
+            toggleEdit();
+            deleteCuenta(id);
+          },
+        },
+        { text: "No", style: "cancel" },
+      ]
+    );
   };
 
   const formatter = new Intl.NumberFormat("es-DO", {
@@ -59,6 +58,7 @@ export const CuentaSurface = ({
       }}
     >
       <Pressable
+        delayLongPress={200}
         onLongPress={() => toggleEdit()}
         style={{
           width: "98%",
@@ -67,7 +67,7 @@ export const CuentaSurface = ({
           backgroundColor: "#20a5d8",
         }}
       >
-        <View style={{ width: "60%", padding: 20 }}>
+        <View style={{ width: "90%", padding: 20 }}>
           <View>
             {!edit ? (
               <Text
@@ -93,11 +93,16 @@ export const CuentaSurface = ({
                 maxLength={15}
                 placeholder={producto}
                 value={editedAccountData.producto}
-                onChangeText={(value) => edtData(value, "producto")}
+                onChangeText={(value) => {
+                  edtData(value, "producto");
+                  value || editedAccountData.monto
+                    ? edtData(false, "disabled")
+                    : edtData(true, "disabled");
+                }}
               />
             )}
           </View>
-          <View style={{ flexDirection: "row" }}>
+          <View style={{ flexDirection: "row", paddingBottom: 10 }}>
             <Text style={{ color: "#ffffff", fontSize: 15 }}>{tipo}</Text>
             <Text style={{ color: "#ffffff", fontSize: 15 }}>
               {tipo === "Efectivo" ? "" : ` --> ${tipoTarjeta}`}
@@ -112,7 +117,6 @@ export const CuentaSurface = ({
               <TextInput
                 style={{
                   fontSize: 35,
-                  paddingTop: 10,
                   color: "#ffffff",
                   borderBottomWidth: 1,
                   borderTopLeftRadius: 5,
@@ -124,24 +128,27 @@ export const CuentaSurface = ({
                 keyboardType="numeric"
                 value={editedAccountData.monto}
                 placeholder={formatter.format(monto)}
-                onChangeText={(value) => edtData(value, "monto")}
+                onChangeText={(value) => {
+                  edtData(value, "monto");
+                  value || editedAccountData.producto
+                    ? edtData(false, "disabled")
+                    : edtData(true, "disabled");
+                }}
               />
             )}
           </View>
         </View>
         <View
           style={{
-            width: 150,
-            width: "40%",
+            width: "10%",
+            paddingTop: 5,
+            paddingRight: 5,
             alignItems: "flex-end",
           }}
         >
           {edit ? (
-            <TouchableOpacity
-              style={{ padding: 15 }}
-              onPress={() => showAlert()}
-            >
-              <Icon size={20} name="trash" />
+            <TouchableOpacity onPress={() => showAlert()}>
+              <Icon size={20} name="trash" color="#ffffff"/>
             </TouchableOpacity>
           ) : null}
         </View>
