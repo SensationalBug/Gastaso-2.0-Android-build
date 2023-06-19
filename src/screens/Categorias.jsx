@@ -1,36 +1,46 @@
-import React, { useContext, useState } from "react";
+import DropdownAlert from "react-native-dropdownalert";
 import { FlatList } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome";
+import React, { useContext, useRef, useState } from "react";
 import { FAB, Pressable } from "@react-native-material/core";
-import { SelectList } from "react-native-dropdown-select-list";
 import { CateogiesContext } from "../context/CategoriesContext";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  useWindowDimensions,
-} from "react-native";
+import { View, Text, TextInput, useWindowDimensions } from "react-native";
+import { AddCategoriasPressable } from "../subComponentes/AddCategoriasPressable";
 
 const Recordatorios = () => {
   const layout = useWindowDimensions();
-  const { selectCategory, categories, insertCategory } =
-    useContext(CateogiesContext);
+  const {
+    selectCategory,
+    categories,
+    insertCategory,
+    dropDownAlertRef,
+    deteleCategory,
+    delAllCategory,
+  } = useContext(CateogiesContext);
 
-  const [selected, setSelected] = useState("");
+  const [selectedButtonId, setSelectedButtonId] = useState(null);
 
-  const data = [
-    { key: "1", value: "Mobiles" },
-    { key: "2", value: "Appliances" },
-    { key: "3", value: "Cameras" },
-    { key: "4", value: "Computers" },
-    { key: "5", value: "Vegetables" },
-    { key: "6", value: "Diary Products" },
-    { key: "7", value: "Drinks" },
-    { key: "8", value: "Furniture" },
-    { key: "9", value: "Books" },
-    { key: "10", value: "Clothing" },
-  ];
+  const [newCategoria, setNewCategoria] = useState("");
+
+  const updData = (value) =>
+    setNewCategoria((prevState) => ({ ...prevState, value }));
+
+  const clearFields = () => {
+    setNewCategoria("");
+  };
+
+  const insertNewCategory = () => {
+    if (newCategoria) {
+      insertCategory(newCategoria);
+      setNewCategoria("");
+    } else {
+      dropDownAlertRef.current.alertWithType(
+        "error",
+        "System Info",
+        "Ingresa el nombre de la categoría"
+      );
+    }
+  };
 
   return (
     <View>
@@ -47,11 +57,13 @@ const Recordatorios = () => {
             justifyContent: "space-between",
           }}
         >
+          {/* <FAB icon={<Icon name="minus" onPress={() => delAllCategory()} />} /> */}
           <View style={{ width: "80%" }}>
-            <Text style={{ fontSize: 20 }}>Nombre</Text>
+            <Text style={{ fontSize: 20 }}>Nombre de la categoría</Text>
             <TextInput
               maxLength={15}
-              onChangeText={(value) => updData(value, "producto")}
+              value={newCategoria}
+              onChangeText={(value) => setNewCategoria(value)}
               style={{
                 fontSize: 30,
                 width: "100%",
@@ -71,60 +83,51 @@ const Recordatorios = () => {
             <FAB
               color="#20a5d8"
               style={{ padding: 5, borderRadius: 50 }}
+              onPress={() => insertNewCategory()}
               icon={(props) => <Icon name="plus" {...props} />}
-              onPress={() => {}}
             />
           </View>
         </View>
       </View>
-      <View style={{ padding: 15 }}>
-        <View>
-          <Text style={{ fontSize: 20, marginVertical: 5 }}>Icono</Text>
-          <SelectList
-            data={data}
-            save="value"
-            search={false}
-            maxHeight={200}
-            setSelected={(value) => setSelected(value)}
-          />
-        </View>
-        <View
+      <View
+        style={{
+          alignItems: "center",
+          height: layout.height - 170,
+        }}
+      >
+        <Text
           style={{
-            width: "50%",
-            alignItems: "center",
-            flexDirection: "row",
-            justifyContent: "space-evenly",
-            flexDirection: "column",
+            width: "90%",
+            fontSize: 30,
+            marginVertical: 10,
+            textAlign: "justify",
           }}
-        ></View>
-      </View>
-
-      <View style={{ alignItems: "center", height: layout.height - 300 }}>
+        >
+          Categorias disponibles
+        </Text>
         <FlatList
           numColumns={3}
           data={categories}
           keyExtractor={(item) => item.id}
           renderItem={(item) => (
-            <Pressable
-              onPress={() => console.log(selected)}
-              style={{
-                height: 80,
-                width: 100,
-                margin: 10,
-                borderRadius: 5,
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: "#20a5d8",
-              }}
-            >
-              <Icon size={25} name={item.item.iconName} />
-              <Text style={{ fontSize: 20, marginVertical: 5 }}>
-                {item.item.nombre}
-              </Text>
-            </Pressable>
+            <AddCategoriasPressable
+              item={item}
+              updData={updData}
+              newCategoria={newCategoria}
+              deteleCategory={deteleCategory}
+              selectedButtonId={selectedButtonId}
+              dropDownAlertRef={dropDownAlertRef}
+              setSelectedButtonId={setSelectedButtonId}
+            />
           )}
         />
       </View>
+      <DropdownAlert
+        infoColor="#20a5d8"
+        titleStyle={{ fontSize: 30, color: "#ffffff" }}
+        messageStyle={{ fontSize: 20, color: "#ffffff" }}
+        ref={dropDownAlertRef}
+      />
     </View>
   );
 };

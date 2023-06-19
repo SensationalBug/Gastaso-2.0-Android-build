@@ -1,10 +1,11 @@
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useRef, useState } from "react";
 import * as SQLite from "expo-sqlite";
 
 export const CateogiesContext = createContext();
 
 const CateogiesProvider = ({ children }) => {
   const [categories, setCatgories] = useState();
+  const dropDownAlertRef = useRef();
 
   const baseCategories = [
     { nombre: "Ahorro", iconName: "money" },
@@ -60,21 +61,73 @@ const CateogiesProvider = ({ children }) => {
     });
   };
 
-  const insertCategory = (nombre, iconName) => {
+  const insertCategory = (nombre) => {
     db.transaction((tx) => {
       tx.executeSql(
         "INSERT INTO categorias (nombre, iconName) values (?,?)",
-        [nombre, iconName],
-        (txObj, queryResults) => selectCategory(),
+        [nombre, "asterisk"],
+        (txObj, queryResults) => {
+          dropDownAlertRef.current.alertWithType(
+            "success",
+            "System Info",
+            "La categoría se ha agregado de manera correcta."
+          );
+          selectCategory();
+        },
+        (txObj, queryError) =>
+          dropDownAlertRef.current.alertWithType(
+            "error",
+            "System Info",
+            "Error interno"
+          )
+      );
+    });
+  };
+
+  const deteleCategory = (id) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "DELETE FROM categorias WHERE id = ?",
+        [id],
+        (txObj, queryResults) => {
+          dropDownAlertRef.current.alertWithType(
+            "success",
+            "System Info",
+            "La categoría se ha eliminado de manera correcta."
+          );
+          selectCategory();
+        },
+        (txObj, queryError) =>
+          dropDownAlertRef.current.alertWithType(
+            "error",
+            "System Info",
+            "Error interno"
+          )
+      );
+    });
+  };
+
+  const delAllCategory = () => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "DROP TABLE categorias",
+        [],
+        (txObj, queryResults) => console.log(queryResults),
         (txObj, queryError) => console.log(queryError)
       );
     });
   };
 
-
   return (
     <CateogiesContext.Provider
-      value={{ selectCategory, categories, insertCategory }}
+      value={{
+        selectCategory,
+        categories,
+        insertCategory,
+        dropDownAlertRef,
+        deteleCategory,
+        delAllCategory,
+      }}
     >
       {children}
     </CateogiesContext.Provider>
