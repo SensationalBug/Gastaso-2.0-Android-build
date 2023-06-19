@@ -23,7 +23,8 @@ const CateogiesProvider = ({ children }) => {
   useEffect(() => {
     db.transaction((tx) => {
       tx.executeSql(
-        "CREATE TABLE IF NOT EXISTS categorias (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(15), iconName VARCHAR(20))",
+        "CREATE TABLE categorias (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(15), iconName VARCHAR(20))",
+        [],
         (txObj, queryResult) => {
           baseCategories.map((elem) => {
             db.transaction((tx) => {
@@ -35,8 +36,7 @@ const CateogiesProvider = ({ children }) => {
               );
             });
           });
-        },
-        (txObj, queryError) => console.log(queryError, "Error")
+        }
       );
     });
     db.transaction((tx) => {
@@ -54,14 +54,28 @@ const CateogiesProvider = ({ children }) => {
       tx.executeSql(
         "SELECT * FROM categorias",
         [],
-        (txObj, queryResults) => console.log(queryResults.rows._array),
+        (txObj, queryResults) => setCatgories(queryResults.rows._array),
         (txObj, queryError) => console.log(queryError)
       );
     });
   };
 
+  const insertCategory = (nombre, iconName) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "INSERT INTO categorias (nombre, iconName) values (?,?)",
+        [nombre, iconName],
+        (txObj, queryResults) => selectCategory(),
+        (txObj, queryError) => console.log(queryError)
+      );
+    });
+  };
+
+
   return (
-    <CateogiesContext.Provider value={{ selectCategory, categories }}>
+    <CateogiesContext.Provider
+      value={{ selectCategory, categories, insertCategory }}
+    >
       {children}
     </CateogiesContext.Provider>
   );
