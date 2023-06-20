@@ -1,12 +1,13 @@
-import React, { createContext, useEffect, useState } from "react";
 import * as SQLite from "expo-sqlite";
+import React, { createContext, useEffect, useRef, useState } from "react";
 
 export const AccountsContext = createContext();
 
 const AccountsProvider = ({ children }) => {
   const [accounts, setAccounts] = useState([]);
-
   const db = SQLite.openDatabase("GASTASO.db");
+  const dropDownAlertRef = useRef();
+  const dropDownAlertRefAdd = useRef();
 
   useEffect(() => {
     db.transaction((tx) => {
@@ -29,9 +30,7 @@ const AccountsProvider = ({ children }) => {
       tx.executeSql(
         "SELECT * FROM cuentas WHERE id = ?",
         [id],
-        (txObj, queryResult) => {
-          setAccounts(queryResult.rows._array);
-        },
+        (txObj, queryResult) => setAccounts(queryResult.rows._array),
         (txObj, queryError) => console.log(queryError)
       );
     });
@@ -42,7 +41,10 @@ const AccountsProvider = ({ children }) => {
       tx.executeSql(
         "SELECT * FROM cuentas",
         [],
-        (txObj, queryResult) => setAccounts(queryResult.rows._array),
+        (txObj, queryResult) => {
+          console.log(queryResult);
+          setAccounts(queryResult.rows._array);
+        },
         (txObj, queryError) => console.log(queryError)
       );
     });
@@ -53,7 +55,14 @@ const AccountsProvider = ({ children }) => {
       tx.executeSql(
         "DELETE FROM cuentas WHERE id = ?",
         [id],
-        (txObj, queryResult) => selectCuenta(),
+        (txObj, queryResult) => {
+          dropDownAlertRef.current.alertWithType(
+            "info",
+            "System Info",
+            "La cuenta se ha eliminado de manera correcta."
+          );
+          selectCuenta();
+        },
         (txObj, queryError) => console.log(queryError)
       );
     });
@@ -64,7 +73,14 @@ const AccountsProvider = ({ children }) => {
       tx.executeSql(
         "UPDATE cuentas SET producto = ?, monto = ? WHERE id = ?",
         [producto, monto, id],
-        (txObj, queryResult) => selectCuenta(),
+        (txObj, queryResult) => {
+          dropDownAlertRef.current.alertWithType(
+            "info",
+            "System Info",
+            "La cuenta se ha editado de manera correcta."
+          );
+          selectCuenta();
+        },
         (txObj, queryError) => console.log(queryError)
       );
     });
@@ -76,7 +92,14 @@ const AccountsProvider = ({ children }) => {
       tx.executeSql(
         "INSERT INTO cuentas (producto, monto, tipo, tipoTarjeta ,fecha) values (?,?,?,?,?)",
         [producto, monto, tipo, tipoTarjeta, fecha],
-        (txObj, queryResult) => selectCuenta(),
+        (txObj, queryResult) => {
+          dropDownAlertRefAdd.current.alertWithType(
+            "success",
+            "System Info",
+            "La cuenta se ha agregado de manera correcta."
+          );
+          selectCuenta();
+        },
         (txObj, queryError) => console.log(queryError)
       );
     });
@@ -92,6 +115,8 @@ const AccountsProvider = ({ children }) => {
         deleteCuenta,
         updateCuenta,
         selectCuentaId,
+        dropDownAlertRef,
+        dropDownAlertRefAdd,
       }}
     >
       {children}

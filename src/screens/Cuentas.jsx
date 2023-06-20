@@ -1,5 +1,6 @@
 import { FAB } from "@react-native-material/core";
 import Icon from "react-native-vector-icons/Entypo";
+import DropdownAlert from "react-native-dropdownalert";
 import { FlatList } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { AccountsContext } from "../context/AccountsContext";
@@ -13,7 +14,8 @@ const Cuentas = () => {
   const layout = useWindowDimensions();
   const [edit, setEdit] = useState(false);
   const { location } = useContext(LocationContext);
-  const { accounts, selectCuenta, updateCuenta } = useContext(AccountsContext);
+  const { accounts, selectCuenta, updateCuenta, dropDownAlertRef } =
+    useContext(AccountsContext);
   const [editedAccountData, setEditedAccountData] = useState({
     producto: "",
     monto: "",
@@ -87,7 +89,7 @@ const Cuentas = () => {
             <FAB
               style={{ opacity: editedAccountData.disabled ? 0.3 : 1 }}
               disabled={editedAccountData.disabled}
-              color="#22A699"
+              color="#1F8A70"
               onPress={() =>
                 getItemData(
                   editedAccountData.producto,
@@ -123,6 +125,13 @@ const Cuentas = () => {
           )}
         />
       </View>
+      <DropdownAlert
+        infoColor="#122e49"
+        closeInterval={1000}
+        ref={dropDownAlertRef}
+        titleStyle={{ fontSize: 30, color: "#ffffff" }}
+        messageStyle={{ fontSize: 20, color: "#ffffff" }}
+      />
     </View>
   );
 };

@@ -1,12 +1,21 @@
 import { FAB } from "@react-native-material/core";
 import React, { useState, useContext } from "react";
+import DropdownAlert from "react-native-dropdownalert";
+import { useNavigation } from "@react-navigation/native";
 import RadioForm from "react-native-simple-radio-button";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { AccountsContext } from "../context/AccountsContext";
-import { View, Text, TextInput, TouchableHighlight } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  TouchableOpacity,
+  TouchableHighlight,
+} from "react-native";
 
 const AddCuenta = () => {
-  const { addCuenta } = useContext(AccountsContext);
+  const navigation = useNavigation();
+  const { addCuenta, dropDownAlertRefAdd } = useContext(AccountsContext);
   const [accountData, setAccountData] = useState({
     producto: "",
     monto: "",
@@ -14,7 +23,6 @@ const AddCuenta = () => {
     tipoTarjeta: "",
     fecha: "",
   });
-  const [completeFieldOpacity, setCompleteFieldOpacity] = useState(0);
   const [activeButton, setActiveButton] = useState({
     index: 0,
     active: false,
@@ -47,6 +55,20 @@ const AddCuenta = () => {
 
   return (
     <View style={{ flex: 1 }}>
+      <View
+        style={{
+          padding: 15,
+          flexDirection: "row",
+          backgroundColor: "#122e49",
+        }}
+      >
+        <TouchableOpacity onPress={() => navigation.goBack()}>
+          <Icon name="arrow-left" color="#ffffff" size={30} />
+        </TouchableOpacity>
+        <Text style={{ color: "#ffffff", fontSize: 20, marginHorizontal: 20 }}>
+          Añadir categoría
+        </Text>
+      </View>
       <View
         style={{
           padding: 15,
@@ -83,18 +105,20 @@ const AddCuenta = () => {
             }}
           >
             <FAB
-              color="#20a5d8"
+              color="#122e49"
               style={{ padding: 5, borderRadius: 50 }}
               icon={(props) => <Icon name="plus" {...props} />}
               onPress={() => {
                 if (accountData.producto && accountData.monto) {
                   clearFields();
                   addCuenta(accountData);
-                  setCompleteFieldOpacity(0);
                   setActiveButton({ active: false, index: 0 });
                 } else {
-                  setCompleteFieldOpacity(1);
-                  setTimeout(() => setCompleteFieldOpacity(0), 1500);
+                  dropDownAlertRefAdd.current.alertWithType(
+                    "error",
+                    "System Info",
+                    "Rellena todos los campos"
+                  );
                 }
               }}
             />
@@ -191,18 +215,13 @@ const AddCuenta = () => {
           </View>
         </View>
       </View>
-      <View>
-        <Text
-          style={{
-            fontSize: 20,
-            color: "red",
-            textAlign: "center",
-            opacity: completeFieldOpacity,
-          }}
-        >
-          Rellena todos los campos.
-        </Text>
-      </View>
+      <DropdownAlert
+        infoColor="#122e49"
+        closeInterval={800}
+        ref={dropDownAlertRefAdd}
+        titleStyle={{ fontSize: 30, color: "#ffffff" }}
+        messageStyle={{ fontSize: 20, color: "#ffffff" }}
+      />
     </View>
   );
 };

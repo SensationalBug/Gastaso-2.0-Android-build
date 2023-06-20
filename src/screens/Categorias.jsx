@@ -10,12 +10,12 @@ import { AddCategoriasPressable } from "../subComponentes/AddCategoriasPressable
 const Recordatorios = () => {
   const layout = useWindowDimensions();
   const {
-    selectCategory,
     categories,
+    selectCategory,
     insertCategory,
-    dropDownAlertRef,
     deteleCategory,
     delAllCategory,
+    dropDownAlertRef,
   } = useContext(CateogiesContext);
 
   const [selectedButtonId, setSelectedButtonId] = useState(null);
@@ -24,10 +24,6 @@ const Recordatorios = () => {
 
   const updData = (value) =>
     setNewCategoria((prevState) => ({ ...prevState, value }));
-
-  const clearFields = () => {
-    setNewCategoria("");
-  };
 
   const insertNewCategory = () => {
     if (newCategoria) {
@@ -81,10 +77,10 @@ const Recordatorios = () => {
             }}
           >
             <FAB
-              color="#20a5d8"
+              color="#122e49"
               style={{ padding: 5, borderRadius: 50 }}
               onPress={() => insertNewCategory()}
-              icon={(props) => <Icon name="plus" {...props} />}
+              icon={(props) => <Icon name="plus" {...props} color="#ffffff" />}
             />
           </View>
         </View>
@@ -123,10 +119,11 @@ const Recordatorios = () => {
         />
       </View>
       <DropdownAlert
-        infoColor="#20a5d8"
+        infoColor="#122e49"
+        closeInterval={1000}
+        ref={dropDownAlertRef}
         titleStyle={{ fontSize: 30, color: "#ffffff" }}
         messageStyle={{ fontSize: 20, color: "#ffffff" }}
-        ref={dropDownAlertRef}
       />
     </View>
   );

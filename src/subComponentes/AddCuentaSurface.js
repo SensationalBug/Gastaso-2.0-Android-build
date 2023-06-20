@@ -58,7 +58,7 @@ export const AddCuentaSurface = ({
       }}
     >
       <Pressable
-        delayLongPress={200}
+        delayLongPress={400}
         onLongPress={() => toggleEdit()}
         style={{
           width: "98%",
@@ -141,14 +141,14 @@ export const AddCuentaSurface = ({
         <View
           style={{
             width: "10%",
-            paddingTop: 5,
-            paddingRight: 5,
+            paddingTop: 10,
+            paddingRight: 10,
             alignItems: "flex-end",
           }}
         >
           {edit ? (
             <TouchableOpacity onPress={() => showAlert()}>
-              <Icon size={20} name="trash" color="#ffffff"/>
+              <Icon size={25} name="trash" color="#ffffff" />
             </TouchableOpacity>
           ) : null}
         </View>

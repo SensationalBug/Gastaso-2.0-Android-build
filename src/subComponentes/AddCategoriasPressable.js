@@ -59,8 +59,8 @@ export const AddCategoriasPressable = (props) => {
         // opacity: selectedButtonId === item.item.id ? 0.3 : 1,
       }}
     >
-      <Icon size={25} name={item.item.iconName} />
-      <Text style={{ fontSize: 20, marginVertical: 5 }}>
+      <Icon size={25} name={item.item.iconName} color="#ffffff"/>
+      <Text style={{ fontSize: 20, marginVertical: 5, color:"#ffffff" }}>
         {item.item.nombre}
       </Text>
     </Pressable>

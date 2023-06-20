@@ -91,7 +91,7 @@ const CateogiesProvider = ({ children }) => {
         [id],
         (txObj, queryResults) => {
           dropDownAlertRef.current.alertWithType(
-            "success",
+            "info",
             "System Info",
             "La categoría se ha eliminado de manera correcta."
           );

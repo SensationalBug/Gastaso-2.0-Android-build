@@ -1,9 +1,9 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 
-const Consulta = () => {
+const Historial = () => {
   return (
-    <View style={styles.consulta}>
+    <View style={styles.historial}>
       <Text style={{ fontSize: 25, textAlign: "center" }}>
         Esta página se encuentra en mantenimiento para la versión 2.0.0 de la
         app
@@ -12,10 +12,10 @@ const Consulta = () => {
   );
 };
 
-export default Consulta;
+export default Historial;
 
 const styles = StyleSheet.create({
-  consulta: {
+  historial: {
     flex: 1,
     justifyContent: "center",
     marginHorizontal: 30,
