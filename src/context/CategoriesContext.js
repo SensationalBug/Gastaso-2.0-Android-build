@@ -107,26 +107,13 @@ const CateogiesProvider = ({ children }) => {
     });
   };
 
-  const delAllCategory = () => {
-    db.transaction((tx) => {
-      tx.executeSql(
-        "DROP TABLE categorias",
-        [],
-        (txObj, queryResults) => console.log(queryResults),
-        (txObj, queryError) => console.log(queryError)
-      );
-    });
-  };
-
   return (
     <CateogiesContext.Provider
       value={{
-        selectCategory,
         categories,
         insertCategory,
-        dropDownAlertRef,
         deteleCategory,
-        delAllCategory,
+        dropDownAlertRef,
       }}
     >
       {children}

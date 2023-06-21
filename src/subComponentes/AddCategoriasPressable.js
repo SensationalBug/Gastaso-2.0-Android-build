@@ -4,18 +4,7 @@ import { Pressable } from "@react-native-material/core";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 export const AddCategoriasPressable = (props) => {
-  const {
-    item,
-    deteleCategory,
-    selectedButtonId,
-    dropDownAlertRef,
-    setSelectedButtonId,
-  } = props;
-
-  const makeDisabled = (id) =>
-    selectedButtonId === id
-      ? setSelectedButtonId(null)
-      : setSelectedButtonId(id);
+  const { item, deteleCategory, dropDownAlertRef } = props;
 
   const showAlert = () => {
     Alert.alert(
@@ -44,10 +33,6 @@ export const AddCategoriasPressable = (props) => {
   return (
     <Pressable
       onLongPress={() => showAlert()}
-      // onPress={() => {
-      //   makeDisabled(item.item.id);
-      //   updData(item.item.nombre, "icon");
-      // }}
       style={{
         height: 100,
         width: "30%",
@@ -56,11 +41,10 @@ export const AddCategoriasPressable = (props) => {
         alignItems: "center",
         justifyContent: "center",
         backgroundColor: "#20a5d8",
-        // opacity: selectedButtonId === item.item.id ? 0.3 : 1,
       }}
     >
-      <Icon size={25} name={item.item.iconName} color="#ffffff"/>
-      <Text style={{ fontSize: 20, marginVertical: 5, color:"#ffffff" }}>
+      <Icon size={25} name={item.item.iconName} color="#ffffff" />
+      <Text style={{ fontSize: 20, marginVertical: 5, color: "#ffffff" }}>
         {item.item.nombre}
       </Text>
     </Pressable>

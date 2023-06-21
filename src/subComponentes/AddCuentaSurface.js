@@ -12,7 +12,7 @@ export const AddCuentaSurface = ({
   clearFields,
   editedAccountData,
 }) => {
-  const { deleteCuenta, selectCuenta, selectCuentaId } =
+  const { deleteCuenta, selectCuenta, selectCuentaId, formatter } =
     useContext(AccountsContext);
   const { id, monto, producto, tipo, tipoTarjeta } = item.item;
 
@@ -43,11 +43,6 @@ export const AddCuentaSurface = ({
       ]
     );
   };
-
-  const formatter = new Intl.NumberFormat("es-DO", {
-    style: "currency",
-    currency: "DOP",
-  });
 
   return (
     <View

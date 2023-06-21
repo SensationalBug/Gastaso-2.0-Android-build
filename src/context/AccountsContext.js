@@ -9,10 +9,22 @@ const AccountsProvider = ({ children }) => {
   const dropDownAlertRef = useRef();
   const dropDownAlertRefAdd = useRef();
 
+  const formatter = new Intl.NumberFormat("es-DO", {
+    style: "currency",
+    currency: "DOP",
+  });
+
   useEffect(() => {
     db.transaction((tx) => {
       tx.executeSql(
-        "CREATE TABLE IF NOT EXISTS cuentas (id INTEGER PRIMARY KEY AUTOINCREMENT, producto VARCHAR(10), monto VARCHAR(15), tipo VARCHAR(10), tipoTarjeta VARCHAR(10), fecha DATE)"
+        `CREATE TABLE IF NOT EXISTS cuentas (
+          id INTEGER PRIMARY KEY AUTOINCREMENT, 
+          producto VARCHAR(10), 
+          monto VARCHAR(15), 
+          tipo VARCHAR(10), 
+          tipoTarjeta VARCHAR(10), 
+          fecha DATE
+        )`
       );
     });
     db.transaction((tx) => {
@@ -41,10 +53,7 @@ const AccountsProvider = ({ children }) => {
       tx.executeSql(
         "SELECT * FROM cuentas",
         [],
-        (txObj, queryResult) => {
-          console.log(queryResult);
-          setAccounts(queryResult.rows._array);
-        },
+        (txObj, queryResult) => setAccounts(queryResult.rows._array),
         (txObj, queryError) => console.log(queryError)
       );
     });
@@ -109,6 +118,7 @@ const AccountsProvider = ({ children }) => {
     <AccountsContext.Provider
       value={{
         accounts,
+        formatter,
         addCuenta,
         setAccounts,
         selectCuenta,

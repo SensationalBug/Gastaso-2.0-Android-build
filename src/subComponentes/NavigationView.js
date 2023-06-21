@@ -52,13 +52,13 @@ const NavigationView = () => {
 
   return (
     <TabView
-      onSwipeStart={() => handleLocation(routes[index].title)}
       tabBarPosition="bottom"
       onIndexChange={setIndex}
       renderScene={renderScene}
       renderTabBar={renderTabBar}
       navigationState={{ index, routes }}
       initialLayout={{ width: layout.width }}
+      onSwipeStart={() => handleLocation(routes[index].title)}
     />
   );
 };

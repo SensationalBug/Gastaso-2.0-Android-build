@@ -9,16 +9,8 @@ import { AddCategoriasPressable } from "../subComponentes/AddCategoriasPressable
 
 const Recordatorios = () => {
   const layout = useWindowDimensions();
-  const {
-    categories,
-    selectCategory,
-    insertCategory,
-    deteleCategory,
-    delAllCategory,
-    dropDownAlertRef,
-  } = useContext(CateogiesContext);
-
-  const [selectedButtonId, setSelectedButtonId] = useState(null);
+  const { categories, insertCategory, deteleCategory, dropDownAlertRef } =
+    useContext(CateogiesContext);
 
   const [newCategoria, setNewCategoria] = useState("");
 
@@ -53,7 +45,6 @@ const Recordatorios = () => {
             justifyContent: "space-between",
           }}
         >
-          {/* <FAB icon={<Icon name="minus" onPress={() => delAllCategory()} />} /> */}
           <View style={{ width: "80%" }}>
             <Text style={{ fontSize: 20 }}>Nombre de la categoría</Text>
             <TextInput
@@ -108,12 +99,8 @@ const Recordatorios = () => {
           renderItem={(item) => (
             <AddCategoriasPressable
               item={item}
-              updData={updData}
-              newCategoria={newCategoria}
               deteleCategory={deteleCategory}
-              selectedButtonId={selectedButtonId}
               dropDownAlertRef={dropDownAlertRef}
-              setSelectedButtonId={setSelectedButtonId}
             />
           )}
         />

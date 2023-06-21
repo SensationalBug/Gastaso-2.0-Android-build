@@ -4,6 +4,7 @@ import DropdownAlert from "react-native-dropdownalert";
 import { useNavigation } from "@react-navigation/native";
 import RadioForm from "react-native-simple-radio-button";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { AddCuentaStyles } from "../Styles/GlobalStyles";
 import { AccountsContext } from "../context/AccountsContext";
 import {
   View,
@@ -43,7 +44,7 @@ const AddCuenta = () => {
     const fecha = new Date();
     const fullDate = `${fecha.getFullYear()}-${
       fecha.getMonth() + 1
-    }-${fecha.getDay()}T${fecha.getHours()}:${fecha.getMinutes()}`;
+    }-${fecha.getDate()}T${fecha.getHours()}:${fecha.getMinutes()}`;
     setAccountData((prevState) => ({ ...prevState, fecha: fullDate }));
     setAccountData((prevState) => ({ ...prevState, [fieldName]: value }));
   };
@@ -53,104 +54,57 @@ const AddCuenta = () => {
     { label: "Dédito", value: "Dédito" },
   ];
 
+  const validateInfo = () => {
+    if (accountData.producto && accountData.monto) {
+      clearFields();
+      addCuenta(accountData);
+      setActiveButton({ active: false, index: 0 });
+    } else {
+      dropDownAlertRefAdd.current.alertWithType(
+        "error",
+        "System Info",
+        "Rellena todos los campos"
+      );
+    }
+  };
+
   return (
     <View style={{ flex: 1 }}>
-      <View
-        style={{
-          padding: 15,
-          flexDirection: "row",
-          backgroundColor: "#122e49",
-        }}
-      >
+      <View style={AddCuentaStyles.addCuentaContainer}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Icon name="arrow-left" color="#ffffff" size={30} />
         </TouchableOpacity>
-        <Text style={{ color: "#ffffff", fontSize: 20, marginHorizontal: 20 }}>
-          Añadir categoría
-        </Text>
+        <Text style={AddCuentaStyles.addCategoriaText}>Añadir categoría</Text>
       </View>
-      <View
-        style={{
-          padding: 15,
-          justifyContent: "center",
-        }}
-      >
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-          }}
-        >
-          <View style={{ width: "80%" }}>
-            <Text style={{ fontSize: 20 }}>Producto</Text>
-            <TextInput
-              maxLength={15}
-              value={accountData.producto}
-              onChangeText={(value) => updData(value, "producto")}
-              style={{
-                fontSize: 30,
-                width: "100%",
-                paddingTop: 2,
-                paddingLeft: 10,
-                borderBottomWidth: 1,
-                borderBottomColor: "gray",
-              }}
-            />
-          </View>
-          <View
-            style={{
-              width: "20%",
-              alignItems: "flex-end",
-            }}
-          >
-            <FAB
-              color="#122e49"
-              style={{ padding: 5, borderRadius: 50 }}
-              icon={(props) => <Icon name="plus" {...props} />}
-              onPress={() => {
-                if (accountData.producto && accountData.monto) {
-                  clearFields();
-                  addCuenta(accountData);
-                  setActiveButton({ active: false, index: 0 });
-                } else {
-                  dropDownAlertRefAdd.current.alertWithType(
-                    "error",
-                    "System Info",
-                    "Rellena todos los campos"
-                  );
-                }
-              }}
-            />
-          </View>
-        </View>
-      </View>
-      <View style={{ padding: 15, flexDirection: "row" }}>
-        <View style={{ width: "50%", justifyContent: "flex-start" }}>
-          <Text style={{ fontSize: 20 }}>Monto inicial</Text>
+      <View style={AddCuentaStyles.productContainer}>
+        <View style={AddCuentaStyles.productView}>
+          <Text style={AddCuentaStyles.productFontSize}>Producto</Text>
           <TextInput
-            style={{
-              width: "90%",
-              fontSize: 30,
-              paddingLeft: 10,
-              borderBottomWidth: 1,
-              borderBottomColor: "gray",
-            }}
+            maxLength={15}
+            value={accountData.producto}
+            style={AddCuentaStyles.productTextInput}
+            onChangeText={(value) => updData(value, "producto")}
+          />
+        </View>
+        <FAB
+          color="#122e49"
+          style={AddCuentaStyles.addFAB}
+          onPress={() => validateInfo()}
+          icon={(props) => <Icon name="plus" {...props} />}
+        />
+      </View>
+      <View style={AddCuentaStyles.montoContainer}>
+        <View style={AddCuentaStyles.montoViewContainer}>
+          <Text style={AddCuentaStyles.productFontSize}>Monto inicial</Text>
+          <TextInput
             maxLength={9}
             keyboardType="numeric"
             value={accountData.monto}
+            style={AddCuentaStyles.productTextInput}
             onChangeText={(value) => updData(value, "monto")}
           />
         </View>
-        <View
-          style={{
-            width: "50%",
-            alignItems: "center",
-            flexDirection: "row",
-            justifyContent: "space-evenly",
-            flexDirection: "column",
-          }}
-        >
+        <View style={AddCuentaStyles.touchableContainer}>
           <View style={{ flexDirection: "row" }}>
             <TouchableHighlight
               onPress={() => {
@@ -160,18 +114,13 @@ const AddCuenta = () => {
                 }
               }}
               disabled={!activeButton.active}
-              style={{
-                height: 60,
-                width: "50%",
-                alignItems: "center",
-                justifyContent: "center",
-                borderTopLeftRadius: 10,
-                backgroundColor: "#1F9FD0",
-                borderBottomLeftRadius: 10,
-                opacity: activeButton.active ? 1 : 0.3,
-              }}
+              style={
+                activeButton.active
+                  ? AddCuentaStyles.touchableStylesOn
+                  : AddCuentaStyles.touchableStylesOff
+              }
             >
-              <Text style={{ fontWeight: "bold", fontSize: 20 }}>Efectivo</Text>
+              <Text style={AddCuentaStyles.tarjetaText}>Efectivo</Text>
             </TouchableHighlight>
 
             <TouchableHighlight
@@ -183,30 +132,26 @@ const AddCuenta = () => {
                 }
               }}
               disabled={activeButton.active}
-              style={{
-                height: 60,
-                width: "50%",
-                alignItems: "center",
-                justifyContent: "center",
-                borderTopRightRadius: 10,
-                backgroundColor: "#1F9FD0",
-                borderBottomRightRadius: 10,
-                opacity: !activeButton.active ? 1 : 0.3,
-              }}
+              style={
+                activeButton.active
+                  ? AddCuentaStyles.touchableStylesOff
+                  : AddCuentaStyles.touchableStylesOn
+              }
             >
-              <Text style={{ fontWeight: "bold", fontSize: 20 }}>Tarjeta</Text>
+              <Text style={AddCuentaStyles.tarjetaText}>Tarjeta</Text>
             </TouchableHighlight>
           </View>
 
           <View
-            style={{
-              marginTop: 40,
-              left: activeButton.index ? "0%" : "110%",
-            }}
+            style={
+              activeButton.index
+                ? AddCuentaStyles.radioContainerOn
+                : AddCuentaStyles.radioContainerOff
+            }
           >
             <RadioForm
-              buttonColor="#1F9FD0"
               formHorizontal
+              buttonColor="#1F9FD0"
               radio_props={radio_props}
               onPress={(value) => {
                 updData(value, "tipoTarjeta");

@@ -3,6 +3,7 @@ import Main from "../Main";
 import AddCuenta from "../screens/AddCuenta";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import AddBills from "../screens/AddBills";
 
 const Navigation = () => {
   const Stack = createNativeStackNavigator();
@@ -17,13 +18,19 @@ const Navigation = () => {
           }}
         />
         <Stack.Screen
+          name="Añadir gasto"
+          component={AddBills}
+          options={{
+            headerShown: false,
+            animation: "fade_from_bottom",
+          }}
+        />
+        <Stack.Screen
           name="Añadir cuenta"
           component={AddCuenta}
           options={{
-            // headerTintColor: "#fff",
             headerShown: false,
             animation: "fade_from_bottom",
-            // headerStyle: { backgroundColor: "#122e49" },
           }}
         />
       </Stack.Navigator>
