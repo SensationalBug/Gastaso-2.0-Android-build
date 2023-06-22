@@ -15,8 +15,8 @@ const NavigationView = () => {
   const [routes] = useState([
     { key: "Inicio", title: "Inicio" },
     { key: "Cuentas", title: "Cuentas" },
-    { key: "Categorias", title: "Categorias" },
-    { key: "Historial", title: "Historial" },
+    // { key: "Categorias", title: "Categorias" },
+    // { key: "Historial", title: "Historial" },
   ]);
 
   const renderScene = SceneMap({

@@ -15,10 +15,6 @@ const commonTouchablesStyles = {
   backgroundColor: "#1F9FD0",
 };
 
-const commonRadioStyles = {
-  marginTop: 40,
-};
-
 export const HomeStyles = StyleSheet.create({
   home: {
     flex: 1,
@@ -101,15 +97,9 @@ export const AddCuentaStyles = StyleSheet.create({
     padding: 5,
     borderRadius: 50,
   },
-  montoContainer: { padding: 15, flexDirection: "row" },
+  montoContainer: { padding: 15 },
   montoViewContainer: { width: "50%", justifyContent: "flex-start" },
-  touchableContainer: {
-    width: "50%",
-    alignItems: "center",
-    flexDirection: "row",
-    flexDirection: "column",
-    justifyContent: "space-evenly",
-  },
+  touchableContainer: { paddingVertical: 30 },
   touchableStylesOn: {
     opacity: 1,
     ...commonTouchablesStyles,
@@ -119,12 +109,4 @@ export const AddCuentaStyles = StyleSheet.create({
     ...commonTouchablesStyles,
   },
   tarjetaText: { fontWeight: "bold", fontSize: 20 },
-  radioContainerOn: {
-    ...commonRadioStyles,
-    left: "0%",
-  },
-  radioContainerOff: {
-    ...commonRadioStyles,
-    left: "110%",
-  },
 });

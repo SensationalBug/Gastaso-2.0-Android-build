@@ -7,26 +7,6 @@ const BillsProvider = ({ children }) => {
   const db = SQLite.openDatabase("GASTASO.db");
   const [bills, setBills] = useState([]);
 
-  useEffect(() => {
-    db.transaction((tx) => {
-      tx.executeSql(
-        `CREATE TABLE gastos (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          descripcion TEXT,
-          monto REAL,
-          cuenta_id INTEGER,
-          categoria_id INTEGER,
-          fecha DATE,
-          FOREIGN KEY (cuenta_id) REFERENCES cuentas(id),
-          FOREIGN KEY (categoria_id) REFERENCES categorias(id)
-        )`,
-        [],
-        (txObj, queryResult) => console.log(queryResult),
-        (txObj, queryError) => console.log(queryError)
-      );
-    });
-  }, []);
-
   const insertBill = (billData) => {
     const { descripcion, monto, cuenta_id, categoria_id, fecha } = billData;
     db.transaction((tx) => {
@@ -54,19 +34,47 @@ const BillsProvider = ({ children }) => {
 
   const drop = () => {
     db.transaction((tx) => {
-      tx.executeSql(
-        "DROP TABLE gastos",
-        [],
-        (txObj, queryResult) => console.log(queryResult),
-        (txObj, queryError) => console.log(queryError)
+      tx.executeSql("DROP TABLE tipo_cuenta");
+      tx.executeSql("DROP TABLE cuentas");
+      tx.executeSql("DROP TABLE categorias");
+      tx.executeSql("DROP TABLE tipo_gastos");
+      tx.executeSql("DROP TABLE gastos");
+    });
+  };
+  const select = () => {
+    // db.transaction((tx) => {
+    //   tx.executeSql(
+    //     "SELECT name FROM sqlite_master WHERE type='table'",
+    //     null,
+    //     (txObj, queryResult) => console.log("Tables", queryResult.rows._array)
+    //   );
+    //   tx.executeSql("SELECT * FROM tipo_cuenta", null, (txObj, queryResult) =>
+    //     console.log("tipo_cuenta", queryResult)
+    //   );
+    //   tx.executeSql("SELECT * FROM cuentas", null, (txObj, queryResult) =>
+    //     console.log("cuentas", queryResult)
+    //   );
+    //   tx.executeSql("SELECT * FROM categorias", null, (txObj, queryResult) =>
+    //     console.log("categoria", queryResult)
+    //   );
+    //   tx.executeSql("SELECT * FROM tipo_gastos", null, (txObj, queryResult) =>
+    //     console.log("tipo_gastos", queryResult)
+    //   );
+    //   tx.executeSql("SELECT * FROM gastos", null, (txObj, queryResult) =>
+    //     console.log("gastos", queryResult)
+    //   );
+    // });
+    db.transaction((tx) => {
+      tx.executeSql("SELECT * FROM tipo_cuenta", null, (txObj, queryResult) =>
+        console.log("cuentas", queryResult)
       );
     });
   };
 
-  // drop();
-
   return (
-    <BillsContext.Provider value={{ bills, selectGastos, insertBill }}>
+    <BillsContext.Provider
+      value={{ bills, selectGastos, insertBill, drop, select }}
+    >
       {children}
     </BillsContext.Provider>
   );

@@ -1,13 +1,15 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { HomeStyles } from "../Styles/GlobalStyles";
-import { Text, View, FlatList } from "react-native";
+import { Text, View, FlatList, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import HomePressable from "../subComponentes/HomePressable";
 import { AccountsContext } from "../context/AccountsContext";
+import { BillsContext } from "../context/BillsContext";
 
 const Home = () => {
   const navigation = useNavigation();
   const { accounts, formatter } = useContext(AccountsContext);
+  const { drop, select } = useContext(BillsContext);
 
   return (
     <View style={HomeStyles.home}>
@@ -26,6 +28,18 @@ const Home = () => {
           </View>
         )}
       />
+      {/* <TouchableOpacity
+        onPress={() => select()}
+        style={{ backgroundColor: "lightblue", padding: 50 }}
+      >
+        <Text>SELECT</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={() => drop()}
+        style={{ backgroundColor: "red", padding: 50 }}
+      >
+        <Text>DROP</Text>
+      </TouchableOpacity> */}
     </View>
   );
 };

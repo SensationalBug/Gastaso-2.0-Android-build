@@ -1,13 +1,22 @@
 import * as SQLite from "expo-sqlite";
-import React, { createContext, useEffect, useRef, useState } from "react";
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
+import { DatabaseContext } from "./DatabaseContext";
 
 export const AccountsContext = createContext();
 
 const AccountsProvider = ({ children }) => {
   const [accounts, setAccounts] = useState([]);
+  const [accountType, setAccountType] = useState([]);
   const db = SQLite.openDatabase("GASTASO.db");
   const dropDownAlertRef = useRef();
   const dropDownAlertRefAdd = useRef();
+  const { getInfo } = useContext(DatabaseContext);
 
   const formatter = new Intl.NumberFormat("es-DO", {
     style: "currency",
@@ -15,27 +24,17 @@ const AccountsProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    db.transaction((tx) => {
-      tx.executeSql(
-        `CREATE TABLE IF NOT EXISTS cuentas (
-          id INTEGER PRIMARY KEY AUTOINCREMENT, 
-          producto VARCHAR(10), 
-          monto VARCHAR(15), 
-          tipo VARCHAR(10), 
-          tipoTarjeta VARCHAR(10), 
-          fecha DATE
-        )`
-      );
-    });
-    db.transaction((tx) => {
-      tx.executeSql(
-        "SELECT * FROM cuentas",
-        null,
-        (txObj, queryResult) => setAccounts(queryResult.rows._array),
-        (txObj, queryError) => console.log(queryError)
-      );
-    });
-  }, []);
+    getInfo
+      ? db.transaction((tx) => {
+          tx.executeSql("SELECT * FROM cuentas", null, (txObj, queryResult) =>
+            setAccounts(queryResult.rows._array)
+          );
+          tx.executeSql("SELECT * FROM tipo_cuenta", [], (txObj, queryResult) =>
+            setAccountType(queryResult.rows._array)
+          );
+        })
+      : null;
+  }, [getInfo]);
 
   const selectCuentaId = (id) => {
     db.transaction((tx) => {
@@ -50,11 +49,8 @@ const AccountsProvider = ({ children }) => {
 
   const selectCuenta = () => {
     db.transaction((tx) => {
-      tx.executeSql(
-        "SELECT * FROM cuentas",
-        [],
-        (txObj, queryResult) => setAccounts(queryResult.rows._array),
-        (txObj, queryError) => console.log(queryError)
+      tx.executeSql("SELECT * FROM cuentas", [], (txObj, queryResult) =>
+        setAccounts(queryResult.rows._array)
       );
     });
   };
@@ -80,7 +76,7 @@ const AccountsProvider = ({ children }) => {
   const updateCuenta = (producto, monto, id) => {
     db.transaction((tx) => {
       tx.executeSql(
-        "UPDATE cuentas SET producto = ?, monto = ? WHERE id = ?",
+        "UPDATE cuentas SET producto = ?, monto_inicial = ? WHERE id = ?",
         [producto, monto, id],
         (txObj, queryResult) => {
           dropDownAlertRef.current.alertWithType(
@@ -96,11 +92,11 @@ const AccountsProvider = ({ children }) => {
   };
 
   const addCuenta = (accountData) => {
-    const { producto, monto, tipo, tipoTarjeta, fecha } = accountData;
+    const { producto, monto_inicial, id_tipo_cuenta, fecha } = accountData;
     db.transaction((tx) => {
       tx.executeSql(
-        "INSERT INTO cuentas (producto, monto, tipo, tipoTarjeta ,fecha) values (?,?,?,?,?)",
-        [producto, monto, tipo, tipoTarjeta, fecha],
+        "INSERT INTO cuentas (producto, monto_inicial, id_tipo_cuenta, fecha) values (?,?,?,?)",
+        [producto, monto_inicial, id_tipo_cuenta, fecha],
         (txObj, queryResult) => {
           dropDownAlertRefAdd.current.alertWithType(
             "success",
@@ -120,6 +116,7 @@ const AccountsProvider = ({ children }) => {
         accounts,
         formatter,
         addCuenta,
+        accountType,
         setAccounts,
         selectCuenta,
         deleteCuenta,

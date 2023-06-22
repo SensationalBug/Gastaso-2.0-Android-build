@@ -14,11 +14,16 @@ const Cuentas = () => {
   const layout = useWindowDimensions();
   const [edit, setEdit] = useState(false);
   const { location } = useContext(LocationContext);
-  const { accounts, selectCuenta, updateCuenta, dropDownAlertRef } =
-    useContext(AccountsContext);
+  const {
+    accounts,
+    accountType,
+    selectCuenta,
+    updateCuenta,
+    dropDownAlertRef,
+  } = useContext(AccountsContext);
   const [editedAccountData, setEditedAccountData] = useState({
     producto: "",
-    monto: "",
+    monto_inicial: "",
     disabled: true,
   });
 
@@ -36,7 +41,7 @@ const Cuentas = () => {
   const clearFields = () => {
     setEditedAccountData({
       producto: "",
-      monto: "",
+      monto_inicial: "",
       disabled: true,
     });
   };
@@ -51,14 +56,14 @@ const Cuentas = () => {
     }
   };
 
-  const getItemData = (producto, monto) => {
-    if (!producto && !monto) {
-    } else if (producto && monto) {
-      updateCuenta(producto, monto, accounts[0].id);
+  const getItemData = (producto, monto_inicial) => {
+    if (!producto && !monto_inicial) {
+    } else if (producto && monto_inicial) {
+      updateCuenta(producto, monto_inicial, accounts[0].id);
     } else if (!producto) {
-      updateCuenta(accounts[0].producto, monto, accounts[0].id);
-    } else if (!monto) {
-      updateCuenta(producto, accounts[0].monto, accounts[0].id);
+      updateCuenta(accounts[0].producto, monto_inicial, accounts[0].id);
+    } else if (!monto_inicial) {
+      updateCuenta(producto, accounts[0].monto_inicial, accounts[0].id);
     }
     toggleEdit();
   };
@@ -93,7 +98,7 @@ const Cuentas = () => {
               onPress={() =>
                 getItemData(
                   editedAccountData.producto,
-                  editedAccountData.monto,
+                  editedAccountData.monto_inicial,
                   accounts[0].id
                 )
               }
@@ -111,13 +116,14 @@ const Cuentas = () => {
         <FlatList
           data={accounts}
           keyExtractor={(item) => item.id}
-          style={{ height: layout.height - 145 }}
+          style={{ height: layout.height - 165 }}
           renderItem={(item) => (
             <AddCuentaSurface
               item={item}
               edit={edit}
               edtData={edtData}
               setEdit={setEdit}
+              accountType={accountType}
               clearFields={clearFields}
               editedAccountData={editedAccountData}
               setEditedAccountData={setEditedAccountData}

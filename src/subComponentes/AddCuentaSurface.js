@@ -10,11 +10,12 @@ export const AddCuentaSurface = ({
   setEdit,
   edtData,
   clearFields,
+  accountType,
   editedAccountData,
 }) => {
   const { deleteCuenta, selectCuenta, selectCuentaId, formatter } =
     useContext(AccountsContext);
-  const { id, monto, producto, tipo, tipoTarjeta } = item.item;
+  const { id, monto_inicial, id_tipo_cuenta, producto } = item.item;
 
   const toggleEdit = () => {
     if (!edit) {
@@ -43,7 +44,6 @@ export const AddCuentaSurface = ({
       ]
     );
   };
-
   return (
     <View
       style={{
@@ -90,7 +90,7 @@ export const AddCuentaSurface = ({
                 value={editedAccountData.producto}
                 onChangeText={(value) => {
                   edtData(value, "producto");
-                  value || editedAccountData.monto
+                  value || editedAccountData.monto_inicial
                     ? edtData(false, "disabled")
                     : edtData(true, "disabled");
                 }}
@@ -98,15 +98,14 @@ export const AddCuentaSurface = ({
             )}
           </View>
           <View style={{ flexDirection: "row", paddingBottom: 10 }}>
-            <Text style={{ color: "#ffffff", fontSize: 15 }}>{tipo}</Text>
-            <Text style={{ color: "#ffffff", fontSize: 15 }}>
-              {tipo === "Efectivo" ? "" : ` --> ${tipoTarjeta}`}
+            <Text style={{ color: "#ffffff", fontSize: 20 }}>
+              {accountType[id_tipo_cuenta - 1].value}
             </Text>
           </View>
           <View>
             {!edit ? (
               <Text style={{ fontSize: 35, paddingTop: 10, color: "#ffffff" }}>
-                {formatter.format(monto)}
+                {formatter.format(monto_inicial)}
               </Text>
             ) : (
               <TextInput
@@ -121,10 +120,10 @@ export const AddCuentaSurface = ({
                 }}
                 maxLength={15}
                 keyboardType="numeric"
-                value={editedAccountData.monto}
-                placeholder={formatter.format(monto)}
+                value={editedAccountData.monto_inicial}
+                placeholder={formatter.format(monto_inicial)}
                 onChangeText={(value) => {
-                  edtData(value, "monto");
+                  edtData(value, "monto_inicial");
                   value || editedAccountData.producto
                     ? edtData(false, "disabled")
                     : edtData(true, "disabled");

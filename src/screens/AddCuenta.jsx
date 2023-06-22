@@ -2,40 +2,33 @@ import { FAB } from "@react-native-material/core";
 import React, { useState, useContext } from "react";
 import DropdownAlert from "react-native-dropdownalert";
 import { useNavigation } from "@react-navigation/native";
-import RadioForm from "react-native-simple-radio-button";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { AddCuentaStyles } from "../Styles/GlobalStyles";
 import { AccountsContext } from "../context/AccountsContext";
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  TouchableHighlight,
-} from "react-native";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
+import RadioForm, {
+  RadioButton,
+  RadioButtonInput,
+  RadioButtonLabel,
+} from "react-native-simple-radio-button";
 
 const AddCuenta = () => {
   const navigation = useNavigation();
-  const { addCuenta, dropDownAlertRefAdd } = useContext(AccountsContext);
+  const { addCuenta, dropDownAlertRefAdd, accountType } =
+    useContext(AccountsContext);
   const [accountData, setAccountData] = useState({
     producto: "",
-    monto: "",
-    tipo: "Efectivo",
-    tipoTarjeta: "",
+    monto_inicial: 0,
+    id_tipo_cuenta: 1,
     fecha: "",
   });
-  const [activeButton, setActiveButton] = useState({
-    index: 0,
-    active: false,
-    radioButton: "0%",
-  });
+  const [radioIndex, setRadioIndex] = useState(0);
 
   const clearFields = () => {
     setAccountData({
       producto: "",
-      monto: "",
-      tipo: "Efectivo",
-      tipoTarjeta: "",
+      monto_inicial: 0,
+      id_tipo_cuenta: 1,
       fecha: "",
     });
   };
@@ -49,16 +42,10 @@ const AddCuenta = () => {
     setAccountData((prevState) => ({ ...prevState, [fieldName]: value }));
   };
 
-  const radio_props = [
-    { label: "Crédito", value: "Crédito" },
-    { label: "Dédito", value: "Dédito" },
-  ];
-
   const validateInfo = () => {
-    if (accountData.producto && accountData.monto) {
+    if (accountData.producto && accountData.monto_inicial) {
       clearFields();
       addCuenta(accountData);
-      setActiveButton({ active: false, index: 0 });
     } else {
       dropDownAlertRefAdd.current.alertWithType(
         "error",
@@ -74,7 +61,7 @@ const AddCuenta = () => {
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <Icon name="arrow-left" color="#ffffff" size={30} />
         </TouchableOpacity>
-        <Text style={AddCuentaStyles.addCategoriaText}>Añadir categoría</Text>
+        <Text style={AddCuentaStyles.addCategoriaText}>Añadir Producto</Text>
       </View>
       <View style={AddCuentaStyles.productContainer}>
         <View style={AddCuentaStyles.productView}>
@@ -89,7 +76,7 @@ const AddCuenta = () => {
         <FAB
           color="#122e49"
           style={AddCuentaStyles.addFAB}
-          onPress={() => validateInfo()}
+          onPress={() => validateInfo(accountData)}
           icon={(props) => <Icon name="plus" {...props} />}
         />
       </View>
@@ -99,65 +86,47 @@ const AddCuenta = () => {
           <TextInput
             maxLength={9}
             keyboardType="numeric"
-            value={accountData.monto}
+            value={accountData.monto_inicial}
             style={AddCuentaStyles.productTextInput}
-            onChangeText={(value) => updData(value, "monto")}
+            onChangeText={(value) => updData(value, "monto_inicial")}
           />
         </View>
         <View style={AddCuentaStyles.touchableContainer}>
-          <View style={{ flexDirection: "row" }}>
-            <TouchableHighlight
-              onPress={() => {
-                if (activeButton.active) {
-                  updData("Efectivo", "tipo");
-                  setActiveButton({ active: false, index: 0 });
-                }
-              }}
-              disabled={!activeButton.active}
-              style={
-                activeButton.active
-                  ? AddCuentaStyles.touchableStylesOn
-                  : AddCuentaStyles.touchableStylesOff
-              }
-            >
-              <Text style={AddCuentaStyles.tarjetaText}>Efectivo</Text>
-            </TouchableHighlight>
-
-            <TouchableHighlight
-              onPress={() => {
-                if (!activeButton.active) {
-                  updData("Tarjeta", "tipo");
-                  updData("Crédito", "tipoTarjeta");
-                  setActiveButton({ active: true, index: 1 });
-                }
-              }}
-              disabled={activeButton.active}
-              style={
-                activeButton.active
-                  ? AddCuentaStyles.touchableStylesOff
-                  : AddCuentaStyles.touchableStylesOn
-              }
-            >
-              <Text style={AddCuentaStyles.tarjetaText}>Tarjeta</Text>
-            </TouchableHighlight>
-          </View>
-
-          <View
-            style={
-              activeButton.index
-                ? AddCuentaStyles.radioContainerOn
-                : AddCuentaStyles.radioContainerOff
-            }
-          >
-            <RadioForm
-              formHorizontal
-              buttonColor="#1F9FD0"
-              radio_props={radio_props}
-              onPress={(value) => {
-                updData(value, "tipoTarjeta");
-              }}
-            />
-          </View>
+          <RadioForm>
+            {accountType.map((elem, index) => (
+              <RadioButton
+                key={index}
+                style={{ margin: 20, justifyContent: "flex-end" }}
+              >
+                <RadioButtonLabel
+                  obj={elem}
+                  index={index}
+                  labelHorizontal={true}
+                  labelStyle={{ fontSize: 20, marginHorizontal: 15 }}
+                  onPress={() => {
+                    updData(elem.id, "id_tipo_cuenta");
+                    setRadioIndex(index);
+                  }}
+                />
+                <RadioButtonInput
+                  obj={elem}
+                  index={index}
+                  isSelected={() => setRadioIndex(index)}
+                  onPress={() => {
+                    updData(elem.id, "id_tipo_cuenta");
+                    setRadioIndex(index);
+                  }}
+                  borderWidth={1}
+                  buttonInnerColor={
+                    radioIndex === index ? "#20a5d8" : "transparent"
+                  }
+                  buttonOuterColor="#000"
+                  buttonSize={20}
+                  buttonOuterSize={40}
+                />
+              </RadioButton>
+            ))}
+          </RadioForm>
         </View>
       </View>
       <DropdownAlert

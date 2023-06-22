@@ -1,54 +1,33 @@
-import React, { createContext, useEffect, useRef, useState } from "react";
+import React, {
+  useRef,
+  useState,
+  useEffect,
+  useContext,
+  createContext,
+} from "react";
 import * as SQLite from "expo-sqlite";
+import { DatabaseContext } from "./DatabaseContext";
 
 export const CateogiesContext = createContext();
 
 const CateogiesProvider = ({ children }) => {
-  const [categories, setCatgories] = useState();
+  const [categories, setCatgories] = useState([]);
   const dropDownAlertRef = useRef();
-
-  const baseCategories = [
-    { nombre: "Ahorro", iconName: "money" },
-    { nombre: "Comida", iconName: "cutlery" },
-    { nombre: "Teléfono", iconName: "mobile" },
-    { nombre: "Facturas", iconName: "credit-card" },
-    { nombre: "Ocio", iconName: "puzzle-piece" },
-    { nombre: "Animales", iconName: "paw" },
-    { nombre: "Salud", iconName: "heart" },
-    { nombre: "Transporte", iconName: "car" },
-    { nombre: "Otro", iconName: "asterisk" },
-  ];
-
+  const { getInfo } = useContext(DatabaseContext);
   const db = SQLite.openDatabase("GASTASO.db");
 
   useEffect(() => {
-    db.transaction((tx) => {
-      tx.executeSql(
-        "CREATE TABLE categorias (id INTEGER PRIMARY KEY AUTOINCREMENT, nombre VARCHAR(15), iconName VARCHAR(20))",
-        [],
-        (txObj, queryResult) => {
-          baseCategories.map((elem) => {
-            db.transaction((tx) => {
-              tx.executeSql(
-                "INSERT INTO categorias (nombre, iconName) VALUES (?,?)",
-                [elem.nombre, elem.iconName],
-                (txObj, queryResult) => console.log(queryResult),
-                (txObj, queryError) => console.log(queryError)
-              );
-            });
-          });
-        }
-      );
-    });
-    db.transaction((tx) => {
-      tx.executeSql(
-        "SELECT * FROM categorias",
-        [],
-        (txObj, queryResults) => setCatgories(queryResults.rows._array),
-        (txObj, queryError) => console.log(queryError)
-      );
-    });
-  }, []);
+    getInfo
+      ? db.transaction((tx) => {
+          tx.executeSql(
+            "SELECT * FROM categorias",
+            [],
+            (txObj, queryResults) => setCatgories(queryResults.rows._array),
+            (txObj, queryError) => console.log(queryError)
+          );
+        })
+      : null;
+  }, [getInfo]);
 
   const selectCategory = () => {
     db.transaction((tx) => {
@@ -64,7 +43,7 @@ const CateogiesProvider = ({ children }) => {
   const insertCategory = (nombre) => {
     db.transaction((tx) => {
       tx.executeSql(
-        "INSERT INTO categorias (nombre, iconName) values (?,?)",
+        "INSERT INTO categorias (nombre, icon) values (?,?)",
         [nombre, "asterisk"],
         (txObj, queryResults) => {
           dropDownAlertRef.current.alertWithType(

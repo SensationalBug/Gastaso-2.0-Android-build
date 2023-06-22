@@ -43,7 +43,7 @@ export const AddCategoriasPressable = (props) => {
         backgroundColor: "#20a5d8",
       }}
     >
-      <Icon size={25} name={item.item.iconName} color="#ffffff" />
+      <Icon size={25} name={item.item.icon} color="#ffffff" />
       <Text style={{ fontSize: 20, marginVertical: 5, color: "#ffffff" }}>
         {item.item.nombre}
       </Text>
