@@ -1,6 +1,7 @@
 import { FAB } from "@react-native-material/core";
 import Icon from "react-native-vector-icons/Entypo";
 import DropdownAlert from "react-native-dropdownalert";
+import { CuentasStyles } from "../Styles/GlobalStyles";
 import { FlatList } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { AccountsContext } from "../context/AccountsContext";
@@ -69,10 +70,10 @@ const Cuentas = () => {
   };
 
   return (
-    <View style={cuentasStyles.cuentas}>
+    <View style={CuentasStyles.cuentas}>
       {!edit ? (
-        <View style={cuentasStyles.cuentaPage}>
-          <Text style={cuentasStyles.addCuenta}>Agregar producto</Text>
+        <View style={CuentasStyles.cuentaPage}>
+          <Text style={CuentasStyles.addCuenta}>Agregar producto</Text>
           <FAB
             color="#122e49"
             onPress={() => navigation.navigate("Añadir cuenta")}
@@ -80,8 +81,8 @@ const Cuentas = () => {
           />
         </View>
       ) : (
-        <View style={cuentasStyles.cuentaPage}>
-          <Text style={cuentasStyles.addCuenta}>Editar producto</Text>
+        <View style={CuentasStyles.cuentaPage}>
+          <Text style={CuentasStyles.addCuenta}>Editar producto</Text>
           <View
             style={{
               width: 150,
@@ -116,7 +117,7 @@ const Cuentas = () => {
         <FlatList
           data={accounts}
           keyExtractor={(item) => item.id}
-          style={{ height: layout.height - 165 }}
+          style={{ height: layout.height - 175 }}
           renderItem={(item) => (
             <AddCuentaSurface
               item={item}
@@ -143,33 +144,3 @@ const Cuentas = () => {
 };
 
 export default Cuentas;
-
-const cuentasStyles = StyleSheet.create({
-  cuentas: {
-    flex: 1,
-    marginHorizontal: 5,
-  },
-  cuentaPage: {
-    paddingTop: 10,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  addCuenta: {
-    fontSize: 25,
-    textAlign: "center",
-    marginHorizontal: 10,
-  },
-  cuentasRow: {
-    paddingVertical: 10,
-    backgroundColor: "red",
-  },
-  surface: {
-    height: 100,
-    width: "100%",
-    borderRadius: 10,
-    alignItems: "center",
-    justifyContent: "center",
-    backgroundColor: "#20a5d8",
-  },
-});

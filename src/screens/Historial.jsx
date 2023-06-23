@@ -1,13 +1,31 @@
-import React from "react";
-import { View, Text, StyleSheet } from "react-native";
+import React, { useContext } from "react";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { BillsContext } from "../context/BillsContext";
+import { FlatList } from "react-native-gesture-handler";
 
 const Historial = () => {
+  const { bills, selectGastos } = useContext(BillsContext);
   return (
-    <View style={styles.historial}>
-      <Text style={{ fontSize: 25, textAlign: "center" }}>
-        Esta página se encuentra en mantenimiento para la versión 2.0.0 de la
-        app
-      </Text>
+    // <View style={styles.historial}>
+    //   <Text style={{ fontSize: 25, textAlign: "center" }}>
+    //     Esta página se encuentra en mantenimiento para la versión 2.0.0 de la
+    //     app
+    //   </Text>
+    // </View>
+    <View>
+      <TouchableOpacity
+        onPress={() => {
+          console.log(bills);
+        }}
+      >
+        <Text>Hola</Text>
+      </TouchableOpacity>
+      <FlatList
+        data={bills}
+        renderItem={(item) => {
+          // console.log(item.item);
+        }}
+      />
     </View>
   );
 };

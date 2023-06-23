@@ -1,6 +1,7 @@
 import { StyleSheet } from "react-native";
 
 const commonButtonStyles = {
+  width: 50,
   height: 50,
   borderRadius: 50,
   alignItems: "center",
@@ -43,7 +44,6 @@ export const HomePressableStyles = StyleSheet.create({
   pressable: {
     width: "98%",
     borderRadius: 10,
-    flexDirection: "row",
     backgroundColor: "#20a5d8",
   },
   pressableView: { padding: 20, flexDirection: "row" },
@@ -69,6 +69,24 @@ export const HomePressableStyles = StyleSheet.create({
     backgroundColor: "#F24C3D",
   },
 });
+
+export const CuentasStyles = StyleSheet.create({
+  cuentas: {
+    flex: 1,
+    marginHorizontal: 5,
+  },
+  cuentaPage: {
+    paddingTop: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  addCuenta: {
+    fontSize: 25,
+    textAlign: "center",
+    marginHorizontal: 10,
+  },
+})
 
 export const AddCuentaStyles = StyleSheet.create({
   addCuentaContainer: {
@@ -97,7 +115,7 @@ export const AddCuentaStyles = StyleSheet.create({
     padding: 5,
     borderRadius: 50,
   },
-  montoContainer: { padding: 15 },
+  montoContainer: { padding: 15, flexDirection: "row" },
   montoViewContainer: { width: "50%", justifyContent: "flex-start" },
   touchableContainer: { paddingVertical: 30 },
   touchableStylesOn: {

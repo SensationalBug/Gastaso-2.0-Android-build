@@ -14,9 +14,6 @@ const Recordatorios = () => {
 
   const [newCategoria, setNewCategoria] = useState("");
 
-  const updData = (value) =>
-    setNewCategoria((prevState) => ({ ...prevState, value }));
-
   const insertNewCategory = () => {
     if (newCategoria) {
       insertCategory(newCategoria);

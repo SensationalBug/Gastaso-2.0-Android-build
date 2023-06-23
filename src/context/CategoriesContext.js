@@ -17,16 +17,13 @@ const CateogiesProvider = ({ children }) => {
   const db = SQLite.openDatabase("GASTASO.db");
 
   useEffect(() => {
-    getInfo
-      ? db.transaction((tx) => {
-          tx.executeSql(
-            "SELECT * FROM categorias",
-            [],
-            (txObj, queryResults) => setCatgories(queryResults.rows._array),
-            (txObj, queryError) => console.log(queryError)
-          );
-        })
-      : null;
+    if (getInfo) {
+      db.transaction((tx) => {
+        tx.executeSql("SELECT * FROM categorias", [], (txObj, queryResults) =>
+          setCatgories(queryResults.rows._array)
+        );
+      });
+    }
   }, [getInfo]);
 
   const selectCategory = () => {

@@ -18,7 +18,7 @@ const AddCuenta = () => {
     useContext(AccountsContext);
   const [accountData, setAccountData] = useState({
     producto: "",
-    monto_inicial: 0,
+    monto_inicial: "",
     id_tipo_cuenta: 1,
     fecha: "",
   });
@@ -27,7 +27,7 @@ const AddCuenta = () => {
   const clearFields = () => {
     setAccountData({
       producto: "",
-      monto_inicial: 0,
+      monto_inicial: "",
       id_tipo_cuenta: 1,
       fecha: "",
     });

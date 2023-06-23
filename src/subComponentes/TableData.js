@@ -1,19 +1,35 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import Icon from "react-native-vector-icons/Entypo";
-import { StyleSheet, Text, View } from "react-native";
+import { BillsContext } from "../context/BillsContext";
+import { useNavigation } from "@react-navigation/native";
+import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-const TableData = (props) => {
+const TableData = ({ dataContent }) => {
+  const navigation = useNavigation();
+  const { setIsBillSelected, setSpecificBills } = useContext(BillsContext);
+
   return (
-    <View style={{ height: "100%" }}>
+    <View>
+      <View style={styles.addCuentaContainer}>
+        <TouchableOpacity
+          onPress={() => {
+            // navigation.goBack();
+            // setSpecificBills([]);
+            setIsBillSelected(false);
+          }}
+        >
+          <Icon name="arrow-left" color="#ffffff" size={30} />
+        </TouchableOpacity>
+        <Text style={styles.addCategoriaText}>Añadir Producto</Text>
+      </View>
       <View style={{ flexDirection: "row" }}>
-        <Text style={styles.tableHead}>Fecha</Text>
         <Text style={styles.tableHead}>Concepto</Text>
         <Text style={styles.tableHead}>Monto</Text>
         <Text style={styles.delHeadButton}>
-          <Icon style={styles.delBodyButtonIcon} name="trash" />
+          <Icon style={styles.delBodyButtonIcon} name="chevron-thin-down" />
         </Text>
       </View>
-      {props.dataContent}
+      {dataContent}
     </View>
   );
 };
@@ -21,9 +37,15 @@ const TableData = (props) => {
 export default TableData;
 
 const styles = StyleSheet.create({
+  addCuentaContainer: {
+    padding: 15,
+    flexDirection: "row",
+    backgroundColor: "#122e49",
+  },
+  addCategoriaText: { color: "#ffffff", fontSize: 20, marginHorizontal: 20 },
   tableHead: {
     fontSize: 20,
-    width: "30%",
+    width: "45%",
     color: "#fff",
     textAlign: "center",
     paddingVertical: 10,
@@ -33,11 +55,13 @@ const styles = StyleSheet.create({
   },
   delHeadButton: {
     width: "10%",
+    textAlign: "center",
+    verticalAlign: "middle",
     backgroundColor: "#122e49",
   },
   delBodyButtonIcon: {
     fontSize: 20,
     color: "#fff",
-    textAlign: "center",
+    alignContent: "center",
   },
 });

@@ -24,16 +24,16 @@ const AccountsProvider = ({ children }) => {
   });
 
   useEffect(() => {
-    getInfo
-      ? db.transaction((tx) => {
-          tx.executeSql("SELECT * FROM cuentas", null, (txObj, queryResult) =>
-            setAccounts(queryResult.rows._array)
-          );
-          tx.executeSql("SELECT * FROM tipo_cuenta", [], (txObj, queryResult) =>
-            setAccountType(queryResult.rows._array)
-          );
-        })
-      : null;
+    if (getInfo) {
+      db.transaction((tx) => {
+        tx.executeSql("SELECT * FROM tipo_cuenta", null, (txObj, queryResult) =>
+          setAccountType(queryResult.rows._array)
+        );
+        tx.executeSql("SELECT * FROM cuentas", null, (txObj, queryResult) =>
+          setAccounts(queryResult.rows._array)
+        );
+      });
+    }
   }, [getInfo]);
 
   const selectCuentaId = (id) => {

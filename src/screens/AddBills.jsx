@@ -9,24 +9,25 @@ import {
   TouchableOpacity,
   useWindowDimensions,
 } from "react-native";
-import { Pressable } from "@react-native-material/core";
+import DropdownAlert from "react-native-dropdownalert";
 import { BillsContext } from "../context/BillsContext";
+import { Pressable } from "@react-native-material/core";
 import { CateogiesContext } from "../context/CategoriesContext";
 
 const AddBills = ({ navigation, route }) => {
   const layout = useWindowDimensions();
-  const { params, gasto } = route;
-  const { elem } = params;
+  const { elem, gasto } = route.params;
   const [billData, setBillData] = useState({
-    descripcion: "",
+    concepto: "",
     monto: "",
     fecha: "",
-    cuenta_id: elem.id,
-    categoria_id: "",
+    id_categoria: "",
+    id_cuenta: elem.id,
+    id_tipo_gasto: gasto,
   });
-  const { insertBill } = useContext(BillsContext);
   const { categories } = useContext(CateogiesContext);
   const [selectedButtonId, setSelectedButtonId] = useState(null);
+  const { insertBill, dropDownAlertRef } = useContext(BillsContext);
 
   const updData = (value, fieldName) => {
     const fecha = new Date();
@@ -37,10 +38,41 @@ const AddBills = ({ navigation, route }) => {
     setBillData((prevState) => ({ ...prevState, [fieldName]: value }));
   };
 
+  const clearFields = () => {
+    setBillData({
+      concepto: "",
+      monto: "",
+      fecha: "",
+      id_categoria: "",
+      id_cuenta: elem.id,
+      id_tipo_gasto: gasto,
+    });
+    setSelectedButtonId(null);
+  };
+
   const makeDisabled = (id) =>
     selectedButtonId === id
       ? setSelectedButtonId(null)
       : setSelectedButtonId(id);
+
+  const validateInfo = () => {
+    if (billData.concepto && billData.monto && billData.id_categoria) {
+      clearFields();
+      insertBill(billData);
+    } else if (billData.concepto && billData.monto && !billData.id_categoria) {
+      dropDownAlertRef.current.alertWithType(
+        "error",
+        "System Info",
+        "Selecciona una categoría."
+      );
+    } else {
+      dropDownAlertRef.current.alertWithType(
+        "error",
+        "System Info",
+        "Rellena los todos los campos."
+      );
+    }
+  };
 
   return (
     <View>
@@ -59,9 +91,9 @@ const AddBills = ({ navigation, route }) => {
         <Text style={AddCuentaStyles.productFontSize}>Producto</Text>
         <TextInput
           maxLength={15}
-          value={billData.descripcion}
+          value={billData.concepto}
           style={AddCuentaStyles.productTextInput}
-          onChangeText={(value) => updData(value, "descripcion")}
+          onChangeText={(value) => updData(value, "concepto")}
         />
       </View>
       <View style={AddCuentaStyles.montoContainer}>
@@ -91,7 +123,7 @@ const AddBills = ({ navigation, route }) => {
             justifyContent: "center",
             backgroundColor: "#122e49",
           }}
-          onPress={() => insertBill(billData)}
+          onPress={() => validateInfo()}
         >
           <Text style={{ color: "#ffffff", fontSize: 25 }}>Añadir</Text>
         </TouchableOpacity>
@@ -107,7 +139,7 @@ const AddBills = ({ navigation, route }) => {
             <Pressable
               onPress={() => {
                 makeDisabled(item.item.id);
-                updData(item.item.id, "categoria_id");
+                updData(item.item.id, "id_categoria");
               }}
               style={{
                 height: 100,
@@ -121,7 +153,7 @@ const AddBills = ({ navigation, route }) => {
               }}
               disabled={selectedButtonId === item.item.id ? true : false}
             >
-              <Icon size={25} name={item.item.iconName} color="#ffffff" />
+              <Icon size={25} name={item.item.icon} color="#ffffff" />
               <Text
                 style={{ fontSize: 20, marginVertical: 5, color: "#ffffff" }}
               >
@@ -131,6 +163,13 @@ const AddBills = ({ navigation, route }) => {
           )}
         />
       </View>
+      <DropdownAlert
+        infoColor="#122e49"
+        closeInterval={800}
+        ref={dropDownAlertRef}
+        titleStyle={{ fontSize: 30, color: "#ffffff" }}
+        messageStyle={{ fontSize: 20, color: "#ffffff" }}
+      />
     </View>
   );
 };

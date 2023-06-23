@@ -1,79 +1,90 @@
-import React, { createContext, useEffect, useState } from "react";
 import * as SQLite from "expo-sqlite";
+import React, { createContext, useRef, useState } from "react";
 
 export const BillsContext = createContext();
 
 const BillsProvider = ({ children }) => {
   const db = SQLite.openDatabase("GASTASO.db");
   const [bills, setBills] = useState([]);
+  const [billType, setBillType] = useState([]);
+  const [specificBills, setSpecificBills] = useState([]);
+  const [isBillSelected, setIsBillSelected] = useState(false);
+  const dropDownAlertRef = useRef();
 
   const insertBill = (billData) => {
-    const { descripcion, monto, cuenta_id, categoria_id, fecha } = billData;
+    const { id_cuenta, id_tipo_gasto, id_categoria, concepto, monto, fecha } =
+      billData;
     db.transaction((tx) => {
       tx.executeSql(
         `INSERT INTO gastos (
-        descripcion, monto, cuenta_id, categoria_id, fecha)
-        values (?,?,?,?,?)`,
-        [descripcion, monto, cuenta_id, categoria_id, fecha],
-        (txObj, queryResult) => selectGastos(),
-        (txObj, queryError) => console.log(queryError)
+        id_cuenta, id_tipo_gasto, id_categoria, concepto, monto, fecha)
+        values (?,?,?,?,?,?)`,
+        [id_cuenta, id_tipo_gasto, id_categoria, concepto, monto, fecha],
+        () => {
+          tx.executeSql("SELECT * FROM gastos", [], (txObj, queryResult) => {
+            setBills(queryResult.rows._array);
+            dropDownAlertRef.current.alertWithType(
+              "success",
+              "System Info",
+              "El gasto se ha agregado de manera correcta."
+            );
+          });
+        },
+        (txObj, queryError) => {
+          dropDownAlertRef.current.alertWithType(
+            "error",
+            "System Info",
+            "Error Interno"
+          );
+        }
       );
     });
   };
 
   const selectGastos = () => {
     db.transaction((tx) => {
+      tx.executeSql("SELECT * FROM gastos", [], (txObj, queryResult) => {
+        setBills(queryResult.rows._array);
+      });
+    });
+  };
+
+  const selectSpecificGastos = (id_cuenta) => {
+    db.transaction((tx) => {
       tx.executeSql(
-        "SELECT * FROM gastos",
-        [],
-        (txObj, queryResult) => setBills(queryResult.rows._array),
-        (txObj, queryError) => console.log(queryError)
+        "SELECT * FROM gastos where id_cuenta = ?",
+        [id_cuenta],
+        (txObj, queryResult) => {
+          setIsBillSelected(true);
+          setSpecificBills(queryResult.rows._array);
+        }
       );
     });
   };
 
-  const drop = () => {
+  const selectBillType = () => {
     db.transaction((tx) => {
-      tx.executeSql("DROP TABLE tipo_cuenta");
-      tx.executeSql("DROP TABLE cuentas");
-      tx.executeSql("DROP TABLE categorias");
-      tx.executeSql("DROP TABLE tipo_gastos");
-      tx.executeSql("DROP TABLE gastos");
-    });
-  };
-  const select = () => {
-    // db.transaction((tx) => {
-    //   tx.executeSql(
-    //     "SELECT name FROM sqlite_master WHERE type='table'",
-    //     null,
-    //     (txObj, queryResult) => console.log("Tables", queryResult.rows._array)
-    //   );
-    //   tx.executeSql("SELECT * FROM tipo_cuenta", null, (txObj, queryResult) =>
-    //     console.log("tipo_cuenta", queryResult)
-    //   );
-    //   tx.executeSql("SELECT * FROM cuentas", null, (txObj, queryResult) =>
-    //     console.log("cuentas", queryResult)
-    //   );
-    //   tx.executeSql("SELECT * FROM categorias", null, (txObj, queryResult) =>
-    //     console.log("categoria", queryResult)
-    //   );
-    //   tx.executeSql("SELECT * FROM tipo_gastos", null, (txObj, queryResult) =>
-    //     console.log("tipo_gastos", queryResult)
-    //   );
-    //   tx.executeSql("SELECT * FROM gastos", null, (txObj, queryResult) =>
-    //     console.log("gastos", queryResult)
-    //   );
-    // });
-    db.transaction((tx) => {
-      tx.executeSql("SELECT * FROM tipo_cuenta", null, (txObj, queryResult) =>
-        console.log("cuentas", queryResult)
+      tx.executeSql("SELECT * FROM tipo_gastos", [], (txObj, queryResult) =>
+        setBillType(queryResult.rows._array)
       );
     });
   };
 
   return (
     <BillsContext.Provider
-      value={{ bills, selectGastos, insertBill, drop, select }}
+      value={{
+        bills,
+        billType,
+        insertBill,
+        selectGastos,
+        specificBills,
+        selectBillType,
+        isBillSelected,
+        dropDownAlertRef,
+        setSpecificBills,
+        setIsBillSelected,
+        selectSpecificGastos,
+      }}
     >
       {children}
     </BillsContext.Provider>

@@ -16,7 +16,7 @@ const NavigationView = () => {
     { key: "Inicio", title: "Inicio" },
     { key: "Cuentas", title: "Cuentas" },
     // { key: "Categorias", title: "Categorias" },
-    // { key: "Historial", title: "Historial" },
+    { key: "Historial", title: "Historial" },
   ]);
 
   const renderScene = SceneMap({
@@ -29,7 +29,7 @@ const NavigationView = () => {
   const getTabBarIcon = (props) => {
     const { route } = props;
     if (route.key === "Inicio") {
-      return <Icon name="home" size={30} color={"#ffffff" || "red"} />;
+      return <Icon name="home" size={30} color={"#ffffff"} />;
     } else if (route.key === "Cuentas") {
       return <Icon name="wallet" size={30} color={"#ffffff"} />;
     } else if (route.key === "Categorias") {

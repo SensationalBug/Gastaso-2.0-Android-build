@@ -99,7 +99,7 @@ export const AddCuentaSurface = ({
           </View>
           <View style={{ flexDirection: "row", paddingBottom: 10 }}>
             <Text style={{ color: "#ffffff", fontSize: 20 }}>
-              {accountType[id_tipo_cuenta - 1].value}
+              {accountType[id_tipo_cuenta - 1].label}
             </Text>
           </View>
           <View>
