@@ -55,8 +55,8 @@ const BillsProvider = ({ children }) => {
         "SELECT * FROM gastos where id_cuenta = ?",
         [id_cuenta],
         (txObj, queryResult) => {
-          setIsBillSelected(true);
           setSpecificBills(queryResult.rows._array);
+          setIsBillSelected(true);
         }
       );
     });
@@ -66,6 +66,24 @@ const BillsProvider = ({ children }) => {
     db.transaction((tx) => {
       tx.executeSql("SELECT * FROM tipo_gastos", [], (txObj, queryResult) =>
         setBillType(queryResult.rows._array)
+      );
+    });
+  };
+
+  const deleteBill = (id) => {
+    db.transaction((tx) => {
+      tx.executeSql(
+        "DELETE FROM gastos WHERE id = ?",
+        [id],
+        (txObj, queryResult) => {
+          selectSpecificGastos();
+          // dropDownAlertRef.current.alertWithType(
+          //   "info",
+          //   "System Info",
+          //   "El gasto se ha eliminado de manera correcta."
+          // );
+        },
+        (txObj, queryError) => console.log(queryError)
       );
     });
   };
@@ -84,6 +102,7 @@ const BillsProvider = ({ children }) => {
         setSpecificBills,
         setIsBillSelected,
         selectSpecificGastos,
+        deleteBill,
       }}
     >
       {children}

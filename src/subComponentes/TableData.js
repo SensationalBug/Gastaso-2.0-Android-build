@@ -6,21 +6,16 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const TableData = ({ dataContent }) => {
   const navigation = useNavigation();
-  const { setIsBillSelected, setSpecificBills } = useContext(BillsContext);
+  const { setIsBillSelected, setSpecificBills, specificBills } =
+    useContext(BillsContext);
 
   return (
     <View>
       <View style={styles.addCuentaContainer}>
-        <TouchableOpacity
-          onPress={() => {
-            // navigation.goBack();
-            // setSpecificBills([]);
-            setIsBillSelected(false);
-          }}
-        >
+        <TouchableOpacity onPress={() => setIsBillSelected(false)}>
           <Icon name="arrow-left" color="#ffffff" size={30} />
         </TouchableOpacity>
-        <Text style={styles.addCategoriaText}>Añadir Producto</Text>
+        <Text style={styles.addCategoriaText}>Detalles de {}</Text>
       </View>
       <View style={{ flexDirection: "row" }}>
         <Text style={styles.tableHead}>Concepto</Text>

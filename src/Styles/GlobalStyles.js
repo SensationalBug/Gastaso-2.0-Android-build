@@ -101,7 +101,7 @@ export const AddCuentaStyles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
   },
-  productView: { width: "80%" },
+  productView: { width: "100%" },
   productFontSize: { fontSize: 20 },
   productTextInput: {
     fontSize: 30,
@@ -113,10 +113,14 @@ export const AddCuentaStyles = StyleSheet.create({
   },
   addFAB: {
     padding: 5,
+    width: "40%",
     borderRadius: 50,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "#122e49",
   },
   montoContainer: { padding: 15, flexDirection: "row" },
-  montoViewContainer: { width: "50%", justifyContent: "flex-start" },
+  montoViewContainer: { width: "60%", justifyContent: "flex-start" },
   touchableContainer: { paddingVertical: 30 },
   touchableStylesOn: {
     opacity: 1,

@@ -73,12 +73,6 @@ const AddCuenta = () => {
             onChangeText={(value) => updData(value, "producto")}
           />
         </View>
-        <FAB
-          color="#122e49"
-          style={AddCuentaStyles.addFAB}
-          onPress={() => validateInfo(accountData)}
-          icon={(props) => <Icon name="plus" {...props} />}
-        />
       </View>
       <View style={AddCuentaStyles.montoContainer}>
         <View style={AddCuentaStyles.montoViewContainer}>
@@ -91,43 +85,56 @@ const AddCuenta = () => {
             onChangeText={(value) => updData(value, "monto_inicial")}
           />
         </View>
-        <View style={AddCuentaStyles.touchableContainer}>
-          <RadioForm>
-            {accountType.map((elem, index) => (
-              <RadioButton
-                key={index}
-                style={{ margin: 20, justifyContent: "flex-end" }}
-              >
-                <RadioButtonLabel
-                  obj={elem}
-                  index={index}
-                  labelHorizontal={true}
-                  labelStyle={{ fontSize: 20, marginHorizontal: 15 }}
-                  onPress={() => {
-                    updData(elem.id, "id_tipo_cuenta");
-                    setRadioIndex(index);
-                  }}
-                />
-                <RadioButtonInput
-                  obj={elem}
-                  index={index}
-                  isSelected={() => setRadioIndex(index)}
-                  onPress={() => {
-                    updData(elem.id, "id_tipo_cuenta");
-                    setRadioIndex(index);
-                  }}
-                  borderWidth={1}
-                  buttonInnerColor={
-                    radioIndex === index ? "#20a5d8" : "transparent"
-                  }
-                  buttonOuterColor="#000"
-                  buttonSize={20}
-                  buttonOuterSize={40}
-                />
-              </RadioButton>
-            ))}
-          </RadioForm>
-        </View>
+        <TouchableOpacity
+          style={{
+            padding: 5,
+            width: "40%",
+            borderRadius: 50,
+            alignItems: "center",
+            justifyContent: "center",
+            backgroundColor: "#122e49",
+          }}
+          onPress={() => validateInfo()}
+        >
+          <Text style={{ color: "#ffffff", fontSize: 25 }}>Añadir</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={AddCuentaStyles.touchableContainer}>
+        <RadioForm>
+          {accountType.map((elem, index) => (
+            <RadioButton
+              key={index}
+              style={{ margin: 20, justifyContent: "flex-end" }}
+            >
+              <RadioButtonLabel
+                obj={elem}
+                index={index}
+                labelHorizontal={true}
+                labelStyle={{ fontSize: 20, marginHorizontal: 15 }}
+                onPress={() => {
+                  updData(elem.id, "id_tipo_cuenta");
+                  setRadioIndex(index);
+                }}
+              />
+              <RadioButtonInput
+                obj={elem}
+                index={index}
+                isSelected={() => setRadioIndex(index)}
+                onPress={() => {
+                  updData(elem.id, "id_tipo_cuenta");
+                  setRadioIndex(index);
+                }}
+                borderWidth={1}
+                buttonInnerColor={
+                  radioIndex === index ? "#20a5d8" : "transparent"
+                }
+                buttonOuterColor="#000"
+                buttonSize={20}
+                buttonOuterSize={40}
+              />
+            </RadioButton>
+          ))}
+        </RadioForm>
       </View>
       <DropdownAlert
         infoColor="#122e49"

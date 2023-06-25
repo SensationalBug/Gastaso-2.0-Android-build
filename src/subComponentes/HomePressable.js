@@ -24,7 +24,7 @@ const HomePressable = (props) => {
 
   return (
     <Pressable
-      onPress={() => {
+      onLongPress={() => {
         selectSpecificGastos(id);
       }}
       delayLongPress={400}

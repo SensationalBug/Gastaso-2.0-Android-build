@@ -90,7 +90,7 @@ const AddBills = ({ navigation, route }) => {
       >
         <Text style={AddCuentaStyles.productFontSize}>Producto</Text>
         <TextInput
-          maxLength={15}
+          maxLength={25}
           value={billData.concepto}
           style={AddCuentaStyles.productTextInput}
           onChangeText={(value) => updData(value, "concepto")}
@@ -103,26 +103,12 @@ const AddBills = ({ navigation, route }) => {
             maxLength={9}
             keyboardType="numeric"
             value={billData.monto}
-            style={{
-              fontSize: 30,
-              width: "100%",
-              paddingTop: 2,
-              paddingLeft: 10,
-              borderBottomWidth: 1,
-              borderBottomColor: "gray",
-            }}
+            style={AddCuentaStyles.productTextInput}
             onChangeText={(value) => updData(value, "monto")}
           />
         </View>
         <TouchableOpacity
-          style={{
-            padding: 5,
-            width: "40%",
-            borderRadius: 50,
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: "#122e49",
-          }}
+          style={AddCuentaStyles.addFAB}
           onPress={() => validateInfo()}
         >
           <Text style={{ color: "#ffffff", fontSize: 25 }}>Añadir</Text>

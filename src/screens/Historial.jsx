@@ -15,7 +15,7 @@ const Historial = () => {
     <View>
       <TouchableOpacity
         onPress={() => {
-          console.log(bills);
+          selectGastos()
         }}
       >
         <Text>Hola</Text>

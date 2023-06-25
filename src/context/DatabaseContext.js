@@ -82,7 +82,7 @@ const DatabaseProvider = ({ children }) => {
         () => setGetInfo(true)
       );
     });
-  });
+  },[]);
 
   return (
     <DatabaseContext.Provider value={{ getInfo }}>
