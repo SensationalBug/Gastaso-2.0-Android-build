@@ -28,11 +28,8 @@ const CateogiesProvider = ({ children }) => {
 
   const selectCategory = () => {
     db.transaction((tx) => {
-      tx.executeSql(
-        "SELECT * FROM categorias",
-        [],
-        (txObj, queryResults) => setCatgories(queryResults.rows._array),
-        (txObj, queryError) => console.log(queryError)
+      tx.executeSql("SELECT * FROM categorias", [], (txObj, queryResults) =>
+        setCatgories(queryResults.rows._array)
       );
     });
   };

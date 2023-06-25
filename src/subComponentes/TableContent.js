@@ -68,12 +68,13 @@ const TableContent = (props) => {
       >
         <Text style={styles.tableBody}>Fecha: {fecha.split("T")[0]}</Text>
         <Text style={styles.tableBody}>
-          C: {categories[id_categoria - 1].nombre}
+          {/* C: {categories[id_categoria - 1].nombre} */}
         </Text>
         <TouchableOpacity
           style={styles.delBodyButton}
           onPress={() => {
             showAlert();
+            console.log(categories, id_categoria)
           }}
         >
           <Icon

@@ -13,9 +13,7 @@ const HomePressable = (props) => {
     selectBillType,
     isBillSelected,
     selectSpecificGastos,
-    setSpecificBills,
   } = useContext(BillsContext);
-
   useEffect(() => {
     isBillSelected
       ? navigation.navigate("Detalles", { specificBills })
