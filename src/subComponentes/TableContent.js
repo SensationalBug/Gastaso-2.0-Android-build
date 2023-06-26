@@ -1,19 +1,23 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Icon from "react-native-vector-icons/Entypo";
 import { AccountsContext } from "../context/AccountsContext";
 import { CateogiesContext } from "../context/CategoriesContext";
-import { Alert, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Alert, Text, TouchableOpacity, View } from "react-native";
 import { BillsContext } from "../context/BillsContext";
+import { Pressable } from "@react-native-material/core";
+import { useNavigation } from "@react-navigation/native";
+import { DetailTableStyles } from "../Styles/GlobalStyles";
 
 const TableContent = (props) => {
-  const { id_cuenta, id_tipo_gasto, id_categoria, concepto, monto, fecha, id } =
-    props;
+  const { id_cuenta, id_tipo_gasto, id_categoria, concepto, monto, fecha } =
+    props.item;
+  const navigation = useNavigation();
   const { formatter } = useContext(AccountsContext);
   const { categories } = useContext(CateogiesContext);
-  const { deleteBill } = useContext(BillsContext);
+  const { deleteBill, specificBills, isPromise, setIsPromise } =
+    useContext(BillsContext);
   const [showInfo, setShowInfo] = useState({
     show: false,
-    opacity: 0,
     height: 0,
   });
 
@@ -24,65 +28,59 @@ const TableContent = (props) => {
       [
         {
           text: "Si",
-          onPress: () => deleteBill(id),
+          onPress: () => {
+            deleteBill(props);
+          },
         },
         { text: "No", style: "cancel" },
       ]
     );
   };
 
+  useEffect(() => {
+    if (isPromise) {
+      navigation.replace("Detalles", { newBills: [...specificBills] });
+      setIsPromise(false);
+    }
+  }, [isPromise]);
+
   return (
     <View style={{ borderLeftWidth: 1, borderBottomWidth: 1 }}>
-      <View
+      <Pressable
+        onPress={() => {
+          showInfo.show
+            ? setShowInfo({ opacity: 0, height: 0, show: false })
+            : setShowInfo({ opacity: 1, flex: 1, show: true });
+        }}
         key={id_cuenta}
         style={{
           flexDirection: "row",
           backgroundColor: id_tipo_gasto === 1 ? "#F24C3D" : "#1F8A70",
         }}
       >
-        <Text style={styles.tableBody}>{concepto}</Text>
-        <Text style={styles.tableBody}>{formatter.format(monto)}</Text>
-        <TouchableOpacity
-          style={styles.delBodyButton}
-          onPress={() => {
-            showInfo.show
-              ? setShowInfo({ opacity: 0, height: 0, show: false })
-              : setShowInfo({ opacity: 1, flex: 1, show: true });
-          }}
-        >
-          <Icon
-            size={20}
-            color="#fff"
-            name={showInfo.show ? "chevron-thin-up" : "chevron-thin-down"}
-            style={styles.delBodyButtonIcon}
-          />
-        </TouchableOpacity>
-      </View>
+        <Text style={DetailTableStyles.table}>{concepto}</Text>
+        <Text style={DetailTableStyles.tableProducto}>
+          {formatter.format(monto)}
+        </Text>
+      </Pressable>
       <View
         style={{
           flexDirection: "row",
           height: showInfo.height,
-          opacity: showInfo.opacity,
           backgroundColor: id_tipo_gasto === 1 ? "#F24C3D" : "#1F8A70",
         }}
       >
-        <Text style={styles.tableBody}>Fecha: {fecha.split("T")[0]}</Text>
-        <Text style={styles.tableBody}>
-          {/* C: {categories[id_categoria - 1].nombre} */}
+        <Text style={DetailTableStyles.table}>{fecha.split("T")[0]}</Text>
+        <Text style={DetailTableStyles.table}>
+          {categories[id_categoria - 1].nombre}
         </Text>
         <TouchableOpacity
-          style={styles.delBodyButton}
+          style={DetailTableStyles.delButton}
           onPress={() => {
             showAlert();
-            console.log(categories, id_categoria)
           }}
         >
-          <Icon
-            size={20}
-            color="#fff"
-            name="trash"
-            style={styles.delBodyButtonIcon}
-          />
+          <Icon size={20} color="#fff" name="trash" />
         </TouchableOpacity>
       </View>
     </View>
@@ -90,22 +88,3 @@ const TableContent = (props) => {
 };
 
 export default TableContent;
-
-const styles = StyleSheet.create({
-  tableBody: {
-    fontSize: 20,
-    width: "45%",
-    color: "#fff",
-    textAlign: "center",
-    paddingVertical: 10,
-    borderColor: "#122e49",
-    verticalAlign: "middle",
-  },
-  delBodyButton: {
-    width: "10%",
-    paddingVertical: 10,
-    alignItems: "center",
-    borderColor: "#122e49",
-    justifyContent: "center",
-  },
-});

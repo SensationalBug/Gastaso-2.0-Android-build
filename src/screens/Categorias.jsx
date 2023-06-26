@@ -1,8 +1,8 @@
+import { FAB } from "@react-native-material/core";
+import React, { useContext, useState } from "react";
 import DropdownAlert from "react-native-dropdownalert";
 import { FlatList } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome";
-import React, { useContext, useRef, useState } from "react";
-import { FAB, Pressable } from "@react-native-material/core";
 import { CateogiesContext } from "../context/CategoriesContext";
 import { View, Text, TextInput, useWindowDimensions } from "react-native";
 import { AddCategoriasPressable } from "../subComponentes/AddCategoriasPressable";
@@ -45,10 +45,12 @@ const Recordatorios = () => {
           <View style={{ width: "80%" }}>
             <Text style={{ fontSize: 20 }}>Nombre de la categoría</Text>
             <TextInput
-              maxLength={15}
-              value={newCategoria}
+              // maxLength={15}
+              value={"Bloqueado"}
+              // value={newCategoria}
               onChangeText={(value) => setNewCategoria(value)}
               style={{
+                opacity: 0.3,
                 fontSize: 30,
                 width: "100%",
                 paddingTop: 2,
@@ -65,10 +67,18 @@ const Recordatorios = () => {
             }}
           >
             <FAB
+              disabled
               color="#122e49"
-              style={{ padding: 5, borderRadius: 50 }}
+              style={{ padding: 5, borderRadius: 50, backgroundColor: "gray" }}
               onPress={() => insertNewCategory()}
-              icon={(props) => <Icon name="plus" {...props} color="#ffffff" />}
+              icon={(props) => (
+                <Icon
+                  name="lock"
+                  {...props}
+                  color="#ffffff"
+                  style={{ opacity: 0.3 }}
+                />
+              )}
             />
           </View>
         </View>

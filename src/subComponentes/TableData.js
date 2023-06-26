@@ -1,28 +1,22 @@
-import React, { useContext, useEffect } from "react";
-import Icon from "react-native-vector-icons/Entypo";
+import React, { useContext } from "react";
+import Icon from "react-native-vector-icons/AntDesign";
 import { BillsContext } from "../context/BillsContext";
-import { useNavigation } from "@react-navigation/native";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { DetailTableStyles } from "../Styles/GlobalStyles";
+import { Text, TouchableOpacity, View } from "react-native";
 
 const TableData = ({ dataContent }) => {
-  const navigation = useNavigation();
-  const { setIsBillSelected, setSpecificBills, specificBills } =
-    useContext(BillsContext);
-
+  const { setIsBillSelected } = useContext(BillsContext);
   return (
     <View>
-      <View style={styles.addCuentaContainer}>
+      <View style={DetailTableStyles.addCuentaContainer}>
         <TouchableOpacity onPress={() => setIsBillSelected(false)}>
-          <Icon name="arrow-left" color="#ffffff" size={30} />
+          <Icon name="arrowleft" color="#ffffff" size={30} />
         </TouchableOpacity>
-        <Text style={styles.addCategoriaText}>Detalles de {}</Text>
+        <Text style={DetailTableStyles.addCategoriaText}>Detalles</Text>
       </View>
-      <View style={{ flexDirection: "row" }}>
-        <Text style={styles.tableHead}>Concepto</Text>
-        <Text style={styles.tableHead}>Monto</Text>
-        <Text style={styles.delHeadButton}>
-          <Icon style={styles.delBodyButtonIcon} name="chevron-thin-down" />
-        </Text>
+      <View style={{ flexDirection: "row", backgroundColor: "#122e49" }}>
+        <Text style={DetailTableStyles.tableHead}>Concepto</Text>
+        <Text style={DetailTableStyles.tableHead}>Monto</Text>
       </View>
       {dataContent}
     </View>
@@ -30,33 +24,3 @@ const TableData = ({ dataContent }) => {
 };
 
 export default TableData;
-
-const styles = StyleSheet.create({
-  addCuentaContainer: {
-    padding: 15,
-    flexDirection: "row",
-    backgroundColor: "#122e49",
-  },
-  addCategoriaText: { color: "#ffffff", fontSize: 20, marginHorizontal: 20 },
-  tableHead: {
-    fontSize: 20,
-    width: "45%",
-    color: "#fff",
-    textAlign: "center",
-    paddingVertical: 10,
-    backgroundColor: "#122e49",
-    borderRightColor: "gray",
-    borderRightWidth: 2,
-  },
-  delHeadButton: {
-    width: "10%",
-    textAlign: "center",
-    verticalAlign: "middle",
-    backgroundColor: "#122e49",
-  },
-  delBodyButtonIcon: {
-    fontSize: 20,
-    color: "#fff",
-    alignContent: "center",
-  },
-});

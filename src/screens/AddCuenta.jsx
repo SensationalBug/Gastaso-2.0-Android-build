@@ -1,8 +1,7 @@
-import { FAB } from "@react-native-material/core";
 import React, { useState, useContext } from "react";
 import DropdownAlert from "react-native-dropdownalert";
 import { useNavigation } from "@react-navigation/native";
-import Icon from "react-native-vector-icons/FontAwesome";
+import Icon from "react-native-vector-icons/AntDesign";
 import { AddCuentaStyles } from "../Styles/GlobalStyles";
 import { AccountsContext } from "../context/AccountsContext";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
@@ -59,7 +58,7 @@ const AddCuenta = () => {
     <View style={{ flex: 1 }}>
       <View style={AddCuentaStyles.addCuentaContainer}>
         <TouchableOpacity onPress={() => navigation.goBack()}>
-          <Icon name="arrow-left" color="#ffffff" size={30} />
+          <Icon name="arrowleft" color="#ffffff" size={30} />
         </TouchableOpacity>
         <Text style={AddCuentaStyles.addCategoriaText}>Añadir Producto</Text>
       </View>

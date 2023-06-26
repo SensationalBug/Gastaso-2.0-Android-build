@@ -39,7 +39,6 @@ const Navigation = () => {
           component={Details}
           options={{
             headerShown: false,
-            animation: "fade_from_bottom",
           }}
         />
       </Stack.Navigator>

@@ -7,6 +7,7 @@ const BillsProvider = ({ children }) => {
   const db = SQLite.openDatabase("GASTASO.db");
   const [bills, setBills] = useState([]);
   const [billType, setBillType] = useState([]);
+  const [isPromise, setIsPromise] = useState(false);
   const [specificBills, setSpecificBills] = useState([]);
   const [isBillSelected, setIsBillSelected] = useState(false);
   const dropDownAlertRef = useRef();
@@ -57,6 +58,7 @@ const BillsProvider = ({ children }) => {
         (txObj, queryResult) => {
           setSpecificBills(queryResult.rows._array);
           setIsBillSelected(true);
+          selectGastos();
         }
       );
     });
@@ -70,21 +72,20 @@ const BillsProvider = ({ children }) => {
     });
   };
 
-  const deleteBill = (id) => {
+  const deleteBill = (data) => {
+    const { id, id_cuenta } = data.item;
     db.transaction((tx) => {
-      tx.executeSql(
-        "DELETE FROM gastos WHERE id = ?",
-        [id],
-        (txObj, queryResult) => {
-          selectSpecificGastos();
-          // dropDownAlertRef.current.alertWithType(
-          //   "info",
-          //   "System Info",
-          //   "El gasto se ha eliminado de manera correcta."
-          // );
-        },
-        (txObj, queryError) => console.log(queryError)
-      );
+      tx.executeSql("DELETE FROM gastos WHERE id = ?", [id], () => {
+        tx.executeSql(
+          "SELECT * FROM gastos where id_cuenta = ?",
+          [id_cuenta],
+          (txObj, queryResult) => {
+            setSpecificBills(queryResult.rows._array);
+            setIsPromise(true);
+            selectGastos();
+          }
+        );
+      });
     });
   };
 
@@ -103,6 +104,8 @@ const BillsProvider = ({ children }) => {
         setIsBillSelected,
         selectSpecificGastos,
         deleteBill,
+        isPromise,
+        setIsPromise,
       }}
     >
       {children}

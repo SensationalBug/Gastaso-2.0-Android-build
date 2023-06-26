@@ -62,6 +62,10 @@ const DatabaseProvider = ({ children }) => {
     });
   };
 
+  const selectGastos = () => {
+    
+  }
+
   useEffect(() => {
     db.transaction((tx) => {
       tx.executeSql(

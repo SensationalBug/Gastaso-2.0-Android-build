@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Icon from "react-native-vector-icons/Entypo";
 import { BillsContext } from "../context/BillsContext";
 import { Pressable } from "@react-native-material/core";
@@ -6,26 +6,53 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { HomePressableStyles } from "../Styles/GlobalStyles";
 
 const HomePressable = (props) => {
+  const [getBills, setGetBills] = useState({ debitos: 0, creditos: 0 });
   const { elem, formatter, navigation, accountType } = props;
   const { producto, monto_inicial, id_tipo_cuenta, id } = elem;
   const {
+    bills,
+    selectGastos,
     specificBills,
     selectBillType,
     isBillSelected,
     selectSpecificGastos,
   } = useContext(BillsContext);
+
   useEffect(() => {
-    isBillSelected
-      ? navigation.navigate("Detalles", { specificBills })
-      : navigation.navigate("Main");
+    if (isBillSelected) {
+      navigation.navigate("Detalles", { newBills: [...specificBills] });
+      selectGastos();
+    } else {
+      navigation.navigate("Main");
+    }
   }, [isBillSelected]);
+
+  const getAllBills = () => {
+    const totalDebitos = bills.reduce((accumulator, elem) => {
+      return accumulator + elem.monto;
+    }, 0);
+    console.log(bills);
+    // bills.map((elem) => {
+    //   // if (elem.id_tipo_cuenta === 1) {
+    //   //   setGetBills((prevState) => ({
+    //   //     // ...prevState,
+    //   //     debitos: elem.monto,
+    //   //   }));
+    //   // }
+    //   setGetBills((prevState) => ({
+    //     ...prevState,
+    //     debitos: (elem.monto += elem.monto),
+    //   }));
+    // });
+  };
 
   return (
     <Pressable
+      onPress={() => getAllBills()}
       onLongPress={() => {
         selectSpecificGastos(id);
       }}
-      delayLongPress={400}
+      delayLongPress={200}
       style={HomePressableStyles.pressable}
     >
       <View style={HomePressableStyles.pressableView}>

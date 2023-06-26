@@ -1,16 +1,16 @@
 import React from "react";
-import { View, FlatList, Text } from "react-native";
+import { View, FlatList } from "react-native";
 import TableData from "../subComponentes/TableData";
 import TableContent from "../subComponentes/TableContent";
 
 const Details = ({ route }) => {
-  const { specificBills } = route.params;
+  const { newBills } = route.params;
   const dataView = () => {
     return (
       <FlatList
-        data={specificBills}
+        data={newBills}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => <TableContent {...item} />}
+        renderItem={({ item }) => <TableContent item={item} />}
       />
     );
   };

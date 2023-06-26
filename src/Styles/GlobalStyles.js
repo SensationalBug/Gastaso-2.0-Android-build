@@ -16,6 +16,17 @@ const commonTouchablesStyles = {
   backgroundColor: "#1F9FD0",
 };
 
+const commonTableStyles = {
+  fontSize: 20,
+  width: "45%",
+  color: "#fff",
+  textAlign: "center",
+  paddingVertical: 10,
+  borderColor: "#122e49",
+  verticalAlign: "middle",
+  textTransform:"capitalize"
+};
+
 export const HomeStyles = StyleSheet.create({
   home: {
     flex: 1,
@@ -86,7 +97,7 @@ export const CuentasStyles = StyleSheet.create({
     textAlign: "center",
     marginHorizontal: 10,
   },
-})
+});
 
 export const AddCuentaStyles = StyleSheet.create({
   addCuentaContainer: {
@@ -131,4 +142,31 @@ export const AddCuentaStyles = StyleSheet.create({
     ...commonTouchablesStyles,
   },
   tarjetaText: { fontWeight: "bold", fontSize: 20 },
+});
+
+export const DetailTableStyles = StyleSheet.create({
+  addCuentaContainer: {
+    padding: 15,
+    flexDirection: "row",
+    backgroundColor: "#122e49",
+  },
+  addCategoriaText: { color: "#ffffff", fontSize: 20, marginHorizontal: 20 },
+  tableHead: {
+    ...commonTableStyles,
+    backgroundColor: "#122e49",
+  },
+  table: {
+    ...commonTableStyles,
+  },
+  tableProducto: {
+    ...commonTableStyles,
+    textTransform:"uppercase",
+  },
+  delButton: {
+    width: "10%",
+    paddingVertical: 10,
+    alignItems: "center",
+    borderColor: "#122e49",
+    justifyContent: "center",
+  },
 });
