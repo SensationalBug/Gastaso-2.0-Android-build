@@ -1,9 +1,10 @@
 import React from "react";
-import { View, FlatList } from "react-native";
 import TableData from "../subComponentes/TableData";
 import TableContent from "../subComponentes/TableContent";
+import { View, FlatList, useWindowDimensions } from "react-native";
 
 const Details = ({ route }) => {
+  const layout = useWindowDimensions();
   const { newBills } = route.params;
   const dataView = () => {
     return (
@@ -16,7 +17,7 @@ const Details = ({ route }) => {
   };
 
   return (
-    <View>
+    <View style={{ height: layout.height - 108 }}>
       <TableData dataContent={dataView()} />
     </View>
   );

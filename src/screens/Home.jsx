@@ -8,7 +8,6 @@ import { AccountsContext } from "../context/AccountsContext";
 const Home = () => {
   const navigation = useNavigation();
   const { accounts, formatter, accountType } = useContext(AccountsContext);
-
   return (
     <View style={HomeStyles.home}>
       <View style={HomeStyles.welcomeUser}>

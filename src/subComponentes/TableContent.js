@@ -1,19 +1,20 @@
-import React, { useContext, useEffect, useState } from "react";
 import Icon from "react-native-vector-icons/Entypo";
-import { AccountsContext } from "../context/AccountsContext";
-import { CateogiesContext } from "../context/CategoriesContext";
-import { Alert, Text, TouchableOpacity, View } from "react-native";
 import { BillsContext } from "../context/BillsContext";
-import { Pressable } from "@react-native-material/core";
 import { useNavigation } from "@react-navigation/native";
 import { DetailTableStyles } from "../Styles/GlobalStyles";
+import { AccountsContext } from "../context/AccountsContext";
+import { DatabaseContext } from "../context/DatabaseContext";
+import React, { useContext, useEffect, useState } from "react";
+import { CateogiesContext } from "../context/CategoriesContext";
+import { Alert, Text, TouchableOpacity, View } from "react-native";
 
 const TableContent = (props) => {
-  const { id_cuenta, id_tipo_gasto, id_categoria, concepto, monto, fecha } =
+  const { id_cuenta, id_tipo_gasto, id_categoria, concepto, monto, fecha} =
     props.item;
   const navigation = useNavigation();
   const { formatter } = useContext(AccountsContext);
   const { categories } = useContext(CateogiesContext);
+  const { selectGastosDB } = useContext(DatabaseContext);
   const { deleteBill, specificBills, isPromise, setIsPromise } =
     useContext(BillsContext);
   const [showInfo, setShowInfo] = useState({
@@ -30,6 +31,7 @@ const TableContent = (props) => {
           text: "Si",
           onPress: () => {
             deleteBill(props);
+            selectGastosDB();
           },
         },
         { text: "No", style: "cancel" },
@@ -46,12 +48,7 @@ const TableContent = (props) => {
 
   return (
     <View style={{ borderLeftWidth: 1, borderBottomWidth: 1 }}>
-      <Pressable
-        onPress={() => {
-          showInfo.show
-            ? setShowInfo({ opacity: 0, height: 0, show: false })
-            : setShowInfo({ opacity: 1, flex: 1, show: true });
-        }}
+      <View
         key={id_cuenta}
         style={{
           flexDirection: "row",
@@ -62,7 +59,21 @@ const TableContent = (props) => {
         <Text style={DetailTableStyles.tableProducto}>
           {formatter.format(monto)}
         </Text>
-      </Pressable>
+        <TouchableOpacity
+          style={DetailTableStyles.delButton}
+          onPress={() => {
+            showInfo.show
+              ? setShowInfo({ opacity: 0, height: 0, show: false })
+              : setShowInfo({ opacity: 1, flex: 1, show: true });
+          }}
+        >
+          <Icon
+            size={20}
+            color="#fff"
+            name={showInfo.show ? "triangle-up" : "triangle-down"}
+          />
+        </TouchableOpacity>
+      </View>
       <View
         style={{
           flexDirection: "row",

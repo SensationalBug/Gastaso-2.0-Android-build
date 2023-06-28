@@ -12,6 +12,7 @@ export const DatabaseContext = createContext();
 
 const DatabaseProvider = ({ children }) => {
   const [getInfo, setGetInfo] = useState(false);
+  const [getBills, setGetBills] = useState([]);
   const db = SQLite.openDatabase("GASTASO.db");
 
   const addTipoCuenta = () => {
@@ -62,9 +63,13 @@ const DatabaseProvider = ({ children }) => {
     });
   };
 
-  const selectGastos = () => {
-    
-  }
+  const selectGastosDB = () => {
+    db.transaction((tx) => {
+      tx.executeSql("SELECT * FROM gastos", [], (txObj, queryResult) => {
+        setGetBills(queryResult.rows._array);
+      });
+    });
+  };
 
   useEffect(() => {
     db.transaction((tx) => {
@@ -83,13 +88,16 @@ const DatabaseProvider = ({ children }) => {
             });
           });
         },
-        () => setGetInfo(true)
+        () => {
+          selectGastosDB();
+          setGetInfo(true);
+        }
       );
     });
-  },[]);
+  }, []);
 
   return (
-    <DatabaseContext.Provider value={{ getInfo }}>
+    <DatabaseContext.Provider value={{ getInfo, getBills, selectGastosDB }}>
       {children}
     </DatabaseContext.Provider>
   );

@@ -12,6 +12,7 @@ import {
 import DropdownAlert from "react-native-dropdownalert";
 import { BillsContext } from "../context/BillsContext";
 import { Pressable } from "@react-native-material/core";
+import { DatabaseContext } from "../context/DatabaseContext";
 import { CateogiesContext } from "../context/CategoriesContext";
 
 const AddBills = ({ navigation, route }) => {
@@ -28,6 +29,7 @@ const AddBills = ({ navigation, route }) => {
   const { categories } = useContext(CateogiesContext);
   const [selectedButtonId, setSelectedButtonId] = useState(null);
   const { insertBill, dropDownAlertRef } = useContext(BillsContext);
+  const { selectGastosDB } = useContext(DatabaseContext);
 
   const updData = (value, fieldName) => {
     const fecha = new Date();
@@ -59,6 +61,7 @@ const AddBills = ({ navigation, route }) => {
     if (billData.concepto && billData.monto && billData.id_categoria) {
       clearFields();
       insertBill(billData);
+      selectGastosDB();
     } else if (billData.concepto && billData.monto && !billData.id_categoria) {
       dropDownAlertRef.current.alertWithType(
         "error",
@@ -77,7 +80,11 @@ const AddBills = ({ navigation, route }) => {
   return (
     <View>
       <View style={AddCuentaStyles.addCuentaContainer}>
-        <TouchableOpacity onPress={() => navigation.goBack()}>
+        <TouchableOpacity
+          onPress={() => {
+            navigation.goBack();
+          }}
+        >
           <Icon name="arrow-left" color="#ffffff" size={30} />
         </TouchableOpacity>
         <Text style={AddCuentaStyles.addCategoriaText}>Añadir gasto</Text>

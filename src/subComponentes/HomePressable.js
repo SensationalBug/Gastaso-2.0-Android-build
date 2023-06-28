@@ -1,58 +1,57 @@
-import React, { useContext, useEffect, useState } from "react";
 import Icon from "react-native-vector-icons/Entypo";
 import { BillsContext } from "../context/BillsContext";
 import { Pressable } from "@react-native-material/core";
 import { View, Text, TouchableOpacity } from "react-native";
 import { HomePressableStyles } from "../Styles/GlobalStyles";
+import { DatabaseContext } from "../context/DatabaseContext";
+import React, { useContext, useEffect, useState } from "react";
 
 const HomePressable = (props) => {
-  const [getBills, setGetBills] = useState({ debitos: 0, creditos: 0 });
   const { elem, formatter, navigation, accountType } = props;
   const { producto, monto_inicial, id_tipo_cuenta, id } = elem;
   const {
-    bills,
-    selectGastos,
     specificBills,
     selectBillType,
     isBillSelected,
     selectSpecificGastos,
   } = useContext(BillsContext);
+  const { getBills, selectGastosDB } = useContext(DatabaseContext);
+  const [montoInicial] = useState(monto_inicial);
+  const [montoFinal, setMontoFinal] = useState(monto_inicial);
 
   useEffect(() => {
     if (isBillSelected) {
+      selectGastosDB();
       navigation.navigate("Detalles", { newBills: [...specificBills] });
-      selectGastos();
     } else {
       navigation.navigate("Main");
     }
   }, [isBillSelected]);
 
-  const getAllBills = () => {
-    const totalDebitos = bills.reduce((accumulator, elem) => {
-      return accumulator + elem.monto;
-    }, 0);
-    console.log(bills);
-    // bills.map((elem) => {
-    //   // if (elem.id_tipo_cuenta === 1) {
-    //   //   setGetBills((prevState) => ({
-    //   //     // ...prevState,
-    //   //     debitos: elem.monto,
-    //   //   }));
-    //   // }
-    //   setGetBills((prevState) => ({
-    //     ...prevState,
-    //     debitos: (elem.monto += elem.monto),
-    //   }));
-    // });
+  useEffect(() => {
+    setMontoFinal(monto_inicial);
+    getBillAmount();
+  }, [id, getBills]);
+
+  const getBillAmount = () => {
+    let total = montoInicial;
+    getBills.map((item) => {
+      if (id === item.id_cuenta) {
+        if (item.id_tipo_gasto === 1) {
+          total -= item.monto;
+        } else {
+          total += item.monto;
+        }
+      }
+    });
+    setMontoFinal(total);
   };
 
   return (
     <Pressable
-      onPress={() => getAllBills()}
-      onLongPress={() => {
+      onPress={() => {
         selectSpecificGastos(id);
       }}
-      delayLongPress={200}
       style={HomePressableStyles.pressable}
     >
       <View style={HomePressableStyles.pressableView}>
@@ -66,8 +65,15 @@ const HomePressable = (props) => {
             </Text>
           </View>
           <View>
-            <Text style={HomePressableStyles.productInfo}>
-              {formatter.format(monto_inicial)}
+            <Text
+              style={{
+                fontSize: 35,
+                color: montoFinal < 0 ? "red" : "#ffffff",
+                paddingVertical: 4.5,
+                textTransform: "uppercase",
+              }}
+            >
+              {formatter.format(montoFinal)}
             </Text>
           </View>
         </View>
