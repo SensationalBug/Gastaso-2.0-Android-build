@@ -9,14 +9,19 @@ import { CateogiesContext } from "../context/CategoriesContext";
 import { Alert, Text, TouchableOpacity, View } from "react-native";
 
 const TableContent = (props) => {
-  const { id_cuenta, id_tipo_gasto, id_categoria, concepto, monto, fecha} =
-    props.item;
   const navigation = useNavigation();
+
+  const { id_cuenta, id_tipo_gasto, id_categoria, concepto, monto, fecha, id } =
+    props.item;
+
   const { formatter } = useContext(AccountsContext);
   const { categories } = useContext(CateogiesContext);
   const { selectGastosDB } = useContext(DatabaseContext);
   const { deleteBill, specificBills, isPromise, setIsPromise } =
     useContext(BillsContext);
+
+  const [selectedCategory, setSelectedCategory] = useState("");
+
   const [showInfo, setShowInfo] = useState({
     show: false,
     height: 0,
@@ -46,6 +51,20 @@ const TableContent = (props) => {
     }
   }, [isPromise]);
 
+  const toggleShowMore = () => {
+    showInfo.show
+      ? setShowInfo({ opacity: 0, height: 0, show: false })
+      : setShowInfo({ opacity: 1, flex: 1, show: true });
+  };
+
+  const selectedCategoryName = () => {
+    categories.map((elem) => {
+      if (elem.id === id_categoria) {
+        setSelectedCategory(elem.nombre);
+      }
+    });
+  };
+
   return (
     <View style={{ borderLeftWidth: 1, borderBottomWidth: 1 }}>
       <View
@@ -62,9 +81,8 @@ const TableContent = (props) => {
         <TouchableOpacity
           style={DetailTableStyles.delButton}
           onPress={() => {
-            showInfo.show
-              ? setShowInfo({ opacity: 0, height: 0, show: false })
-              : setShowInfo({ opacity: 1, flex: 1, show: true });
+            toggleShowMore();
+            selectedCategoryName();
           }}
         >
           <Icon
@@ -82,14 +100,10 @@ const TableContent = (props) => {
         }}
       >
         <Text style={DetailTableStyles.table}>{fecha.split("T")[0]}</Text>
-        <Text style={DetailTableStyles.table}>
-          {categories[id_categoria - 1].nombre}
-        </Text>
+        <Text style={DetailTableStyles.table}>{selectedCategory}</Text>
         <TouchableOpacity
           style={DetailTableStyles.delButton}
-          onPress={() => {
-            showAlert();
-          }}
+          onPress={() => showAlert()}
         >
           <Icon size={20} color="#fff" name="trash" />
         </TouchableOpacity>

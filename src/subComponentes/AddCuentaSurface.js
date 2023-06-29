@@ -44,6 +44,7 @@ export const AddCuentaSurface = ({
       ]
     );
   };
+  
   return (
     <View
       style={{

@@ -1,10 +1,16 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Icon from "react-native-vector-icons/AntDesign";
 import { BillsContext } from "../context/BillsContext";
 import { DetailTableStyles } from "../Styles/GlobalStyles";
-import { Text, TouchableOpacity, View } from "react-native";
+import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 
 const TableData = ({ dataContent }) => {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    setTimeout(() => {
+      setLoading(false);
+    }, 1500);
+  }, [dataContent]);
   const { setIsBillSelected } = useContext(BillsContext);
   return (
     <View>
@@ -18,7 +24,14 @@ const TableData = ({ dataContent }) => {
         <Text style={DetailTableStyles.tableHead}>Concepto</Text>
         <Text style={DetailTableStyles.tableHead}>Monto</Text>
       </View>
-      {dataContent}
+      {loading ? (
+        <ActivityIndicator
+          size="large"
+          color="#122e49"
+        />
+      ) : (
+        dataContent
+      )}
     </View>
   );
 };

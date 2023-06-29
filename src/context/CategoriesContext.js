@@ -11,10 +11,10 @@ import { DatabaseContext } from "./DatabaseContext";
 export const CateogiesContext = createContext();
 
 const CateogiesProvider = ({ children }) => {
-  const [categories, setCatgories] = useState([]);
   const dropDownAlertRef = useRef();
-  const { getInfo } = useContext(DatabaseContext);
   const db = SQLite.openDatabase("GASTASO.db");
+  const [categories, setCatgories] = useState([]);
+  const { getInfo } = useContext(DatabaseContext);
 
   useEffect(() => {
     if (getInfo) {

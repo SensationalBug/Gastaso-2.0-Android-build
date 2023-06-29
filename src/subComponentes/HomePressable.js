@@ -5,6 +5,7 @@ import { View, Text, TouchableOpacity } from "react-native";
 import { HomePressableStyles } from "../Styles/GlobalStyles";
 import { DatabaseContext } from "../context/DatabaseContext";
 import React, { useContext, useEffect, useState } from "react";
+import { AccountsContext } from "../context/AccountsContext";
 
 const HomePressable = (props) => {
   const { elem, formatter, navigation, accountType } = props;
@@ -15,9 +16,9 @@ const HomePressable = (props) => {
     isBillSelected,
     selectSpecificGastos,
   } = useContext(BillsContext);
-  const { getBills, selectGastosDB } = useContext(DatabaseContext);
-  const [montoInicial] = useState(monto_inicial);
+  const { accounts } = useContext(AccountsContext);
   const [montoFinal, setMontoFinal] = useState(monto_inicial);
+  const { getBills, selectGastosDB } = useContext(DatabaseContext);
 
   useEffect(() => {
     if (isBillSelected) {
@@ -31,10 +32,10 @@ const HomePressable = (props) => {
   useEffect(() => {
     setMontoFinal(monto_inicial);
     getBillAmount();
-  }, [id, getBills]);
+  }, [id, getBills, accounts]);
 
   const getBillAmount = () => {
-    let total = montoInicial;
+    let total = monto_inicial;
     getBills.map((item) => {
       if (id === item.id_cuenta) {
         if (item.id_tipo_gasto === 1) {

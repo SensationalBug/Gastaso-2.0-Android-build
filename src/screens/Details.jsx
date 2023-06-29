@@ -6,6 +6,7 @@ import { View, FlatList, useWindowDimensions } from "react-native";
 const Details = ({ route }) => {
   const layout = useWindowDimensions();
   const { newBills } = route.params;
+
   const dataView = () => {
     return (
       <FlatList

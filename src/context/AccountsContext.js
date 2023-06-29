@@ -1,22 +1,22 @@
 import * as SQLite from "expo-sqlite";
 import React, {
-  createContext,
-  useContext,
-  useEffect,
   useRef,
   useState,
+  useEffect,
+  useContext,
+  createContext,
 } from "react";
 import { DatabaseContext } from "./DatabaseContext";
 
 export const AccountsContext = createContext();
 
 const AccountsProvider = ({ children }) => {
-  const [accounts, setAccounts] = useState([]);
-  const [accountType, setAccountType] = useState([]);
-  const db = SQLite.openDatabase("GASTASO.db");
   const dropDownAlertRef = useRef();
   const dropDownAlertRefAdd = useRef();
+  const db = SQLite.openDatabase("GASTASO.db");
+  const [accounts, setAccounts] = useState([]);
   const { getInfo } = useContext(DatabaseContext);
+  const [accountType, setAccountType] = useState([]);
 
   const formatter = new Intl.NumberFormat("es-DO", {
     style: "currency",

@@ -24,7 +24,7 @@ const commonTableStyles = {
   paddingVertical: 10,
   borderColor: "#122e49",
   verticalAlign: "middle",
-  textTransform:"capitalize"
+  textTransform: "capitalize",
 };
 
 export const HomeStyles = StyleSheet.create({
@@ -160,7 +160,7 @@ export const DetailTableStyles = StyleSheet.create({
   },
   tableProducto: {
     ...commonTableStyles,
-    textTransform:"uppercase",
+    textTransform: "uppercase",
   },
   delButton: {
     width: "10%",

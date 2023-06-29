@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { HomeStyles } from "../Styles/GlobalStyles";
 import { Text, View, FlatList } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -8,6 +8,7 @@ import { AccountsContext } from "../context/AccountsContext";
 const Home = () => {
   const navigation = useNavigation();
   const { accounts, formatter, accountType } = useContext(AccountsContext);
+
   return (
     <View style={HomeStyles.home}>
       <View style={HomeStyles.welcomeUser}>

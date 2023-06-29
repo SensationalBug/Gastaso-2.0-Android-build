@@ -45,12 +45,9 @@ const Recordatorios = () => {
           <View style={{ width: "80%" }}>
             <Text style={{ fontSize: 20 }}>Nombre de la categoría</Text>
             <TextInput
-              // maxLength={15}
-              value={"Bloqueado"}
-              // value={newCategoria}
+              value={newCategoria}
               onChangeText={(value) => setNewCategoria(value)}
               style={{
-                opacity: 0.3,
                 fontSize: 30,
                 width: "100%",
                 paddingTop: 2,
@@ -67,18 +64,10 @@ const Recordatorios = () => {
             }}
           >
             <FAB
-              disabled
               color="#122e49"
-              style={{ padding: 5, borderRadius: 50, backgroundColor: "gray" }}
               onPress={() => insertNewCategory()}
-              icon={(props) => (
-                <Icon
-                  name="lock"
-                  {...props}
-                  color="#ffffff"
-                  style={{ opacity: 0.3 }}
-                />
-              )}
+              style={{ padding: 5, borderRadius: 50 }}
+              icon={(props) => <Icon name="plus" {...props} color="#ffffff" />}
             />
           </View>
         </View>

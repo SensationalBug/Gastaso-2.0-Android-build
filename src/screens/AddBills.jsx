@@ -27,9 +27,9 @@ const AddBills = ({ navigation, route }) => {
     id_tipo_gasto: gasto,
   });
   const { categories } = useContext(CateogiesContext);
+  const { selectGastosDB } = useContext(DatabaseContext);
   const [selectedButtonId, setSelectedButtonId] = useState(null);
   const { insertBill, dropDownAlertRef } = useContext(BillsContext);
-  const { selectGastosDB } = useContext(DatabaseContext);
 
   const updData = (value, fieldName) => {
     const fecha = new Date();
@@ -52,10 +52,11 @@ const AddBills = ({ navigation, route }) => {
     setSelectedButtonId(null);
   };
 
-  const makeDisabled = (id) =>
+  const makeDisabled = (id) => {
     selectedButtonId === id
       ? setSelectedButtonId(null)
       : setSelectedButtonId(id);
+  };
 
   const validateInfo = () => {
     if (billData.concepto && billData.monto && billData.id_categoria) {
@@ -131,8 +132,8 @@ const AddBills = ({ navigation, route }) => {
           renderItem={(item) => (
             <Pressable
               onPress={() => {
-                makeDisabled(item.item.id);
                 updData(item.item.id, "id_categoria");
+                makeDisabled(item.item.id);
               }}
               style={{
                 height: 100,
