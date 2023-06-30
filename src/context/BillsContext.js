@@ -5,12 +5,12 @@ export const BillsContext = createContext();
 
 const BillsProvider = ({ children }) => {
   const db = SQLite.openDatabase("GASTASO.db");
+  const dropDownAlertRef = useRef();
   const [bills, setBills] = useState([]);
   const [billType, setBillType] = useState([]);
   const [isPromise, setIsPromise] = useState(false);
   const [specificBills, setSpecificBills] = useState([]);
   const [isBillSelected, setIsBillSelected] = useState(false);
-  const dropDownAlertRef = useRef();
 
   const insertBill = (billData) => {
     const { id_cuenta, id_tipo_gasto, id_categoria, concepto, monto, fecha } =
@@ -57,7 +57,7 @@ const BillsProvider = ({ children }) => {
         [id_cuenta],
         (txObj, queryResult) => {
           setSpecificBills(queryResult.rows._array);
-          setIsBillSelected(true);
+          setIsBillSelected(!isBillSelected);
           selectGastos();
         }
       );

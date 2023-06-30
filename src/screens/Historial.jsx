@@ -1,31 +1,39 @@
 import React, { useContext } from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { BillsContext } from "../context/BillsContext";
 import { FlatList } from "react-native-gesture-handler";
+import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import { DetailTableStyles, HomeStyles } from "../Styles/GlobalStyles";
+import Icon from "react-native-vector-icons/Entypo";
 
 const Historial = () => {
   const { bills, selectGastos } = useContext(BillsContext);
   return (
-    // <View style={styles.historial}>
-    //   <Text style={{ fontSize: 25, textAlign: "center" }}>
-    //     Esta página se encuentra en mantenimiento para la versión 2.0.0 de la
-    //     app
-    //   </Text>
-    // </View>
     <View>
-      <TouchableOpacity
-        onPress={() => {
-          selectGastos()
-        }}
-      >
-        <Text>Hola</Text>
-      </TouchableOpacity>
-      <FlatList
-        data={bills}
-        renderItem={(item) => {
-          // console.log(item.item);
-        }}
-      />
+      <View style={{ flexDirection: "row", justifyContent: "space-evenly" }}>
+        <Text style={HomeStyles.mainTitle}>Historial Global</Text>
+        <TouchableOpacity
+          style={DetailTableStyles.delButton}
+          onPress={() => {}}
+        >
+          <Icon size={30} color="#000" name="ccw" />
+        </TouchableOpacity>
+      </View>
+      <View>
+        <View style={{ flexDirection: "row", backgroundColor: "#122e49" }}>
+          <Text style={{ width: "25%", fontSize: 18, color: "#fff" }}>
+            Concepto
+          </Text>
+          <Text style={{ width: "25%", fontSize: 18, color: "#fff" }}>
+            Monto
+          </Text>
+          <Text style={{ width: "25%", fontSize: 18, color: "#fff" }}>
+            Categoria
+          </Text>
+          <Text style={{ width: "25%", fontSize: 18, color: "#fff" }}>
+            Fecha
+          </Text>
+        </View>
+      </View>
     </View>
   );
 };

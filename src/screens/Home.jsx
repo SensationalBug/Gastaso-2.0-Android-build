@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext } from "react";
 import { HomeStyles } from "../Styles/GlobalStyles";
 import { Text, View, FlatList } from "react-native";
 import { useNavigation } from "@react-navigation/native";

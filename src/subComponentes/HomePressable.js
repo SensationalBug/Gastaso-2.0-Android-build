@@ -6,6 +6,7 @@ import { HomePressableStyles } from "../Styles/GlobalStyles";
 import { DatabaseContext } from "../context/DatabaseContext";
 import React, { useContext, useEffect, useState } from "react";
 import { AccountsContext } from "../context/AccountsContext";
+import { useRoute } from "@react-navigation/native";
 
 const HomePressable = (props) => {
   const { elem, formatter, navigation, accountType } = props;
@@ -14,16 +15,20 @@ const HomePressable = (props) => {
     specificBills,
     selectBillType,
     isBillSelected,
+    setIsBillSelected,
     selectSpecificGastos,
   } = useContext(BillsContext);
   const { accounts } = useContext(AccountsContext);
   const [montoFinal, setMontoFinal] = useState(monto_inicial);
-  const { getBills, selectGastosDB } = useContext(DatabaseContext);
+  const { getBills } = useContext(DatabaseContext);
+  const route = useRoute();
 
   useEffect(() => {
     if (isBillSelected) {
-      selectGastosDB();
       navigation.navigate("Detalles", { newBills: [...specificBills] });
+    }
+    if (route.name === "Main") {
+      setIsBillSelected(false);
     } else {
       navigation.navigate("Main");
     }
