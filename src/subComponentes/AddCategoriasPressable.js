@@ -5,7 +5,6 @@ import Icon from "react-native-vector-icons/FontAwesome";
 
 export const AddCategoriasPressable = (props) => {
   const { item, deteleCategory, dropDownAlertRef } = props;
-
   const showAlert = () => {
     Alert.alert(
       "ADVERTENCIA",

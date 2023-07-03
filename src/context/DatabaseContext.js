@@ -13,6 +13,7 @@ export const DatabaseContext = createContext();
 const DatabaseProvider = ({ children }) => {
   const [getInfo, setGetInfo] = useState(false);
   const [getBills, setGetBills] = useState([]);
+  const [createdDB, setCreatedDB] = useState(false);
   const db = SQLite.openDatabase("GASTASO.db");
 
   const addTipoCuenta = () => {
@@ -74,30 +75,43 @@ const DatabaseProvider = ({ children }) => {
   useEffect(() => {
     db.transaction((tx) => {
       tx.executeSql(
-        tipo_cuenta,
+        "SELECT * FROM flag",
         [],
         () => {
-          addTipoCuenta();
-          tx.executeSql(cuentas, [], () => {
-            tx.executeSql(categorias, [], () => {
-              addCategorias();
-              tx.executeSql(tipo_gastos, [], () => {
-                addTipoGasto();
-                tx.executeSql(gastos, [], () => setGetInfo(true));
+          setGetInfo(true);
+          selectGastosDB();
+          setCreatedDB(true);
+        },
+        () => {
+          tx.executeSql(tipo_cuenta, [], () => {
+            addTipoCuenta();
+            tx.executeSql(cuentas, [], () => {
+              tx.executeSql(categorias, [], () => {
+                addCategorias();
+                tx.executeSql(tipo_gastos, [], () => {
+                  addTipoGasto();
+                  tx.executeSql(gastos, [], () => {
+                    setGetInfo(true);
+                    tx.executeSql(
+                      "CREATE TABLE flag (id INTEGER PRIMARY KEY, value TEXT)",
+                      [],
+                      () => setCreatedDB(true),
+                      (txObj, queryError) => console.log(queryError)
+                    );
+                  });
+                });
               });
             });
           });
-        },
-        () => {
-          selectGastosDB();
-          setGetInfo(true);
         }
       );
     });
   }, []);
 
   return (
-    <DatabaseContext.Provider value={{ getInfo, getBills, selectGastosDB }}>
+    <DatabaseContext.Provider
+      value={{ getInfo, getBills, selectGastosDB, createdDB }}
+    >
       {children}
     </DatabaseContext.Provider>
   );
