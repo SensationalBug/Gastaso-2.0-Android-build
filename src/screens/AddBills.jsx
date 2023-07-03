@@ -96,7 +96,7 @@ const AddBills = ({ navigation, route }) => {
           justifyContent: "space-between",
         }}
       >
-        <Text style={AddCuentaStyles.productFontSize}>Producto</Text>
+        <Text style={AddCuentaStyles.productFontSize}>Concepto</Text>
         <TextInput
           maxLength={25}
           value={billData.concepto}

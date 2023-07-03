@@ -27,6 +27,25 @@ const commonTableStyles = {
   textTransform: "capitalize",
 };
 
+const commonHistoryHeaderStyles = {
+  padding: 5,
+  width: "30%",
+  fontSize: 15,
+  color: "#fff",
+  textAlign: "center",
+};
+
+const commonHistoryContentStyles = {
+  padding: 5,
+  width: "30%",
+  color: "#fff",
+  height: "100%",
+  borderWidth: 0.3,
+  textAlign: "center",
+  verticalAlign: "middle",
+  borderColor: "lightgray",
+};
+
 export const HomeStyles = StyleSheet.create({
   home: {
     flex: 1,
@@ -168,5 +187,22 @@ export const DetailTableStyles = StyleSheet.create({
     alignItems: "center",
     borderColor: "#122e49",
     justifyContent: "center",
+  },
+});
+
+export const HistoryStyles = StyleSheet.create({
+  headerStyles: {
+    ...commonHistoryHeaderStyles,
+  },
+  headerCategory: {
+    ...commonHistoryHeaderStyles,
+    width: "10%",
+  },
+  contentStyle: {
+    ...commonHistoryContentStyles,
+  },
+  contentStyleCategory: {
+    ...commonHistoryContentStyles,
+    width: "10%",
   },
 });
