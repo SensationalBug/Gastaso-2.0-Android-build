@@ -1,9 +1,7 @@
-import React, { useContext, useEffect, useState } from "react";
+import { View } from "react-native";
 import { BillsContext } from "../context/BillsContext";
 import { FlatList } from "react-native-gesture-handler";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
-import { DetailTableStyles, HomeStyles } from "../Styles/GlobalStyles";
-import Icon from "react-native-vector-icons/Entypo";
+import React, { useContext, useEffect, useState } from "react";
 import HistoryDataHeader from "../subComponentes/HistoryDataHeader";
 import HistoryDataContent from "../subComponentes/HistoryDataContent";
 
@@ -20,7 +18,7 @@ const Historial = () => {
       <FlatList
         data={getBills}
         keyExtractor={(item) => item.id}
-        renderItem={(item) => <HistoryDataContent item={item}/>}
+        renderItem={(item) => <HistoryDataContent item={item} />}
       />
     );
   };
@@ -35,12 +33,3 @@ const Historial = () => {
 };
 
 export default Historial;
-
-const styles = StyleSheet.create({
-  historial: {
-    flex: 1,
-    justifyContent: "center",
-    marginHorizontal: 30,
-  },
-  texto: { fontSize: 30, textAlign: "justify" },
-});

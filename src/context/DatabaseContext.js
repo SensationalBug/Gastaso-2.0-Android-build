@@ -11,10 +11,10 @@ import {
 export const DatabaseContext = createContext();
 
 const DatabaseProvider = ({ children }) => {
-  const [getInfo, setGetInfo] = useState(false);
-  const [getBills, setGetBills] = useState([]);
-  const [createdDB, setCreatedDB] = useState(false);
   const db = SQLite.openDatabase("GASTASO.db");
+  const [getBills, setGetBills] = useState([]);
+  const [getInfo, setGetInfo] = useState(false);
+  const [createdDB, setCreatedDB] = useState(false);
 
   const addTipoCuenta = () => {
     const tipo_cuenta = [
@@ -77,36 +77,63 @@ const DatabaseProvider = ({ children }) => {
       tx.executeSql(
         "SELECT * FROM flag",
         [],
-        () => {
-          setGetInfo(true);
-          selectGastosDB();
-          setCreatedDB(true);
+        (txObj, queryResult) => {
+          if (queryResult.rows.length === 0) {
+            createDatabaseAndTables(tx);
+          } else {
+            setCreatedDB(true);
+            setGetInfo(true);
+            selectGastosDB();
+          }
+          console.log(queryResult);
         },
-        () => {
-          tx.executeSql(tipo_cuenta, [], () => {
-            addTipoCuenta();
-            tx.executeSql(cuentas, [], () => {
-              tx.executeSql(categorias, [], () => {
-                addCategorias();
-                tx.executeSql(tipo_gastos, [], () => {
-                  addTipoGasto();
-                  tx.executeSql(gastos, [], () => {
-                    setGetInfo(true);
-                    tx.executeSql(
-                      "CREATE TABLE flag (id INTEGER PRIMARY KEY, value TEXT)",
-                      [],
-                      () => setCreatedDB(true),
-                      (txObj, queryError) => console.log(queryError)
-                    );
-                  });
-                });
-              });
-            });
-          });
-        }
+        () => createDatabaseAndTables(tx)
       );
     });
   }, []);
+
+  const createDatabaseAndTables = (tx) => {
+    tx.executeSql(
+      "CREATE TABLE flag (id INTEGER PRIMARY KEY, value TEXT)",
+      [],
+      () => {
+        setCreatedDB(true);
+        setGetInfo(true);
+        selectGastosDB();
+
+        tx.executeSql(tipo_cuenta, [], addTipoCuenta(), (txObj, queryError) =>
+          console.log(queryError)
+        );
+
+        tx.executeSql(
+          cuentas,
+          [],
+          () => {},
+          (txObj, queryError) => console.log(queryError)
+        );
+
+        tx.executeSql(categorias, [], addCategorias(), (txObj, queryError) =>
+          console.log(queryError)
+        );
+
+        tx.executeSql(tipo_gastos, [], addTipoGasto(), (txObj, queryError) =>
+          console.log(queryError)
+        );
+
+        tx.executeSql(
+          gastos,
+          [],
+          () => {},
+          (txObj, queryError) => console.log(queryError)
+        );
+      },
+      () => {
+        setCreatedDB(true);
+        setGetInfo(true);
+        selectGastosDB();
+      }
+    );
+  };
 
   return (
     <DatabaseContext.Provider

@@ -1,5 +1,4 @@
 import React, { useState, useContext } from "react";
-import DropdownAlert from "react-native-dropdownalert";
 import { useNavigation } from "@react-navigation/native";
 import Icon from "react-native-vector-icons/AntDesign";
 import { AddCuentaStyles } from "../Styles/GlobalStyles";
@@ -135,13 +134,13 @@ const AddCuenta = () => {
           ))}
         </RadioForm>
       </View>
-      <DropdownAlert
+      {/* <DropdownAlert
         infoColor="#122e49"
         closeInterval={800}
         ref={dropDownAlertRefAdd}
         titleStyle={{ fontSize: 30, color: "#ffffff" }}
         messageStyle={{ fontSize: 20, color: "#ffffff" }}
-      />
+      /> */}
     </View>
   );
 };

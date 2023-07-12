@@ -1,27 +1,21 @@
 import { FAB } from "@react-native-material/core";
 import Icon from "react-native-vector-icons/Entypo";
-import DropdownAlert from "react-native-dropdownalert";
 import { CuentasStyles } from "../Styles/GlobalStyles";
 import { FlatList } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { AccountsContext } from "../context/AccountsContext";
 import { LocationContext } from "../context/LocationContext";
 import React, { useContext, useEffect, useState } from "react";
+import { View, Text, useWindowDimensions } from "react-native";
 import { AddCuentaSurface } from "../subComponentes/AddCuentaSurface";
-import { View, Text, StyleSheet, useWindowDimensions } from "react-native";
 
 const Cuentas = () => {
   const navigation = useNavigation();
   const layout = useWindowDimensions();
   const [edit, setEdit] = useState(false);
   const { location } = useContext(LocationContext);
-  const {
-    accounts,
-    accountType,
-    selectCuenta,
-    updateCuenta,
-    dropDownAlertRef,
-  } = useContext(AccountsContext);
+  const { accounts, accountType, selectCuenta, updateCuenta } =
+    useContext(AccountsContext);
   const [editedAccountData, setEditedAccountData] = useState({
     producto: "",
     monto_inicial: "",
@@ -132,13 +126,13 @@ const Cuentas = () => {
           )}
         />
       </View>
-      <DropdownAlert
+      {/* <DropdownAlert
         infoColor="#122e49"
         closeInterval={1000}
         ref={dropDownAlertRef}
         titleStyle={{ fontSize: 30, color: "#ffffff" }}
         messageStyle={{ fontSize: 20, color: "#ffffff" }}
-      />
+      /> */}
     </View>
   );
 };

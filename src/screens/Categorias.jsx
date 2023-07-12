@@ -1,6 +1,6 @@
+import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
 import { FAB } from "@react-native-material/core";
 import React, { useContext, useState } from "react";
-import DropdownAlert from "react-native-dropdownalert";
 import { FlatList } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { CateogiesContext } from "../context/CategoriesContext";
@@ -19,12 +19,33 @@ const Recordatorios = () => {
       insertCategory(newCategoria);
       setNewCategoria("");
     } else {
-      dropDownAlertRef.current.alertWithType(
-        "error",
-        "System Info",
-        "Ingresa el nombre de la categoría"
-      );
+      Toast.show({
+        type: "success",
+        text1: "Ingresa el nombre de la categoría",
+      });
     }
+  };
+
+  const toastConfig = {
+    success: (props) => (
+      <BaseToast
+        {...props}
+        style={{ borderLeftColor: "pink" }}
+        contentContainerStyle={{ paddingHorizontal: 15 }}
+        text1Style={{
+          fontSize: 15,
+          fontWeight: "400",
+        }}
+      />
+    ),
+    error: (props) => (
+      <ErrorToast
+        {...props}
+        text1Style={{
+          fontSize: 18,
+        }}
+      />
+    ),
   };
 
   return (
@@ -101,13 +122,7 @@ const Recordatorios = () => {
           )}
         />
       </View>
-      <DropdownAlert
-        infoColor="#122e49"
-        closeInterval={1000}
-        ref={dropDownAlertRef}
-        titleStyle={{ fontSize: 30, color: "#ffffff" }}
-        messageStyle={{ fontSize: 20, color: "#ffffff" }}
-      />
+      <Toast config={toastConfig} />
     </View>
   );
 };

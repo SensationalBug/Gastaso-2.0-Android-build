@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
-import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
-import Navigationview from "./subComponentes/NavigationView";
+import { ActivityIndicator, View } from "react-native";
 import { DatabaseContext } from "./context/DatabaseContext";
+import Navigationview from "./subComponentes/NavigationView";
 
 const Main = () => {
-  const { createdDB, get } = useContext(DatabaseContext);
+  const { createdDB } = useContext(DatabaseContext);
   return (
     <View style={{ flex: 1 }}>
       {createdDB ? (

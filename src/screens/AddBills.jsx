@@ -9,7 +9,6 @@ import {
   TouchableOpacity,
   useWindowDimensions,
 } from "react-native";
-import DropdownAlert from "react-native-dropdownalert";
 import { BillsContext } from "../context/BillsContext";
 import { Pressable } from "@react-native-material/core";
 import { DatabaseContext } from "../context/DatabaseContext";
@@ -70,11 +69,11 @@ const AddBills = ({ navigation, route }) => {
         "Selecciona una categoría."
       );
     } else {
-      dropDownAlertRef.current.alertWithType(
-        "error",
-        "System Info",
-        "Rellena los todos los campos."
-      );
+      // dropDownAlertRef.current.alertWithType(
+      //   "error",
+      //   "System Info",
+      //   "Rellena los todos los campos."
+      // );
     }
   };
 
@@ -157,13 +156,13 @@ const AddBills = ({ navigation, route }) => {
           )}
         />
       </View>
-      <DropdownAlert
+      {/* <DropdownAlert
         infoColor="#122e49"
         closeInterval={800}
         ref={dropDownAlertRef}
         titleStyle={{ fontSize: 30, color: "#ffffff" }}
         messageStyle={{ fontSize: 20, color: "#ffffff" }}
-      />
+      /> */}
     </View>
   );
 };
