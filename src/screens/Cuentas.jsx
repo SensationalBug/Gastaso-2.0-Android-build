@@ -5,8 +5,10 @@ import { FlatList } from "react-native-gesture-handler";
 import { useNavigation } from "@react-navigation/native";
 import { AccountsContext } from "../context/AccountsContext";
 import { LocationContext } from "../context/LocationContext";
+import { DatabaseContext } from "../context/DatabaseContext";
 import React, { useContext, useEffect, useState } from "react";
 import { View, Text, useWindowDimensions } from "react-native";
+import { Toast } from "react-native-toast-message/lib/src/Toast";
 import { AddCuentaSurface } from "../subComponentes/AddCuentaSurface";
 
 const Cuentas = () => {
@@ -16,6 +18,8 @@ const Cuentas = () => {
   const { location } = useContext(LocationContext);
   const { accounts, accountType, selectCuenta, updateCuenta } =
     useContext(AccountsContext);
+  const { toastConfig } = useContext(DatabaseContext);
+
   const [editedAccountData, setEditedAccountData] = useState({
     producto: "",
     monto_inicial: "",
@@ -126,13 +130,7 @@ const Cuentas = () => {
           )}
         />
       </View>
-      {/* <DropdownAlert
-        infoColor="#122e49"
-        closeInterval={1000}
-        ref={dropDownAlertRef}
-        titleStyle={{ fontSize: 30, color: "#ffffff" }}
-        messageStyle={{ fontSize: 20, color: "#ffffff" }}
-      /> */}
+      <Toast config={toastConfig} />
     </View>
   );
 };

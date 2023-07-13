@@ -1,6 +1,3 @@
-import React, { useContext, useState } from "react";
-import Icon from "react-native-vector-icons/FontAwesome";
-import { AddCuentaStyles } from "../Styles/GlobalStyles";
 import {
   Text,
   View,
@@ -9,10 +6,14 @@ import {
   TouchableOpacity,
   useWindowDimensions,
 } from "react-native";
+import React, { useContext, useState } from "react";
 import { BillsContext } from "../context/BillsContext";
 import { Pressable } from "@react-native-material/core";
+import Icon from "react-native-vector-icons/FontAwesome";
+import { AddCuentaStyles } from "../Styles/GlobalStyles";
 import { DatabaseContext } from "../context/DatabaseContext";
 import { CateogiesContext } from "../context/CategoriesContext";
+import { Toast } from "react-native-toast-message/lib/src/Toast";
 
 const AddBills = ({ navigation, route }) => {
   const layout = useWindowDimensions();
@@ -25,10 +26,10 @@ const AddBills = ({ navigation, route }) => {
     id_cuenta: elem.id,
     id_tipo_gasto: gasto,
   });
+  const { insertBill } = useContext(BillsContext);
   const { categories } = useContext(CateogiesContext);
-  const { selectGastosDB } = useContext(DatabaseContext);
   const [selectedButtonId, setSelectedButtonId] = useState(null);
-  const { insertBill, dropDownAlertRef } = useContext(BillsContext);
+  const { selectGastosDB, toastConfig } = useContext(DatabaseContext);
 
   const updData = (value, fieldName) => {
     const fecha = new Date();
@@ -63,17 +64,15 @@ const AddBills = ({ navigation, route }) => {
       insertBill(billData);
       selectGastosDB();
     } else if (billData.concepto && billData.monto && !billData.id_categoria) {
-      dropDownAlertRef.current.alertWithType(
-        "error",
-        "System Info",
-        "Selecciona una categoría."
-      );
+      Toast.show({
+        type: "error",
+        text1: "Selecciona una categoría.",
+      });
     } else {
-      // dropDownAlertRef.current.alertWithType(
-      //   "error",
-      //   "System Info",
-      //   "Rellena los todos los campos."
-      // );
+      Toast.show({
+        type: "error",
+        text1: "Rellena los todos los campos.",
+      });
     }
   };
 
@@ -156,13 +155,7 @@ const AddBills = ({ navigation, route }) => {
           )}
         />
       </View>
-      {/* <DropdownAlert
-        infoColor="#122e49"
-        closeInterval={800}
-        ref={dropDownAlertRef}
-        titleStyle={{ fontSize: 30, color: "#ffffff" }}
-        messageStyle={{ fontSize: 20, color: "#ffffff" }}
-      /> */}
+      <Toast config={toastConfig} />
     </View>
   );
 };

@@ -1,13 +1,14 @@
 import * as SQLite from "expo-sqlite";
-import React, { createContext, useRef, useState } from "react";
+import React, { createContext, useContext, useRef, useState } from "react";
+import { DatabaseContext } from "./DatabaseContext";
 
 export const BillsContext = createContext();
 
 const BillsProvider = ({ children }) => {
   const db = SQLite.openDatabase("GASTASO.db");
-  const dropDownAlertRef = useRef();
   const [bills, setBills] = useState([]);
   const [billType, setBillType] = useState([]);
+  const { Toast } = useContext(DatabaseContext);
   const [isPromise, setIsPromise] = useState(false);
   const [specificBills, setSpecificBills] = useState([]);
   const [isBillSelected, setIsBillSelected] = useState(false);
@@ -24,19 +25,17 @@ const BillsProvider = ({ children }) => {
         () => {
           tx.executeSql("SELECT * FROM gastos", [], (txObj, queryResult) => {
             setBills(queryResult.rows._array);
-            dropDownAlertRef.current.alertWithType(
-              "success",
-              "System Info",
-              "El gasto se ha agregado de manera correcta."
-            );
+            Toast.show({
+              type: "success",
+              text1: "El gasto ha sido agregado",
+            });
           });
         },
-        (txObj, queryError) => {
-          dropDownAlertRef.current.alertWithType(
-            "error",
-            "System Info",
-            "Error Interno"
-          );
+        () => {
+          Toast.show({
+            type: "error",
+            text1: "Error interno",
+          });
         }
       );
     });
@@ -99,7 +98,6 @@ const BillsProvider = ({ children }) => {
         specificBills,
         selectBillType,
         isBillSelected,
-        dropDownAlertRef,
         setSpecificBills,
         setIsBillSelected,
         selectSpecificGastos,

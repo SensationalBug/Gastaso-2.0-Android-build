@@ -1,6 +1,5 @@
 import * as SQLite from "expo-sqlite";
 import React, {
-  useRef,
   useState,
   useEffect,
   useContext,
@@ -11,12 +10,10 @@ import { DatabaseContext } from "./DatabaseContext";
 export const AccountsContext = createContext();
 
 const AccountsProvider = ({ children }) => {
-  const dropDownAlertRef = useRef();
-  const dropDownAlertRefAdd = useRef();
   const db = SQLite.openDatabase("GASTASO.db");
   const [accounts, setAccounts] = useState([]);
-  const { getInfo } = useContext(DatabaseContext);
   const [accountType, setAccountType] = useState([]);
+  const { getInfo, Toast } = useContext(DatabaseContext);
 
   const formatter = new Intl.NumberFormat("es-DO", {
     style: "currency",
@@ -60,12 +57,11 @@ const AccountsProvider = ({ children }) => {
       tx.executeSql(
         "DELETE FROM cuentas WHERE id = ?",
         [id],
-        (txObj, queryResult) => {
-          dropDownAlertRef.current.alertWithType(
-            "info",
-            "System Info",
-            "La cuenta se ha eliminado de manera correcta."
-          );
+        () => {
+          Toast.show({
+            type: "info",
+            text1: "La cuenta ha sido eliminada",
+          });
           selectCuenta();
         },
         (txObj, queryError) => console.log(queryError)
@@ -78,12 +74,11 @@ const AccountsProvider = ({ children }) => {
       tx.executeSql(
         "UPDATE cuentas SET producto = ?, monto_inicial = ? WHERE id = ?",
         [producto, monto, id],
-        (txObj, queryResult) => {
-          dropDownAlertRef.current.alertWithType(
-            "info",
-            "System Info",
-            "La cuenta se ha editado de manera correcta."
-          );
+        () => {
+          Toast.show({
+            type: "info",
+            text1: "La cuenta ha sido editada",
+          });
           selectCuenta();
         },
         (txObj, queryError) => console.log(queryError)
@@ -97,12 +92,11 @@ const AccountsProvider = ({ children }) => {
       tx.executeSql(
         "INSERT INTO cuentas (producto, monto_inicial, id_tipo_cuenta, fecha) values (?,?,?,?)",
         [producto, monto_inicial, id_tipo_cuenta, fecha],
-        (txObj, queryResult) => {
-          dropDownAlertRefAdd.current.alertWithType(
-            "success",
-            "System Info",
-            "La cuenta se ha agregado de manera correcta."
-          );
+        () => {
+          Toast.show({
+            type: "info",
+            text1: "La cuenta ha sido agregada",
+          });
           selectCuenta();
         },
         (txObj, queryError) => console.log(queryError)
@@ -122,8 +116,6 @@ const AccountsProvider = ({ children }) => {
         deleteCuenta,
         updateCuenta,
         selectCuentaId,
-        dropDownAlertRef,
-        dropDownAlertRefAdd,
       }}
     >
       {children}

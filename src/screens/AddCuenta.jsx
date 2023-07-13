@@ -1,19 +1,22 @@
-import React, { useState, useContext } from "react";
-import { useNavigation } from "@react-navigation/native";
-import Icon from "react-native-vector-icons/AntDesign";
-import { AddCuentaStyles } from "../Styles/GlobalStyles";
-import { AccountsContext } from "../context/AccountsContext";
-import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import RadioForm, {
   RadioButton,
   RadioButtonInput,
   RadioButtonLabel,
 } from "react-native-simple-radio-button";
+import React, { useState, useContext } from "react";
+import Icon from "react-native-vector-icons/AntDesign";
+import { useNavigation } from "@react-navigation/native";
+import { AddCuentaStyles } from "../Styles/GlobalStyles";
+import { AccountsContext } from "../context/AccountsContext";
+import { DatabaseContext } from "../context/DatabaseContext";
+import { Toast } from "react-native-toast-message/lib/src/Toast";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
 
 const AddCuenta = () => {
   const navigation = useNavigation();
-  const { addCuenta, dropDownAlertRefAdd, accountType } =
+  const { addCuenta, accountType } =
     useContext(AccountsContext);
+  const { toastConfig } = useContext(DatabaseContext);
   const [accountData, setAccountData] = useState({
     producto: "",
     monto_inicial: "",
@@ -45,11 +48,10 @@ const AddCuenta = () => {
       clearFields();
       addCuenta(accountData);
     } else {
-      dropDownAlertRefAdd.current.alertWithType(
-        "error",
-        "System Info",
-        "Rellena todos los campos"
-      );
+      Toast.show({
+        type: "error",
+        text1: "Rellena todos los campos",
+      });
     }
   };
 
@@ -134,13 +136,7 @@ const AddCuenta = () => {
           ))}
         </RadioForm>
       </View>
-      {/* <DropdownAlert
-        infoColor="#122e49"
-        closeInterval={800}
-        ref={dropDownAlertRefAdd}
-        titleStyle={{ fontSize: 30, color: "#ffffff" }}
-        messageStyle={{ fontSize: 20, color: "#ffffff" }}
-      /> */}
+      <Toast config={toastConfig} />
     </View>
   );
 };

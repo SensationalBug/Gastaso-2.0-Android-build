@@ -1,10 +1,11 @@
 import React from "react";
 import { Alert, Text } from "react-native";
+import Toast from "react-native-toast-message";
 import { Pressable } from "@react-native-material/core";
 import Icon from "react-native-vector-icons/FontAwesome";
 
 export const AddCategoriasPressable = (props) => {
-  const { item, deteleCategory, dropDownAlertRef } = props;
+  const { item, deteleCategory } = props;
   const showAlert = () => {
     Alert.alert(
       "ADVERTENCIA",
@@ -14,11 +15,10 @@ export const AddCategoriasPressable = (props) => {
           text: "Si",
           onPress: () => {
             if (item.item.id < 10) {
-              dropDownAlertRef.current.alertWithType(
-                "info",
-                "System Info",
-                "No se pueden borrar las categorias por defecto."
-              );
+              Toast.show({
+                type: "info",
+                text1: "Esta es una categoria por defecto.",
+              });
             } else {
               deteleCategory(item.item.id);
             }

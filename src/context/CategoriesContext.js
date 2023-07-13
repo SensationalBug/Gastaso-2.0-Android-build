@@ -14,7 +14,7 @@ const CateogiesProvider = ({ children }) => {
   const dropDownAlertRef = useRef();
   const db = SQLite.openDatabase("GASTASO.db");
   const [categories, setCatgories] = useState([]);
-  const { getInfo } = useContext(DatabaseContext);
+  const { getInfo, Toast } = useContext(DatabaseContext);
 
   useEffect(() => {
     if (getInfo) {
@@ -39,20 +39,18 @@ const CateogiesProvider = ({ children }) => {
       tx.executeSql(
         "INSERT INTO categorias (nombre, icon) values (?,?)",
         [nombre, "asterisk"],
-        (txObj, queryResults) => {
-          dropDownAlertRef.current.alertWithType(
-            "success",
-            "System Info",
-            "La categoría se ha agregado de manera correcta."
-          );
+        () => {
+          Toast.show({
+            type: "success",
+            text1: "La categoría se ha agregado.",
+          });
           selectCategory();
         },
-        (txObj, queryError) =>
-          dropDownAlertRef.current.alertWithType(
-            "error",
-            "System Info",
-            "Error interno"
-          )
+        () =>
+          Toast.show({
+            type: "success",
+            text1: "Error interno",
+          })
       );
     });
   };
@@ -62,20 +60,18 @@ const CateogiesProvider = ({ children }) => {
       tx.executeSql(
         "DELETE FROM categorias WHERE id = ?",
         [id],
-        (txObj, queryResults) => {
-          dropDownAlertRef.current.alertWithType(
-            "info",
-            "System Info",
-            "La categoría se ha eliminado de manera correcta."
-          );
+        () => {
+          Toast.show({
+            type: "info",
+            text1: "La categoría se ha eliminado.",
+          });
           selectCategory();
         },
-        (txObj, queryError) =>
-          dropDownAlertRef.current.alertWithType(
-            "error",
-            "System Info",
-            "Error interno"
-          )
+        () =>
+          Toast.show({
+            type: "error",
+            text1: "Error interno",
+          })
       );
     });
   };

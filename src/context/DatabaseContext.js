@@ -1,5 +1,3 @@
-import * as SQLite from "expo-sqlite";
-import React, { createContext, useEffect, useState } from "react";
 import {
   gastos,
   cuentas,
@@ -7,6 +5,9 @@ import {
   tipo_gastos,
   tipo_cuenta,
 } from "../db/queries";
+import * as SQLite from "expo-sqlite";
+import React, { createContext, useEffect, useState } from "react";
+import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
 
 export const DatabaseContext = createContext();
 
@@ -135,9 +136,47 @@ const DatabaseProvider = ({ children }) => {
     );
   };
 
+  const toastConfig = {
+    success: (props) => (
+      <BaseToast
+        {...props}
+        style={{ borderLeftColor: "#1F8A70" }}
+        contentContainerStyle={{ paddingHorizontal: 15 }}
+        text1Style={{
+          fontSize: 18,
+        }}
+      />
+    ),
+    error: (props) => (
+      <ErrorToast
+        {...props}
+        style={{ borderLeftColor: "#F24C3D" }}
+        text1Style={{
+          fontSize: 18,
+        }}
+      />
+    ),
+    info: (props) => (
+      <BaseToast
+        {...props}
+        style={{ borderLeftColor: "#122e49" }}
+        text1Style={{
+          fontSize: 18,
+        }}
+      />
+    ),
+  };
+
   return (
     <DatabaseContext.Provider
-      value={{ getInfo, getBills, selectGastosDB, createdDB }}
+      value={{
+        Toast,
+        getInfo,
+        getBills,
+        createdDB,
+        toastConfig,
+        selectGastosDB,
+      }}
     >
       {children}
     </DatabaseContext.Provider>

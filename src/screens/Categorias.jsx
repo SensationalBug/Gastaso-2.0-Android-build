@@ -1,16 +1,18 @@
-import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
+import Toast from "react-native-toast-message";
 import { FAB } from "@react-native-material/core";
 import React, { useContext, useState } from "react";
 import { FlatList } from "react-native-gesture-handler";
 import Icon from "react-native-vector-icons/FontAwesome";
+import { DatabaseContext } from "../context/DatabaseContext";
 import { CateogiesContext } from "../context/CategoriesContext";
 import { View, Text, TextInput, useWindowDimensions } from "react-native";
 import { AddCategoriasPressable } from "../subComponentes/AddCategoriasPressable";
 
 const Recordatorios = () => {
   const layout = useWindowDimensions();
-  const { categories, insertCategory, deteleCategory, dropDownAlertRef } =
+  const { categories, insertCategory, deteleCategory } =
     useContext(CateogiesContext);
+  const { toastConfig } = useContext(DatabaseContext);
 
   const [newCategoria, setNewCategoria] = useState("");
 
@@ -20,32 +22,10 @@ const Recordatorios = () => {
       setNewCategoria("");
     } else {
       Toast.show({
-        type: "success",
+        type: "error",
         text1: "Ingresa el nombre de la categoría",
       });
     }
-  };
-
-  const toastConfig = {
-    success: (props) => (
-      <BaseToast
-        {...props}
-        style={{ borderLeftColor: "pink" }}
-        contentContainerStyle={{ paddingHorizontal: 15 }}
-        text1Style={{
-          fontSize: 15,
-          fontWeight: "400",
-        }}
-      />
-    ),
-    error: (props) => (
-      <ErrorToast
-        {...props}
-        text1Style={{
-          fontSize: 18,
-        }}
-      />
-    ),
   };
 
   return (
@@ -117,7 +97,6 @@ const Recordatorios = () => {
             <AddCategoriasPressable
               item={item}
               deteleCategory={deteleCategory}
-              dropDownAlertRef={dropDownAlertRef}
             />
           )}
         />
