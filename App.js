@@ -1,5 +1,5 @@
 import Navigation from "./src/subComponentes/Navigation";
-import { View, StatusBar, StyleSheet } from "react-native";
+import { View, StatusBar, StyleSheet, Text } from "react-native";
 import BillsProvider from "./src/context/BillsContext";
 import AccountsProvider from "./src/context/AccountsContext";
 import LocationProvider from "./src/context/LocationContext";
