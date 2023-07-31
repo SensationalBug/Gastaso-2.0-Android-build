@@ -86,7 +86,6 @@ const DatabaseProvider = ({ children }) => {
             setGetInfo(true);
             selectGastosDB();
           }
-          console.log(queryResult);
         },
         () => createDatabaseAndTables(tx)
       );

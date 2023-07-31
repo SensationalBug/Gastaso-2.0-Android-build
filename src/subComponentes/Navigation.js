@@ -1,8 +1,8 @@
 import React from "react";
 import Main from "../Main";
-import Details from "../screens2/Details";
-import AddBills from "../screens2/AddBills";
-import AddCuenta from "../screens2/AddCuenta";
+import Details from "../screens/Details";
+import AddBills from "../screens/AddBills";
+import AddCuenta from "../screens/AddCuenta";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
