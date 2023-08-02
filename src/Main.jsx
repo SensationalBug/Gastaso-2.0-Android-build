@@ -1,16 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
-import {
-  ActivityIndicator,
-  View,
-  PermissionsAndroid,
-  Text,
-  TouchableOpacity,
-} from "react-native";
+import React, { useContext, useEffect } from "react";
 import { DatabaseContext } from "./context/DatabaseContext";
 import Navigationview from "./subComponentes/NavigationView";
+import { View, ActivityIndicator, PermissionsAndroid } from "react-native";
 const Main = () => {
-  const { createdDB } = useContext(DatabaseContext);
-  const [hasPermission, setHasPermission] = useState(false);
+  const { selectFlags, getInfo } = useContext(DatabaseContext);
 
   useEffect(() => {
     const requestPermission = async () => {
@@ -20,18 +13,18 @@ const Main = () => {
           PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          setHasPermission(true);
+          selectFlags();
         }
       } catch (err) {
         console.log(err);
       }
     };
     requestPermission();
-  });
+  }, []);
 
   return (
     <View style={{ flex: 1 }}>
-      {hasPermission ? (
+      {getInfo ? (
         <Navigationview />
       ) : (
         <View
@@ -41,7 +34,7 @@ const Main = () => {
             backgroundColor: "#122e49",
           }}
         >
-          <ActivityIndicator size={50}/>
+          <ActivityIndicator size={50} />
         </View>
       )}
     </View>

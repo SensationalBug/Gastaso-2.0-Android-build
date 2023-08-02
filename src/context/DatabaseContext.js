@@ -15,7 +15,6 @@ const DatabaseProvider = ({ children }) => {
   const db = SQLite.openDatabase("GASTASO.db");
   const [getBills, setGetBills] = useState([]);
   const [getInfo, setGetInfo] = useState(false);
-  const [createdDB, setCreatedDB] = useState(false);
 
   const addTipoCuenta = () => {
     const tipo_cuenta = [
@@ -68,69 +67,39 @@ const DatabaseProvider = ({ children }) => {
   const selectGastosDB = () => {
     db.transaction((tx) => {
       tx.executeSql("SELECT * FROM gastos", [], (txObj, queryResult) => {
+        setGetInfo(true);
         setGetBills(queryResult.rows._array);
       });
     });
   };
 
-  useEffect(() => {
+  const selectFlags = () => {
     db.transaction((tx) => {
       tx.executeSql(
         "SELECT * FROM flag",
         [],
         (txObj, queryResult) => {
           if (queryResult.rows.length === 0) {
-            createDatabaseAndTables(tx);
-          } else {
-            setCreatedDB(true);
-            setGetInfo(true);
             selectGastosDB();
           }
         },
         () => createDatabaseAndTables(tx)
       );
     });
-  }, []);
+  }
 
   const createDatabaseAndTables = (tx) => {
     tx.executeSql(
       "CREATE TABLE flag (id INTEGER PRIMARY KEY, value TEXT)",
       [],
       () => {
-        setCreatedDB(true);
-        setGetInfo(true);
-        selectGastosDB();
-
-        tx.executeSql(tipo_cuenta, [], addTipoCuenta(), (txObj, queryError) =>
-          console.log(queryError)
-        );
-
-        tx.executeSql(
-          cuentas,
-          [],
-          () => {},
-          (txObj, queryError) => console.log(queryError)
-        );
-
-        tx.executeSql(categorias, [], addCategorias(), (txObj, queryError) =>
-          console.log(queryError)
-        );
-
-        tx.executeSql(tipo_gastos, [], addTipoGasto(), (txObj, queryError) =>
-          console.log(queryError)
-        );
-
-        tx.executeSql(
-          gastos,
-          [],
-          () => {},
-          (txObj, queryError) => console.log(queryError)
-        );
-      },
-      () => {
-        setCreatedDB(true);
-        setGetInfo(true);
-        selectGastosDB();
+        tx.executeSql(tipo_cuenta, [], addTipoCuenta());
+        tx.executeSql(cuentas, []);
+        tx.executeSql(categorias, [], addCategorias());
+        tx.executeSql(tipo_gastos, [], addTipoGasto());
+        tx.executeSql(gastos, [], () => {
+          selectGastosDB();
+        });
       }
     );
   };
@@ -172,8 +141,8 @@ const DatabaseProvider = ({ children }) => {
         Toast,
         getInfo,
         getBills,
-        createdDB,
         toastConfig,
+        selectFlags,
         selectGastosDB,
       }}
     >
