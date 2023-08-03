@@ -46,11 +46,12 @@ const CateogiesProvider = ({ children }) => {
           });
           selectCategory();
         },
-        () =>
+        () => {
           Toast.show({
             type: "success",
             text1: "Error interno",
           })
+        }
       );
     });
   };
@@ -67,11 +68,12 @@ const CateogiesProvider = ({ children }) => {
           });
           selectCategory();
         },
-        () =>
+        () => {
           Toast.show({
             type: "error",
             text1: "Error interno",
           })
+        }
       );
     });
   };

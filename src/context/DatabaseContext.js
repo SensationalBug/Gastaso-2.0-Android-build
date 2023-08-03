@@ -6,7 +6,7 @@ import {
   tipo_cuenta,
 } from "../db/queries";
 import * as SQLite from "expo-sqlite";
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useState } from "react";
 import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
 
 export const DatabaseContext = createContext();
